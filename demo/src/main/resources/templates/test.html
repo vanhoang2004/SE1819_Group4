@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<table class="table table-bordered table-stripped">
+		<thead class="table-dark">
+		<tr>
+		<th>First name</th>
+		<th>Last name</th>
+		</tr>
+		
+		</thead>
+		<tbody>
+		<tr th:each = "tempEmployee : ${mocktest}">
+		<td th:text="${tempEmployee.mockTestId}"></td>
+		<td th:text="${tempEmployee.mockTestTitle}"></td>
+
+		</tr>
+		</tbody>
+	</table>
+</body>
+</html>
