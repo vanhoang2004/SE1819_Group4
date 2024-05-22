@@ -1,1 +1,1 @@
-# Chi-c-n-n-k-di-u
+#shi ni dui ma
