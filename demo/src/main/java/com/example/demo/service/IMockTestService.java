@@ -6,5 +6,5 @@ import com.example.demo.entity.MockTest;
 
 public interface IMockTestService {
 	List<MockTest> getAllMockTest();
-	
+	List<MockTest> findMockTestBySubjectId(int id);
 }

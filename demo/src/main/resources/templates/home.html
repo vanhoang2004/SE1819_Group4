@@ -127,11 +127,11 @@
 
     <div class="carousel-inner" >
         <div class="carousel-item active" style="height: 600px;">
-            <img src="https://t4.ftcdn.net/jpg/06/20/21/89/360_F_620218921_4D77gJm15ri5DIUSfRKbDpYHtwM5ndUK.jpg" class="d-block w-100" alt="Wild Landscape"/>
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
             <div class="carousel-caption d-none d-sm-block mb-5">
                 <h1 class="mb-4">
-                    <strong>Explore the art of fragrance with Emufrep</strong>
+                    <strong>Student Screen</strong>
                 </h1>
 
                 <p>
@@ -271,7 +271,7 @@
                         <div class="card" style="height: 500px;">
                             <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
                                  data-mdb-ripple-color="light">
-                                <img src=""
+                                <img src="https://media3.giphy.com/media/LYBMuRwH3JkhdmLbGE/giphy.gif?cid=790b76118lk4jeyv5csbwycdfw5k5hte71kvz9yidct0gthc&ep=v1_stickers_search&rid=giphy.gif&ct=s"
                                      class="w-100" style="height: 320px;"/>
                                 <a href="#!">
                                     <div class="mask">
@@ -282,9 +282,12 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <a href="" class="text-reset">
+                                <a th:href="@{/mocktests/{subjectId}(subjectId=${tempSubject.subjectId})}" class="text-reset">
                                     <h5 class="card-title mb-2" th:text="${tempSubject.subjectName}"></h5>
                                 </a>
+                                
+                               
+                                
                             </div>
                         </div>
                     </div>
@@ -299,18 +302,13 @@
                 <ul class="pagination">
                     <c:forEach var="o" begin="1" end="${a}">
                         <li class="page-item active">
-                            <!--                            <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>-->
+                            
 
                         <li class="page-item" ${indexPage==o?"active":""}><a class="page-link" href="home?index=${o}">${o}</a></li>
 
 
 
                         <li class="page-item">
-                            <!--                            <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>-->
                         </li>
                     </c:forEach>
                 </ul>

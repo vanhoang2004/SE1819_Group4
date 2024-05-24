@@ -23,4 +23,11 @@ public class MockTestService implements IMockTestService{
 		return mockTestRepository.findAll();
 	}
 
+
+	@Override
+	public List<MockTest> findMockTestBySubjectId(int id) {
+		
+		return mockTestRepository.findMockTestBySubjectId(id);
+	}
+
 }
