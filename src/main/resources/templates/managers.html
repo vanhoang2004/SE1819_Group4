@@ -127,7 +127,7 @@
 
     <div class="carousel-inner" >
         <div class="carousel-item active" style="height: 600px;">
-            <img src="https://t4.ftcdn.net/jpg/06/20/21/89/360_F_620218921_4D77gJm15ri5DIUSfRKbDpYHtwM5ndUK.jpg" class="d-block w-100" alt="Wild Landscape"/>
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
             <div class="carousel-caption d-none d-sm-block mb-5">
                 <h1 class="mb-4">
@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="https://t4.ftcdn.net/jpg/06/31/10/81/240_F_631108181_D8NQEosIiQdvs6zdaIl86hEfns2WeIHr.jpg" class="d-block w-100" alt="Camera"/>
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Camera"/>
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
             <div class="carousel-caption d-none d-md-block mb-5">
                 <h1 class="mb-4">
@@ -312,17 +312,25 @@
                     <thead>
                     <tr>
                         <th>User ID</th>
-                        <th>Subject ID</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="manager : ${managers}">
                         <td th:text="${manager.userId}"></td>
-                        <td th:text="${manager.subjectId}"></td>
+                        <td th:each="user:${users}" th:if="${manager.userId}==${user.userId}" th:text="${user.username}"></td>
+                        <td th:each="user:${users}" th:if="${manager.userId}==${user.userId}" th:text="${user.password}"></td>
+                        <td th:each="user:${users}" th:if="${manager.userId}==${user.userId}" th:text="${user.fullname}"></td>
+                        <td th:each="user:${users}" th:if="${manager.userId}==${user.userId}" th:text="${user.useremail}"></td>
+                        <td th:each="subject:${subjects}" th:if="${manager.subjectId}==${subject.subjectId}" th:text="${subject.subjectName}"></td>
                         <td>
                             <a href="editpage" class="edit" >Edit</a>
-                            <a href="delete?pid=${admin.userId}" class="delete">Delete</a>
+                            <a href="delete?pid=${manager.userId}" class="delete">Delete</a>
                         </td>
                     </tr>
                     </tbody>
@@ -330,26 +338,26 @@
             </section>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-                <ul class="pagination">
-                    <c:forEach var="o" begin="1" end="${a}">
-                        <li class="page-item active">
-                            <!--                            <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>-->
+<!--            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">-->
+<!--                <ul class="pagination">-->
+<!--                    <c:forEach var="o" begin="1" end="${a}">-->
+<!--                        <li class="page-item active">-->
+<!--                            &lt;!&ndash;                            <a class="page-link" href="#" aria-label="Previous">-->
+<!--                                                            <span aria-hidden="true">&laquo;</span>-->
+<!--                                                        </a>&ndash;&gt;-->
 
-                        <li class="page-item" ${indexPage==o?"active":""}><a class="page-link" href="home?index=${o}">${o}</a></li>
+<!--                        <li class="page-item" ${indexPage==o?"active":""}><a class="page-link" href="home?index=${o}">${o}</a></li>-->
 
 
 
-                        <li class="page-item">
-                            <!--                            <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>-->
-                        </li>
-                    </c:forEach>
-                </ul>
-            </nav>
+<!--                        <li class="page-item">-->
+<!--                            &lt;!&ndash;                            <a class="page-link" href="#" aria-label="Next">-->
+<!--                                                            <span aria-hidden="true">&raquo;</span>-->
+<!--                                                        </a>&ndash;&gt;-->
+<!--                        </li>-->
+<!--                    </c:forEach>-->
+<!--                </ul>-->
+<!--            </nav>-->
             <!-- Pagination -->
         </div>
     </main>

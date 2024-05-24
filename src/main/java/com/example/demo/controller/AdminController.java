@@ -19,30 +19,43 @@ public class AdminController {
     AdminRepository ar;
     ManagerRepository mr;
     TeacherRepository tr;
-    StudentRepository sr;
+    StudentRepository str;
     ClassRepository cr;
+    SubjectRepository sjr;
 
     @Autowired
-    public AdminController(UserRepository ur, AdminRepository ar, ManagerRepository mr, TeacherRepository tr, StudentRepository sr, ClassRepository cr) {
+    public AdminController(UserRepository ur, AdminRepository ar, ManagerRepository mr, TeacherRepository tr, StudentRepository str, ClassRepository cr, SubjectRepository sjr) {
         this.ur = ur;
         this.ar = ar;
         this.mr = mr;
         this.tr = tr;
-        this.sr = sr;
+        this.str = str;
         this.cr = cr;
+        this.sjr = sjr;
     }
 
+    public List<User> getUsers(){
+        return ur.findAll();
+    }
+
+    public List<Subject> getSubjects(){
+        return sjr.findAll();
+    }
+
+    public List<Class> getClasses(){
+        return cr.findAll();
+    }
     //Users
     @GetMapping("/home")
     public String getUsers(Model model){
-        List<User> users = ur.findAll();
-        model.addAttribute("users",users);
+        model.addAttribute("users",getUsers());
         return "home";
     }
 
 //Admins
     @GetMapping("/admins")
     public String getAdmins(Model model){
+        model.addAttribute("users",getUsers());
         List<Admin> admins = ar.findAll();
         model.addAttribute("admins",admins);
         return "admins";
@@ -55,6 +68,8 @@ public class AdminController {
 //Managers
     @GetMapping("/managers")
     public String getManagers(Model model){
+        model.addAttribute("users",getUsers());
+        model.addAttribute("subjects",getSubjects());
         List<Manager> managers = mr.findAll();
         model.addAttribute("managers",managers);
         return "managers";
@@ -70,6 +85,8 @@ public class AdminController {
 //Teachers
     @GetMapping("/teachers")
     public String getTeachers(Model model){
+        model.addAttribute("users",getUsers());
+        model.addAttribute("subjects",getSubjects());
         List<Teacher> teachers = tr.findAll();
         model.addAttribute("teachers",teachers);
         return "teachers";
@@ -82,7 +99,9 @@ public class AdminController {
 //Students
     @GetMapping("/students")
     public String getStudents(Model model){
-        List<Student> students = sr.findAll();
+        model.addAttribute("users",getUsers());
+        model.addAttribute("classes",getClasses());
+        List<Student> students = str.findAll();
         model.addAttribute("students",students);
         return "students";
     }
@@ -94,8 +113,7 @@ public class AdminController {
 //Classes
     @GetMapping("/classes")
     public String getClasses(Model model){
-        List<Class> classes = cr.findAll();
-        model.addAttribute("classes",classes);
+        model.addAttribute("classes",getClasses());
         return "classes";
     }
     @GetMapping("/edit-class")
