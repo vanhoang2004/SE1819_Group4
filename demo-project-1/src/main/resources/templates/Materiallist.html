@@ -328,55 +328,22 @@
                         <label>Title</label>
                         <input name="title" type="text" class="form-control" required>
                     </div>
-                    <div class="form-group">
-                        <label>Image</label>
-                        <input name ="image" type="url" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label>Option 1</label>
-                        <input name ="A" type="number" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Option 2</label>
-                        <input name ="B" type="number" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Option 3</label>
-                        <input name ="C" type="number" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Option 4</label>
-                        <input name ="D" type="number" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Answer</label>
-                        <input name="ans" type="text" class="form-control" required>
-                    </div>
 
                     <div class="form-group">
                         <label>Subject</label>
-                        <select name="subject">
-                            <th=each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
+                        <select name="subjectID">
+
+                            <option th:each="subject : ${subject}" th:value="${subject.id}" th:text="${subject.name}"></option>
+
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>
-                        <select name="chapter">
-                            <th=each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
+                        <select name="chapterID">
+                            <option th:if="${chapter.subjectID}==${subject.id} " th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}" ></option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>Level</label>
-                        <select name="level">
-                            <th=each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
-                        </select>
-                    </div>
+
 
                 </div>
         </div>

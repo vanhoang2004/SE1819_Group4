@@ -5,10 +5,7 @@ import com.example.demo.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -67,6 +64,11 @@ public class ExampleController {
         return "Materiallist";
 
     }
+    @PostMapping("/materials")
+    public String getMaterials(@ModelAttribute Materials materials){
+        material.save(materials);
+        return "redirect:/test/materials";
+    }
    // @Autowired
 
 
@@ -76,7 +78,13 @@ public class ExampleController {
         model.addAttribute("subject",subjects);
         List<MockTest> mockTests = mock.findAll();
         model.addAttribute("mock", mockTests);
+
         return "list";
+    }
+     @PostMapping("/mocktests")
+    public String postMockTests(@ModelAttribute MockTest mockTest) {
+        mock.save(mockTest);
+        return "redirect:/test/mocktests";
     }
 
     @GetMapping("/mocktest/{id}")
