@@ -273,7 +273,7 @@
                         <h2>Question <b>Bank</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i
+                        <a href="#add" class="btn btn-success" data-toggle="modal"><i
                                 class="material-icons">&#xE147;</i> <span>Add New Question</span></a>
                         <a href="homepage" class="btn btn-primary"><i class="material-icons">&#xE15C;</i>
                             <span>Home</span></a>
@@ -287,10 +287,12 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Option</th>
-                    <th> </th>
+                    <th>Answer</th>
+                    <th> Image</th>
                     <th>Subject</th>
                     <th>Chapter</th>
                     <th>Level</th>
+
                     <th></th>
                 </tr>
                 </thead>
@@ -305,14 +307,19 @@
                         3.<a th:text="${ques.op3}"></a><br/>
                         4.<a th:text="${ques.op4}"></a><br/>
                     </td>
+                    <td th:text="${ques.ans}"></td>
                     <td>
                         <img th:src="${ques.Image}" style="width: 200px;">
                     </td>
                     <td th:each="subject:${subject}" th:if="${subject.id}==${ques.subjectID}" th:text="${subject.name}"></td>
                     <td th:each="chapter:${chapter}" th:if="${chapter.id}==${ques.chapterID}" th:text="${chapter.name}"></td>
                     <td th:each="level:${level}" th:if="${level.id}==${ques.levelID}" th:text="${level.name}"></td>
+
                     <td>
-                        <a href="editpage" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+
+                        <a th:href="@{/test/questionbank/editpage/{id}(id=${ques.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a th:href="@{/test/questionbank/{id}(id=${ques.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+
                     </td>
                 </tr>
                 </tbody>
@@ -322,32 +329,15 @@
         </div>
     </div>
 </div>
-<!--View Answer -->
 
-<div id="viewAnswer" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="add">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Question</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Answer</label>
-                        <a th:></a>
-                    </div>
 
-            </form>
-        </div>
-    </div>
-</div>
+
 <!-- Edit Modal HTML -->
 
-<div id="addEmployeeModal" class="modal fade">
+<div id="add" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="add">
+            <form action="/test/questionbank" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title">Add Question</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -363,19 +353,19 @@
                     </div>
                     <div class="form-group">
                         <label>Option 1</label>
-                        <input name="A" type="number" class="form-control" required>
+                        <input name="op1" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 2</label>
-                        <input name="B" type="number" class="form-control" required>
+                        <input name="op2" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 3</label>
-                        <input name="C" type="number" class="form-control" required>
+                        <input name="op3" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 4</label>
-                        <input name="D" type="number" class="form-control" required>
+                        <input name="op4" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Answer</label>
@@ -383,29 +373,22 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Subject</label>
-                        <select name="subject">
-                            <th> =each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
-                        </select>
+
+                        <label>Subject
+                            <input name="subjectID"  type="hidden" th:value="${subject.id}" >
+                            <input  type="text" readonly th:value="${subject.name}" class="form-control" required>
+                        </label>
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>
-                        <select name="chapter">
-                            <th>
-                            =each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
+                        <select name="chapterID">
+                            <option th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}" ></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Level</label>
-                        <select name="level">
-                            <th>
-                            =each var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                            </th>
+                        <select name="levelID">
+                            <option th:each="level :${level}" th:value="${level.id}" th:text="${level.name}"></option>
                         </select>
                     </div>
 

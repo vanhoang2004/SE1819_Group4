@@ -79,7 +79,30 @@
             <div class="container-fluid">
 
                 <!-- Navbar brand -->
-                <a class="navbar-brand" href="#">Mock Test:</a>
+
+
+                    <th:if test="${sessionScope.acc.isAdmin == 1}">
+                        <a class="nav-link me-3" href="mocktests">
+                            <i class=""></i>MockTest
+                        </a>
+
+                    </th:if>
+
+
+                   <th:if test="${sessionScope.acc.isAdmin == 1}">
+                       <a class="nav-link me-3" href="materials">
+                           <i class=""></i>Material
+                       </a>
+
+                   </th:if>
+                <th:if test="${sessionScope.acc.isAdmin == 1}">
+                       <a class="nav-link me-3" href="questionbank">
+                           <i class=""></i>Question Bank
+                       </a>
+
+                   </th:if>
+
+
 
                 <!-- Toggle button -->
                 <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,15 +111,6 @@
 
                 <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-
-                            <!-- Link -->
-                            <li class="nav-item ${tag==o.bid?" active":""}"="">
-                            <a class="nav-link text-white" href="brand?bid=${o.bid}">Mr/Mrs</a>
-                            </li>
-
-                    </ul>
 
                     <!-- Search -->
                     <form action="search" method="post" class="w-auto py-1" style="max-width: 12rem">
@@ -135,13 +149,13 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody >
                 <tr th:each="test : ${mock}">
                     <td th:text="${test.id}"></td>
                     <td th:text="${test.title}"></td>
                     <td th:each="subject:${subject}" th:if="${subject.id}==${test.subjectId}" th:text="${subject.name}"></td>
                     <td>
-                        <a th:href="@{/test/mocktest/{id}(id=${test.id})}"><i class="material-icons" data-toggle="tooltip" title="Edit">View Question</i></a>
+                        <a th:href="@{/test/mockdetails/{id}(id=${test.id})}"><i class="material-icons" data-toggle="tooltip" title="Edit">View Question</i></a>
                     </td>
                 </tr>
 

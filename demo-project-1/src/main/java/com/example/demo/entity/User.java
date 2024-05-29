@@ -3,50 +3,52 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Users")
+@Table(name="users")
 public class User {
 
     @Id
-    @Column(name="UserID")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int userId;
-
-    @Column(name="Username")
-    private String username;
-
-    @Column(name="Password")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="userid")
+    private Integer id;
+    @Column(name="username")
+    private String name;
+    @Column(name="password")
     private String password;
-
-    @Column(name="Fullname")
+    @Column(name="fullname")
     private String fullname;
-
-    @Column(name="Useremail")
-    private String useremail;
-
-    public User(String username, String password, String fullname, String useremail) {
-        this.username = username;
-        this.password = password;
-        this.fullname = fullname;
-        this.useremail = useremail;
-    }
+    @Column(name="useremail")
+    private String email;
+    @Column(name="role")
+    private String role;
+    @Column(name="enabled")
+    private boolean enabled;
 
     public User() {
     }
 
-    public int getUserId() {
-        return userId;
+    public User(String name, String password, String fullname, String email, String role, boolean enabled) {
+        this.name = name;
+        this.password = password;
+        this.fullname = fullname;
+        this.email = email;
+        this.role = role;
+        this.enabled = enabled;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public Integer getId() {
+        return id;
     }
 
-    public String getUsername() {
-        return username;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -65,11 +67,27 @@ public class User {
         this.fullname = fullname;
     }
 
-    public String getUseremail() {
-        return useremail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

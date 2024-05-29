@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="mocktests")
@@ -24,8 +25,7 @@ public class MockTest {
 
     @Column(name = "end")
     private LocalDateTime end;
-
-    public MockTest() {
+       public MockTest() {
     }
 
     public MockTest(String title, Integer subjectId, LocalDateTime start, LocalDateTime end) {
