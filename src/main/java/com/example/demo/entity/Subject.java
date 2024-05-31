@@ -8,16 +8,16 @@ public class Subject {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="SubjectID")
-    private int subjectId;
+    private Integer subjectId;
 
     @Column(name="Subjectname")
     private String subjectName;
 
-    public int getSubjectId() {
+    public Integer getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
     }
 
@@ -29,11 +29,18 @@ public class Subject {
         this.subjectName = subjectName;
     }
 
-    public Subject(int subjectId, String subjectName) {
-        this.subjectId = subjectId;
+    public Subject(String subjectName) {
         this.subjectName = subjectName;
     }
 
     public Subject() {
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "subjectId=" + subjectId +
+                ", subjectName='" + subjectName + '\'' +
+                '}';
     }
 }

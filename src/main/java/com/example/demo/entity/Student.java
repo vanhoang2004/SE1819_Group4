@@ -1,39 +1,55 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Students")
 public class Student {
     @Id
-    @Column(name = "UserID")
-    private int userId;
+    @Column(name="UserID")
+    private Integer userId;
 
-    @Column(name = "Classcode")
-    private int classCode;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="UserID")
+    private User user;
 
-    public int getUserId() {
+    @Column(name="Classcode", insertable = false, updatable = false)
+    private Integer classCode;
+
+    @ManyToOne
+    @JoinColumn(name="Classcode")
+    private Class sclass;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getClassCode() {
+    public Integer getClassCode() {
         return classCode;
     }
 
-    public void setClassCode(int classCode) {
+    public void setClassCode(Integer classCode) {
         this.classCode = classCode;
     }
 
-    public Student(int userId, int classCode) {
-        this.userId = userId;
-        this.classCode = classCode;
+    public Class getSclass() {
+        return sclass;
+    }
+
+    public void setSclass(Class sclass) {
+        this.sclass = sclass;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Student() {

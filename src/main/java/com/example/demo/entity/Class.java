@@ -2,22 +2,27 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="Classes")
 public class Class {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="Classcode")
-    private int classCode;
+    private Integer classCode;
 
     @Column(name="Classname")
     private String className;
 
-    public int getClassCode() {
+    @OneToMany(mappedBy = "sclass")
+    private List<Student> students;
+
+    public Integer getClassCode() {
         return classCode;
     }
 
-    public void setClassCode(int classCode) {
+    public void setClassCode(Integer classCode) {
         this.classCode = classCode;
     }
 
@@ -29,9 +34,12 @@ public class Class {
         this.className = className;
     }
 
-    public Class(int classCode, String className) {
-        this.classCode = classCode;
-        this.className = className;
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public Class() {

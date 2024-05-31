@@ -1,39 +1,55 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Teachers")
 public class Teacher {
     @Id
     @Column(name="UserID")
-    private int userId;
+    private Integer userId;
 
-    @Column(name="SubjectID")
-    private int subjectId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="UserID")
+    private User user;
 
-    public int getUserId() {
+    @Column(name="SubjectID", insertable = false, updatable = false)
+    private Integer subjectId;
+
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name="SubjectID")
+    private Subject subject;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getSubjectId() {
+    public Integer getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
     }
 
-    public Teacher(int userId, int subjectId) {
-        this.userId = userId;
-        this.subjectId = subjectId;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public Teacher() {

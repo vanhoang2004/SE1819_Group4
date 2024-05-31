@@ -1,25 +1,26 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Admins")
 public class Admin {
     @Id
     @Column(name="UserID")
-    private int userId;
+    private Integer userId;
 
     @Column(name="Title")
     private String title;
 
-    public int getUserId() {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "UserID", referencedColumnName = "UserID", insertable = false, updatable = false)
+    private User user;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -31,11 +32,23 @@ public class Admin {
         this.title = title;
     }
 
-    public Admin(int userId, String title) {
-        this.userId = userId;
-        this.title = title;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Admin() {
+    }
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "userId=" + userId +
+                ", title='" + title + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

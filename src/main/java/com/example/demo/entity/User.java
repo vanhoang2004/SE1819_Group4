@@ -9,7 +9,7 @@ public class User {
     @Id
     @Column(name="UserID")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int userId;
+    private Integer userId;
 
     @Column(name="Username")
     private String username;
@@ -23,21 +23,28 @@ public class User {
     @Column(name="Useremail")
     private String useremail;
 
-    public User(String username, String password, String fullname, String useremail) {
-        this.username = username;
-        this.password = password;
-        this.fullname = fullname;
-        this.useremail = useremail;
+    @Column(name="Role")
+    private String role;
+
+    @Column(name="Enabled")
+    private Boolean enabled;
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public User() {
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -48,14 +55,24 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
+//no encryption
     public String getPassword() {
+        if(password!=null && password.startsWith("{noop}")) return password.substring(6);
         return password;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = "{noop}" + password;
     }
+//bcrypt encryption
+//    public void setPassword(String password) {
+//        this.password = "{bcrypt}" + password;
+//    }
+
+//    public String getPassword() {
+//        if(password.startsWith("{bcrypt}")) return password.substring(6);
+//        return password;
+//    }
 
     public String getFullname() {
         return fullname;
@@ -71,5 +88,26 @@ public class User {
 
     public void setUseremail(String useremail) {
         this.useremail = useremail;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", useremail='" + useremail + '\'' +
+                ", role='" + role + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }
