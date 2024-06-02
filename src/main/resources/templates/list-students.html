@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Manage Admins</title>
+    <title>Manage Students</title>
     <div th:insert="~{resources :: head}"></div>
 </head>
 <body>
@@ -22,7 +22,7 @@
         <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
         <div class="carousel-caption d-none d-sm-block mb-5">
             <h1 class="mb-4">
-                <strong>Admins</strong>
+                <strong>Students</strong>
             </h1>
         </div>
     </div>
@@ -146,35 +146,33 @@
             <!--                        </div>-->
             <!--                    </form>-->
             <!--                </div>-->
-
-            <!--                <a th:href="@{/admin/classes/add}" class="btn btn-primary btn-sm mb-3">Add Class</a>-->
             <div th:if="${param.saved}">
                 <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                    New admin account info saved.
+                    New student account info saved.
                 </div>
             </div>
             <div th:if="${param.disabled}">
                 <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                    Admin account disabled.
+                    Student account disabled.
                 </div>
             </div>
             <div th:if="${param.enabled}">
                 <div class="alert alert-success col-xs-offset-1 col-xs-10">
-                    Admin account enabled.
+                    Student account enabled.
                 </div>
             </div>
-            <a href="#addAdminModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
-                <span>Add Admin</span>
+            <a href="#addStudentModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
+                <span>Add Student</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                 </svg>
             </a>
-            <div id="addAdminModal" class="modal fade">
+            <div id="addStudentModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/admin/admins/save}" th:object="${admin}" method="POST">
+                        <form th:action="@{/admin/students/save}" th:object="${student}" method="POST">
                             <div class="modal-header">
-                                <h4 class="modal-title">Add Admin</h4>
+                                <h4 class="modal-title">Add Student</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -199,9 +197,11 @@
                                     <input th:field="*{user.useremail}" type="email" class="form-control" required>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Title</label>
+                                    <label>Class <span style="color:red;">*</span></label>
                                     <br>
-                                    <input th:field="*{user.fullname}" type="text" class="form-control">
+                                    <select th:field="*{classCode}" required>
+                                        <option th:each="class:${classes}" th:text="${class.className}" th:value="${class.classCode}"></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -220,32 +220,32 @@
                     <th>Password</th>
                     <th>Full Name</th>
                     <th>Email</th>
-                    <th>Title</th>
+                    <th>Subject</th>
                     <th>Enabled</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody class="table-hover">
-                <tr th:each="admin : ${admins}">
-                    <td th:text="${admin.user.userId}"></td>
-                    <td th:text="${admin.user.username}"></td>
-                    <td th:text="${admin.user.password}"></td>
-                    <td th:text="${admin.user.fullname}"></td>
-                    <td th:text="${admin.user.useremail}"></td>
-                    <td th:text="${admin.title}"></td>
-                    <td th:text="${admin.user.enabled ? 'Yes' : 'No'}"></td>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.user.userId}"></td>
+                    <td th:text="${student.user.username}"></td>
+                    <td th:text="${student.user.password}"></td>
+                    <td th:text="${student.user.fullname}"></td>
+                    <td th:text="${student.user.useremail}"></td>
+                    <td th:text="${student.sclass.className}"></td>
+                    <td th:text="${student.user.enabled ? 'Yes' : 'No'}"></td>
                     <td>
-                        <a th:href="@{/admin/admins/update(userId=${admin.user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
+                        <a th:href="@{/admin/students/update(userId=${student.user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
                         <!--Disabling-->
-                        <div th:if="${admin.user.enabled}" th:id="'disable-message-' + ${admin.user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${admin.user.userId} + '&#10;Username: ' + ${admin.user.username}"></div>
-                        <a th:if="${admin.user.enabled}" th:href="@{/admin/users/disable(userId=${admin.user.userId})}" class="text-danger"
-                           th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${admin.user.userId}]]).getAttribute('data-disable-message'))) return false">
+                        <div th:if="${student.user.enabled}" th:id="'disable-message-' + ${student.user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${student.user.userId} + '&#10;Username: ' + ${student.user.username}"></div>
+                        <a th:if="${student.user.enabled}" th:href="@{/admin/users/disable(userId=${student.user.userId})}" class="text-danger"
+                           th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${student.user.userId}]]).getAttribute('data-disable-message'))) return false">
                             <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>
                         </a>
                         <!--Enabling-->
-                        <div th:if="!${admin.user.enabled}" th:id="'enable-message-' + ${admin.user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${admin.user.userId} + '&#10;Username: ' + ${admin.user.username}"></div>
-                        <a th:if="!${admin.user.enabled}" th:href="@{/admin/users/enable(userId=${admin.user.userId})}" class="text-success"
-                           th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${admin.user.userId}]]).getAttribute('data-enable-message'))) return false">
+                        <div th:if="!${student.user.enabled}" th:id="'enable-message-' + ${student.user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${student.user.userId} + '&#10;Username: ' + ${student.user.username}"></div>
+                        <a th:if="!${student.user.enabled}" th:href="@{/admin/users/enable(userId=${student.user.userId})}" class="text-success"
+                           th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${student.user.userId}]]).getAttribute('data-enable-message'))) return false">
                             <i class="material-icons" data-toggle="tooltip" title="Enable">&#xe8ac;</i>
                         </a>
                         <!--End of cell-->
@@ -286,7 +286,7 @@
         var urlParams = new URLSearchParams(window.location.search);
         if(urlParams.has('addFromMain')){
             // Open the modal
-            $('#addAdminModal').modal('show');
+            $('#addStudentModal').modal('show');
         }
     });
 </script>

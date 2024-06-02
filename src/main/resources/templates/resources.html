@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--Head elements for CSS, JS and other related resources-->
+    <div th:fragment="head">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </div>
+<!--Links in the main navigation bar-->
+    <div th:fragment="navbar-main-links">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a href="admins" class="nav-link text-white">Admins</a></li>
+            <li class="nav-item"><a href="managers" class="nav-link text-white">Managers</a></li>
+            <li class="nav-item"><a href="teachers" class="nav-link text-white">Teachers</a></li>
+            <li class="nav-item"><a href="students" class="nav-link text-white">Students</a></li>
+            <li class="nav-item"><a href="classes" class="nav-link text-white">Classes</a></li>
+        </ul>
+    </div>
+
+    <div th:fragment="navbar-top">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+            <!-- Container wrapper -->
+            <div class="container">
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent1"
+                        aria-controls="navbarSupportedContent1"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand mt-2 mt-sm-0" href="login">
+                        <img
+                            src="https://media2.giphy.com/media/IEm8kcqLVCctHJ1kWm/giphy.gif"
+                            height="40"
+                            alt="MDB Logo"
+                            loading="lazy"
+                        />
+                    </a>
+                    <!-- Left links -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
+                            <a class="nav-link" href="home">Emufrep</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link " href="home">Home</a>
+                        </li>
+                    </ul>
+                    <!-- Left links -->
+                </div>
+                <!-- Collapsible wrapper -->
+                <!-- Right elements -->
+                <div class="d-flex align-items-center">
+                    <form th:action="@{/logout}" method="POST">
+                        <input type="submit" class="btn btn-secondary" value="Logout"/>
+                    </form>
+                </div>
+                <!-- Right elements -->
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+        <!-- Navbar -->
+    </div>
+</body>
+</html>

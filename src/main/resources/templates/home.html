@@ -2,110 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Admin Homepage</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <style>
-        thead tr:hover{
-            background-color: inherit;
-        }
-    </style>
+    <div th:insert="~{resources :: head}"></div>
 </head>
 <body>
 <!-- Navbar -->
-<div>
-
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
-        <!-- Container wrapper -->
-        <div class="container">
-            <!-- Toggle button -->
-            <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-mdb-toggle="collapse"
-                    data-mdb-target="#navbarSupportedContent1"
-                    aria-controls="navbarSupportedContent1"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-            >
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-                <!-- Navbar brand -->
-                <a class="navbar-brand mt-2 mt-sm-0" href="login">
-                    <img
-                            src="https://media2.giphy.com/media/IEm8kcqLVCctHJ1kWm/giphy.gif"
-                            height="40"
-                            alt="MDB Logo"
-                            loading="lazy"
-                    />
-                </a>
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item" style="font-family: 'Roboto', sans-serif; font-weight: bold;">
-                        <a class="nav-link" href="home">Emufrep</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link " href="home">Home</a>
-                    </li>
-
-
-                </ul>
-                <!-- Left links -->
-            </div>
-            <!-- Collapsible wrapper -->
-
-            <!-- Right elements -->
-            <div class="d-flex align-items-center">
-                <!-- Icon -->
-<!--                <a class="nav-link me-3" href="show">-->
-<!--                    <i class="fas fa-shopping-cart"></i>-->
-<!--                    <span class="badge rounded-pill badge-notification bg-danger">${requestScope.size}</span>-->
-<!--                </a>-->
-<!--                <c:if test="${sessionScope.acc.isAdmin == 1}">-->
-<!--                    <a class="nav-link me-3" href="#">-->
-<!--                        <i class=""></i>Manager Account-->
-<!--                    </a>-->
-
-<!--                </c:if>-->
-<!--                <c:if test="${sessionScope.acc.isSell == 1}">-->
-<!--                    <a class="nav-link me-3" href="manager">-->
-<!--                        <i class=""></i>Manager Product-->
-<!--                    </a>-->
-<!--                    <a class="nav-link me-3" href="manageorder">-->
-<!--                        <i class=""></i>Manager Order-->
-<!--                    </a>-->
-
-<!--                </c:if>-->
-
-
-<!--                <c:if test="${sessionScope.acc != null}">-->
-                <form th:action="@{/logout}" method="POST">
-                    <input type="submit" class="btn btn-secondary" value="Logout"/>
-                </form>
-<!--                </c:if>-->
-<!--                <c:if test="${sessionScope.acc == null}">-->
-<!--                    <a href="Login.jsp" class="border rounded px-2 nav-link"-->
-<!--                       target="_self" >-->
-<!--                        <i class="fab fa-github me-2"></i>Login</a>-->
-<!--                </c:if>-->
-
-            </div>
-            <!-- Right elements -->
-
-        </div>
-        <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
-</div>
+<div th:insert="~{resources :: navbar-top}"></div>
 <!-- brand search -->
 
 <!-- carousel -->
@@ -170,20 +71,7 @@
 
                 <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a href="admins" class="nav-link text-white">Admins</a></li>
-                        <li class="nav-item"><a href="managers" class="nav-link text-white">Managers</a></li>
-                        <li class="nav-item"><a href="teachers" class="nav-link text-white">Teachers</a></li>
-                        <li class="nav-item"><a href="students" class="nav-link text-white">Students</a></li>
-                        <li class="nav-item"><a href="classes" class="nav-link text-white">Classes</a></li>
-<!--                        <c:forEach items="${listB}" var="o">-->
-
-<!--                            &lt;!&ndash; Link &ndash;&gt;-->
-<!--                            <li class="nav-item ${tag==o.bid?"active":""}">-->
-<!--                            <a class="nav-link text-white" href="brand?bid=${o.bid}">${o.bname}</a>-->
-<!--                            </li>-->
-<!--                        </c:forEach>-->
-                    </ul>
+                    <div th:insert="~{resources :: navbar-main-links}"></div>
 
                     <!-- Search -->
                     <form action="search" method="post" class="w-auto py-1" style="max-width: 12rem">
@@ -213,6 +101,21 @@
 
             <!-- Products -->
             <section>
+                <div th:if="${param.saved}">
+                    <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                        New user account info saved.
+                    </div>
+                </div>
+                <div th:if="${param.disabled}">
+                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        User account disabled.
+                    </div>
+                </div>
+                <div th:if="${param.enabled}">
+                    <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                        User account enabled.
+                    </div>
+                </div>
                 <a href="#addUserModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
                     <span>Add User</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
@@ -304,31 +207,43 @@
 <!--                        </div>-->
 <!--                    </form>-->
 <!--                </div>-->
-                <table class="table table-striped table-hover">
+                <table class="table table-striped">
                     <thead class="table-dark">
-                    <tr>
-                        <th>User ID</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Enabled</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Enabled</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-hover">
                     <tr th:each="user : ${users}">
                         <td th:text="${user.userId}"></td>
                         <td th:text="${user.username}"></td>
                         <td th:text="${user.password}"></td>
                         <td th:text="${user.fullname}"></td>
                         <td th:text="${user.useremail}"></td>
-                        <td th:text="${#strings.capitalize(#strings.substring(user.role, 5).toLowerCase())}"></td>
+                        <td th:text="${user.role}"></td>
                         <td th:text="${user.enabled ? 'Yes' : 'No'}"></td>
                         <td>
                             <a th:href="@{/admin/users/update(userId=${user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
-                            <a th:href="@{/admin/users/delete(userId=${user.userId})}" class="text-danger"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <!--Disabling-->
+                            <div th:if="${user.enabled}" th:id="'disable-message-' + ${user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                            <a th:if="${user.enabled}" th:href="@{/admin/home/disable(userId=${user.userId})}" class="text-danger"
+                               th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${user.userId}]]).getAttribute('data-disable-message'))) return false">
+                                <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>
+                            </a>
+                            <!--Enabling-->
+                            <div th:if="!${user.enabled}" th:id="'enable-message-' + ${user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                            <a th:if="!${user.enabled}" th:href="@{/admin/home/enable(userId=${user.userId})}" class="text-success"
+                               th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${user.userId}]]).getAttribute('data-enable-message'))) return false">
+                                <i class="material-icons" data-toggle="tooltip" title="Enable">&#xe8ac;</i>
+                            </a>
+                            <!--End of cell-->
                         </td>
                     </tr>
                     </tbody>

@@ -91,11 +91,18 @@ public class User {
     }
 
     public String getRole() {
+        if(role !=null && role.startsWith("ROLE_")){
+            String temp = role.substring(5).toLowerCase();
+            char[] tempChars = temp.toCharArray();
+            tempChars[0] = Character.toUpperCase(tempChars[0]);
+            return String.valueOf(tempChars);
+        }
         return role;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        role = "ROLE_" + role;
+        this.role = role.toUpperCase();
     }
 
     @Override
