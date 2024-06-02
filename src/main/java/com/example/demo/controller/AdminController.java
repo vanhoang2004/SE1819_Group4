@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping ("/admin")
@@ -83,6 +84,192 @@ public class AdminController {
             default: return "redirect:/admin/home?disabled";
         }
     }
+
+    @PostMapping("/users/changerole/admin")
+    public String changeRoleFromAdmin(@ModelAttribute("user") Admin a, RedirectAttributes ra){
+        a.setUserId(a.getUser().getUserId());
+        int userId = a.getUserId();
+        if(a.getUser().getRole()=="Manager"){
+            Manager ma = new Manager();
+            ma.setUserId(a.getUserId());
+            ma.setUser(a.getUser());
+        }
+        else if(a.getUser().getRole()=="Teacher"){
+            Teacher t = new Teacher();
+            t.setUserId(a.getUserId());
+            t.setUser(a.getUser());
+        }
+        else if(a.getUser().getRole()=="Student"){
+            Student s = new Student();
+            s.setUserId(a.getUserId());
+            s.setUser(a.getUser());
+        }
+        ra.addAttribute("role", a.getUser().getRole());
+        return "redirect:/admin/users/update?userId=" + userId;
+    }
+
+    @PostMapping("/users/changerole/manager")
+    public String changeRoleFromManager(@ModelAttribute("user") Manager ma, RedirectAttributes ra){
+        ma.setUserId(ma.getUser().getUserId());
+        int userId = ma.getUserId();
+        if(ma.getUser().getRole()=="Admin"){
+            Admin a = new Admin();
+            a.setUserId(a.getUserId());
+            a.setUser(a.getUser());
+        }
+        else if(ma.getUser().getRole()=="Teacher"){
+            Teacher t = new Teacher();
+            t.setUserId(ma.getUserId());
+            t.setUser(ma.getUser());
+        }
+        else if(ma.getUser().getRole()=="Student"){
+            Student s = new Student();
+            s.setUserId(ma.getUserId());
+            s.setUser(ma.getUser());
+        }
+        ra.addAttribute("role", ma.getUser().getRole());
+        return "redirect:/admin/users/update?userId=" + userId;
+    }
+
+    @PostMapping("/users/changerole")
+    public String changeRole(@ModelAttribute("user") Object o){
+//        Old role = Manager
+        try{
+            Manager ma = (Manager) o;
+            if(ma.getUser().getRole()=="Admin"){
+                Admin a = new Admin();
+                a.setUserId(a.getUserId());
+                a.setUser(a.getUser());
+            }
+            else if(ma.getUser().getRole()=="Teacher"){
+                Teacher t = new Teacher();
+                t.setUserId(ma.getUserId());
+                t.setUser(ma.getUser());
+            }
+            else if(ma.getUser().getRole()=="Student"){
+                Student s = new Student();
+                s.setUserId(ma.getUserId());
+                s.setUser(ma.getUser());
+            }
+        }
+        catch(ClassCastException e){}
+//        Old role = Teacher
+        try{
+            Teacher t = (Teacher) o;
+            if(t.getUser().getRole()=="Admin"){
+                Admin a = new Admin();
+                a.setUserId(a.getUserId());
+                a.setUser(a.getUser());
+            }
+            else if(t.getUser().getRole()=="Manager"){
+                Manager ma = new Manager();
+                ma.setUserId(t.getUserId());
+                ma.setUser(t.getUser());
+            }
+            else if(t.getUser().getRole()=="Student"){
+                Student s = new Student();
+                s.setUserId(t.getUserId());
+                s.setUser(t.getUser());
+            }
+        }
+        catch(ClassCastException e){}
+//        Old role = Student
+        try{
+            Student s = (Student) o;
+            if(s.getUser().getRole()=="Admin"){
+                Admin a = new Admin();
+                a.setUserId(a.getUserId());
+                a.setUser(a.getUser());
+            }
+            if(s.getUser().getRole()=="Manager"){
+                Manager ma = new Manager();
+                ma.setUserId(s.getUserId());
+                ma.setUser(s.getUser());
+            }
+            else if(s.getUser().getRole()=="Teacher"){
+                Teacher t = new Teacher();
+                t.setUserId(s.getUserId());
+                t.setUser(s.getUser());
+            }
+        }
+        catch(ClassCastException e){}
+        return "redirect:/admin/users/update?userId=";
+    }
+
+    @GetMapping("/users/update")
+    public String updateUser(@RequestParam("userId") int uuid, @ModelAttribute("role") String role, Model m) {
+        User u = ur.findUserById(uuid);
+        if(role==null || role.isEmpty()) role = u.getRole();
+        switch (role){
+            case "Admin":
+                Admin a = ar.findAdminById(uuid);
+                if(a==null){
+                    a = new Admin();
+                    a.setUserId(u.getUserId());
+                    u.setRole("Admin");
+                    a.setUser(u);
+                }
+                m.addAttribute("user",a);
+                return "update-user-admin";
+            case "Manager":
+                Manager ma = mr.findManagerById(uuid);
+                if(ma==null){
+                    ma = new Manager();
+                    ma.setUserId(u.getUserId());
+                    u.setRole("Manager");
+                    ma.setUser(u);
+                }
+                m.addAttribute("user",ma);
+                m.addAttribute("subjects",sjr.findAll());
+                return "update-user-manager";
+            case "Teacher":
+                Teacher t = tr.findTeacherById(uuid);
+                if(t==null){
+                    t = new Teacher();
+                    t.setUserId(u.getUserId());
+                    u.setRole("Teacher");
+                    t.setUser(u);
+                }
+                m.addAttribute("user",t);
+                m.addAttribute("subjects",sjr.findAll());
+                return "update-user-teacher";
+            case "Student":
+                Student s = str.findStudentById(uuid);
+                if(s==null){
+                    s = new Student();
+                    s.setUserId(u.getUserId());
+                    u.setRole("Student");
+                    s.setUser(u);
+                }
+                m.addAttribute("user",s);
+                return "update-user-student";
+            default: return "redirect:/admin/home";
+        }
+    }
+
+    @PostMapping("/users/save/admin")
+    public String saveUserAdmin(@ModelAttribute("user") Admin a){
+        if(a.getUser().getRole() == null || a.getUser().getRole().isEmpty()) a.getUser().setRole("Admin");
+        if(a.getUser().getUserId() == null) a.getUser().setEnabled(true);
+        System.out.println(a);
+        User temp = ur.save(a.getUser());
+        a.setUserId(temp.getUserId());
+        ar.save(a);
+        return "redirect:/admin/admins?saved";
+    }
+
+    @PostMapping("/users/save/manager")
+    public String saveUserManager(@ModelAttribute("user") Manager ma){
+        if(ma.getUser().getRole() == null || ma.getUser().getRole().isEmpty()) ma.getUser().setRole("Admin");
+        if(ma.getUser().getUserId() == null) ma.getUser().setEnabled(true);
+        System.out.println(ma);
+        User temp = ur.save(ma.getUser());
+        ma.setUserId(temp.getUserId());
+        ma.setSubject(sjr.findSubjectById(ma.getSubjectId()));
+        mr.save(ma);
+        return "redirect:/admin/managers?saved";
+    }
+
 
     //Admins
     @GetMapping("/admins")
@@ -265,5 +452,21 @@ public class AdminController {
         User u = ur.findUserById(duid);
         u.setEnabled(true);
         ur.save(u);
+    }
+
+    private void roleToAdmin(User u){
+        u.setRole("Admin");
+    }
+
+    private void roleToManager(User u){
+        u.setRole("Manager");
+    }
+
+    private void roleToTeacher(User u){
+        u.setRole("Teacher");
+    }
+
+    private void roleToStudent(User u){
+        u.setRole("Student");
     }
 }
