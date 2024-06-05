@@ -329,61 +329,66 @@
 <div id="add" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/test/questionbank" method="post">
+            <form th:action="@{'/test/mockdetails/' + ${mocktest.id}}" th:object="${nques}" method="post">
                 <div class="modal-header">
                     <h4 class="modal-title">Add Question</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <!-- QuestionID should bind to the 'id' attribute of the Question object -->
+                    <div class="form-group">
+                        <label>QuestionID</label>
+                        <input name="id" th:field="*{id}" readonly type="text" class="form-control" required>
+                    </div>
                     <div class="form-group">
                         <label>Title</label>
-                        <input name="title" type="text" class="form-control" required>
+                        <input th:field="*{title}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Image</label>
-                        <input name="image" type="url" class="form-control">
+                        <input th:field="*{image}" type="url" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Option 1</label>
-                        <input name="op1" type="text" class="form-control" required>
+                        <input th:field="*{op1}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 2</label>
-                        <input name="op2" type="text" class="form-control" required>
+                        <input th:field="*{op2}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 3</label>
-                        <input name="op3" type="text" class="form-control" required>
+                        <input th:field="*{op3}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 4</label>
-                        <input name="op4" type="text" class="form-control" required>
+                        <input th:field="*{op4}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Answer</label>
-                        <input name="ans" type="text" class="form-control" required>
+                        <input th:field="*{ans}" type="text" class="form-control" required>
                     </div>
-
                     <div class="form-group">
-
                         <label>Subject
-                            <input name="subjectID"  type="hidden" th:value="${subject.id}" >
+                            <input th:field="*{subjectID}"  type="hidden" th:value="${subject.id}" >
                             <input  type="text" readonly th:value="${subject.name}" class="form-control" required>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>
-                        <select name="chapterID">
-                            <option th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}" ></option>
+                        <select th:field="*{chapterID}">
+                            <option th:each="chap :${chapter}" th:value="${chap.id}" th:text="${chap.name}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Level</label>
-                        <select name="levelID">
-                            <option th:each="level :${level}" th:value="${level.id}" th:text="${level.name}"></option>
+                        <select th:field="*{levelID}">
+                            <option th:each="lvl :${level}" th:value="${lvl.id}" th:text="${lvl.name}"></option>
                         </select>
                     </div>
-
+                    <div class="form-group">
+                        <input th:field="*{status}" type="hidden" th:value="1" class="form-control" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

@@ -1,7 +1,9 @@
 package com.example.demo.data;
 
 import com.example.demo.entity.Question;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -16,4 +18,12 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> mockTestDetails (int mocktestid);
 @Query(value="SELECT * FROM questions WHERE QuestionID= :id",nativeQuery = true)
 Question findQuestionBYID(int id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO MockTestDetails (MockTestID, QuestionID)\n" +
+            "VALUES\n" +
+            "(:mocktestid, :questionid)", nativeQuery = true)
+    void insertQuestionByQuestionId(Integer mocktestid, Integer questionid);
+
 }

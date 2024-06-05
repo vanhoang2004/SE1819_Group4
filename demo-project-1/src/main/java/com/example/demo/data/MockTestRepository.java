@@ -8,8 +8,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MockTestRepository extends JpaRepository<MockTest, Integer> {
+    @Query(value = "SELECT * FROM mocktests Where MockTestID= :mocktestid",nativeQuery = true)
+    MockTest mocktestbyID(Integer  mocktestid);
     @Query(value = "SELECT m.MockTestID,m.MockTestTitle,m.SubjectID,m.Start,m.End FROM mocktests m " +
             "INNER JOIN managers mgr ON m.SubjectID = mgr.SubjectID " +
             "WHERE mgr.UserID = :userId", nativeQuery = true)
     List<MockTest> findMockTestByUserId(int userId);
+    @Query(value = "SELECT m.MockTestID,m.MockTestTitle,m.SubjectID,m.Start,m.End FROM mocktests m " +
+            "INNER JOIN managers mgr ON m.SubjectID = mgr.SubjectID " +
+            "WHERE mgr.UserID = :userId and m.MockTestTitle LIKE %:keyword%", nativeQuery = true)
+    List<MockTest> searchMockTest(Integer userId,@Param("keyword") String keyword);
 }

@@ -55,15 +55,16 @@
                 <!-- Icon -->
 
 
+                <form action="#" th:action="@{/logout}" method="POST">
 
-                <th:if test="${sessionScope.acc != null}">
-                    <a class="border rounded px-2 nav-link" href="logout">Logout</a>
-                </th:if>
-                <th:if test="${sessionScope.acc == null}">
-                    <a href="Login.jsp" class="border rounded px-2 nav-link"
-                       target="_self" >
-                        <i class="fab fa-github me-2"></i>Login</a>
-                </th:if>
+                    <input type="submit"  value="Logout" />
+                </form>
+
+                    <a th:href="@{/test/changepassword}">
+                        <button>
+                        Change Password</button>
+                    </a>
+
 
             </div>
             <!-- Right elements -->

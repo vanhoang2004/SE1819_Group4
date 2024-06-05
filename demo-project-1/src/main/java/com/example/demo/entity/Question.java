@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table( name="questions")
@@ -14,6 +14,11 @@ public class Question {
         @GeneratedValue(strategy=GenerationType.IDENTITY )
         @Column(name="questionid")
     private Integer id;
+
+
+    @ManyToMany(mappedBy = "likedQuestion")
+    private Set<MockTest> likes;
+
 
     @Column(name="questiontitle")
     private String title;
@@ -37,13 +42,13 @@ public class Question {
     private String ans;
 
     @Column(name="subjectid")
-    private String subjectID;
+    private Integer subjectID;
 
     @Column(name="chapterid")
-    private String chapterID;
+    private Integer chapterID;
 
     @Column(name="levelid")
-    private String levelID;
+    private Integer levelID;
 
     @Column(name="status")
    private Integer status;
@@ -51,7 +56,7 @@ public class Question {
     public Question() {
     }
 
-    public Question( String title, String image, String op1, String op2, String op3, String op4, String ans, String subjectID, String chapterID, String levelID, Integer status) {
+    public Question(String title, String image, String op1, String op2, String op3, String op4, String ans, Integer subjectID, Integer chapterID, Integer levelID, Integer status) {
         this.title = title;
         Image = image;
         this.op1 = op1;
@@ -129,27 +134,27 @@ public class Question {
         this.ans = ans;
     }
 
-    public String getSubjectID() {
+    public Integer getSubjectID() {
         return subjectID;
     }
 
-    public void setSubjectID(String subjectID) {
+    public void setSubjectID(Integer subjectID) {
         this.subjectID = subjectID;
     }
 
-    public String getChapterID() {
+    public Integer getChapterID() {
         return chapterID;
     }
 
-    public void setChapterID(String chapterID) {
+    public void setChapterID(Integer chapterID) {
         this.chapterID = chapterID;
     }
 
-    public String getLevelID() {
+    public Integer getLevelID() {
         return levelID;
     }
 
-    public void setLevelID(String levelID) {
+    public void setLevelID(Integer levelID) {
         this.levelID = levelID;
     }
 
@@ -159,5 +164,24 @@ public class Question {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", likes=" + likes +
+                ", title='" + title + '\'' +
+                ", Image='" + Image + '\'' +
+                ", op1='" + op1 + '\'' +
+                ", op2='" + op2 + '\'' +
+                ", op3='" + op3 + '\'' +
+                ", op4='" + op4 + '\'' +
+                ", ans='" + ans + '\'' +
+                ", subjectID='" + subjectID + '\'' +
+                ", chapterID='" + chapterID + '\'' +
+                ", levelID='" + levelID + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

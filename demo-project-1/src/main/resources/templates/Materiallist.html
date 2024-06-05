@@ -269,12 +269,26 @@
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h2>Manage <b>Materials</b></h2>
-                    </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4 d-flex justify-content-start">
                         <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Materials</span></a>
                         <a href="homepage" class="btn btn-primary" ><i class="material-icons">&#xE15C;</i> <span>Home</span></a>
+                    </div>
+                    <div class="col-sm-4 d-flex justify-content-center">
+                        <h2>Manage <b>Materials</b></h2>
+                    </div>
+                    <div class="col-sm-4 d-flex justify-content-end">
+                        <form class="w-auto py-1">
+                            <div class="input-group">
+
+                                <input type="text" name="keyword" class="form-control rounded-0" placeholder="Title" aria-label="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-secondary btn-number">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div><!-- comment -->
+                        </form>
                     </div>
                 </div>
             </div>
@@ -305,8 +319,8 @@
                         <td th:each="chapter:${chapter}" th:if="${chapter.id}==${material.chapterID}" th:text="${chapter.name}"></td>
                         <td th:text="${material.content}"></td>
                         <td>
-                            <a href="editpage" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="delete?pid=${o.id}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a th:href="@{/test/materials/editmaterial/{id}(id=${material.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a th:href="@{/test/materials/{id}(id=${material.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                 </c:forEach>

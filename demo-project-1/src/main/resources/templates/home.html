@@ -78,7 +78,7 @@
             <!-- Container wrapper -->
             <div class="container-fluid">
 
-                <!-- Navbar brand -->
+
 
 
                     <th:if test="${sessionScope.acc.isAdmin == 1}">
@@ -105,18 +105,16 @@
 
 
                 <!-- Toggle button -->
-                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
 
                 <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent2">
 
                     <!-- Search -->
-                    <form action="search" method="post" class="w-auto py-1" style="max-width: 12rem">
+                    <form class="w-auto py-1" style="max-width: 12rem">
                         <div class="input-group">
 
-                            <input value="" type="text" name="txt" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                            <input type="text" name="keyword" class="form-control rounded-0" placeholder="Title" aria-label="Search">
+
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-secondary btn-number">
                                     <i class="fa fa-search"></i>
@@ -155,7 +153,7 @@
                     <td th:text="${test.title}"></td>
                     <td th:each="subject:${subject}" th:if="${subject.id}==${test.subjectId}" th:text="${subject.name}"></td>
                     <td>
-                        <a th:href="@{/test/mockdetails/{id}(id=${test.id})}"><i class="material-icons" data-toggle="tooltip" title="Edit">View Question</i></a>
+                        <a th:href="@{/test/mockdetails/{id}(id=${test.id})}">View Question</a>
                     </td>
                 </tr>
 

@@ -3,37 +3,67 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 
+import java.util.List;
+
 @Entity
 @Table(name="mocktestdetails")
 public class MockQuestion {
-    @Id
-    @Column(name="mocktestid")
-    private  Integer mocktestID;
 
-@Column(name="questionid")
-    private Integer questionID;
+
+    @EmbeddedId
+    private MockQuestionKey id;
+
+    @ManyToOne
+    @MapsId("mocktestid")
+    @JoinColumn(name="mocktestid")
+    private MockTest mockTest;
+
+
+    @ManyToOne
+    @MapsId("questionid")
+    @JoinColumn(name="questionid")
+    private  Question question;
 
     public MockQuestion() {
     }
 
-    public Integer getMocktestID() {
-        return mocktestID;
+
+    public MockQuestion(MockTest mockTest, Question question) {
+        this.mockTest = mockTest;
+        this.question = question;
     }
 
-    public void setMocktestID(Integer mocktestID) {
-        this.mocktestID = mocktestID;
+    public MockQuestionKey getId() {
+        return id;
     }
 
-    public Integer getQuestionID() {
-        return questionID;
+
+    public void setId(MockQuestionKey id) {
+        this.id = id;
     }
 
-    public void setQuestionID(Integer questionID) {
-        this.questionID = questionID;
+    public MockTest getMockTest() {
+        return mockTest;
     }
 
-    public MockQuestion(Integer mocktestID, Integer questionID) {
-        this.mocktestID = mocktestID;
-        this.questionID = questionID;
+    public void setMockTest(MockTest mockTest) {
+        this.mockTest = mockTest;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    @Override
+    public String toString() {
+        return "MockQuestion{" +
+                "id=" + id +
+                ", mockTest=" + mockTest +
+                ", question=" + question +
+                '}';
     }
 }

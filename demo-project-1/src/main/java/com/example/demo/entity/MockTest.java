@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="mocktests")
@@ -27,6 +28,16 @@ public class MockTest {
     private LocalDateTime end;
        public MockTest() {
     }
+
+
+    // manytoone
+
+    @ManyToMany
+    @JoinTable(name = "mocktestdetails", joinColumns = @JoinColumn(name = "mocktestid"), inverseJoinColumns = @JoinColumn(name = "questionid"))
+    private Set<Question> likedQuestion;
+
+
+
 
     public MockTest(String title, Integer subjectId, LocalDateTime start, LocalDateTime end) {
         this.title = title;
@@ -74,5 +85,17 @@ public class MockTest {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    @Override
+    public String toString() {
+        return "MockTest{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", subjectId=" + subjectId +
+                ", start=" + start +
+                ", end=" + end +
+//                ", likedQuestion=" + likedQuestion +
+                '}';
     }
 }
