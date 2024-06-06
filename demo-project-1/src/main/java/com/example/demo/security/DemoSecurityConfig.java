@@ -54,7 +54,7 @@ public class DemoSecurityConfig {
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
                 );
-
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 

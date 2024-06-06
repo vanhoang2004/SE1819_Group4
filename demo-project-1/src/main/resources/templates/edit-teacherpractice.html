@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>List</title>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>List</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -268,48 +272,36 @@
 <body>
 <div class="modal-dialog">
     <div class="modal-content">
-        <form action="edit">
+        <form th:action="@{/teacher/editpage1}" method="post" th:object="${prac}">
             <div class="modal-header">
-                <h4 class="modal-title">Edit Product</h4>
+                <h4 class="modal-title">Edit Class Materials</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>ID</label>
-                    <input value="${detail.id}" name="id" type="text" readonly class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Name</label>
-                    <input value="${detail.name}" name="name" type="text" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Image</label>
-                    <input value="${detail.image}" name ="image" type="url" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>Price</label>
-                    <input value="${detail.price}" name ="price" type="number" class="form-control" required>
-                </div>
-                <div class="form-group">
                     <label>Title</label>
-                    <input value="${detail.title}" name="title" type="text" class="form-control" required>
+                    <input th:field="*{title}" type="text"  th:value="${prac.title}" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
-                    <input value="${detail.description}" name="des" type="text" class="form-control" required>
+                    <label>Content</label>
+                    <input th:field="*{deadline}" th:value="${prac.deadline}" type="text" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label>Brand</label>
-                    <select name="brand">
-                        <c:forEach var="o" items="${listB}">
-                            <option value="${o.bid}">${o.bname}</option>
-                        </c:forEach>
-                    </select>
-                </div>
+                <input th:field="*{classcode}" type="text" th:value="${prac.classcode}">
+                <input th:field="*{subjectid}" type="text" th:value="${prac.subjectid}">
+                <input th:field="*{teacherpracticeid}" type="text" th:value="${prac.teacherpracticeid}">
+                <input th:field="*{publishdate}" type="text" th:value="${prac.publishdate}">
+
 
             </div>
+
             <div class="modal-footer">
+                <!-- Cancel Button -->
                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <!-- Edit Questions Button -->
+                <a th:href="@{/teacher/practicequestion/{teacherpracticeid}(teacherpracticeid=${prac.teacherpracticeid})}" class="btn btn-default" data-dismiss="modal">
+                    Edit questions
+                </a>
+                <!-- Save Button -->
                 <input type="submit" class="btn btn-info" value="Save">
             </div>
         </form>

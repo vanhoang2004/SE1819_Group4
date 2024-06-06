@@ -314,7 +314,7 @@
                             <a class="nav-link" href="home">My Profile</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link " href="home">Home</a>
+                            <a class="nav-link " th:href="@{/teacher/homepage}">Home</a>
                         </li>
 
 
@@ -475,7 +475,7 @@
                 <div class="container-fluid">
 
                     <!-- Navbar brand -->
-                    <a class="navbar-brand" href="classpage">Mocktests</a>
+                    <a th:href="@{/teacher/classpage/{classcode}(classcode=${classcode})}" class="navbar-brand">Mocktests</a>
 
                     <!-- Toggle button -->
                     <button
@@ -492,26 +492,22 @@
                     <!-- Collapsible wrapper -->
                     <div class="collapse navbar-collapse" id="navbarSupportedContent2">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a href="managers" class="nav-link text-white">Materials</a></li>
-                            <li class="nav-item"><a href="teachers" class="nav-link text-white">Class items</a></li>
-                            <li class="nav-item"><a href="students" class="nav-link text-white">Students</a></li>
-                            <!--                        <c:forEach items="${listB}" var="o">-->
 
-                            <!--                            &lt;!&ndash; Link &ndash;&gt;-->
-                            <!--                            <li class="nav-item ${tag==o.bid?"active":""}">-->
-                            <!--                            <a class="nav-link text-white" href="brand?bid=${o.bid}">${o.bname}</a>-->
-                            <!--                            </li>-->
-                            <!--                        </c:forEach>-->
+                            <li class="nav-item"><a th:href="@{/teacher/materiallist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Materials</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/studentlist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Students</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/teachermateriallist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Class Materials</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/teacherpracticelist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Class Practice</a></li>
                         </ul>
 
                         <!-- Search -->
-                        <form action="search" method="post" class="w-auto py-1" style="max-width: 12rem">
+                        <form class="w-auto py-1" style="max-width: 12rem">
                             <div class="input-group">
 
-                                <input type="text" name="txt" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                                <input type="text" name="keyword" class="form-control rounded-0" placeholder="Title" aria-label="Search">
+
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-secondary btn-number"/>
-                                    &nbsp;<i class="fa fa-search"></i>
+                                    <button type="submit" class="btn btn-secondary btn-number">
+                                        <i class="fa fa-search"></i>
                                     </button>
                                 </div>
                             </div><!-- comment -->

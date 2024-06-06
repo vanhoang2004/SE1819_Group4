@@ -14,4 +14,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "join users u on u.UserID = t.UserID\n" +
             "where u.username  =:username", nativeQuery = true)
     Teacher findByUserid(String username);
+
+    @Query(value = "select t.subjectid\n" +
+            "from teachers t\n" +
+            "join users u on t.userid = u.userid\n" +
+            "where u.username =:username", nativeQuery = true)
+    int findSubjectidByUserName(String username);
 }
