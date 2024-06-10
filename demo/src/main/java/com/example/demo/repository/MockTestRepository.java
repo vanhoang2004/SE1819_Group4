@@ -11,6 +11,8 @@ import com.example.demo.entity.MockTest;
 public interface MockTestRepository extends JpaRepository<MockTest, Integer> {
 	@Query(value = "SELECT * FROM MockTests WHERE SubjectID = :subjectId", nativeQuery = true)
     List<MockTest> findMockTestBySubjectId(@Param("subjectId") int subjectId);
+	@Query(value = "SELECT * FROM MockTests WHERE MockTestID = :id", nativeQuery = true)
+	MockTest getMockTestById(int id);
 }
 
    

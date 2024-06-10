@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
@@ -26,14 +27,19 @@ public class SecurityConfig {
 	}
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(configurer ->
+		http
+		
+		.authorizeHttpRequests(configurer ->
 			configurer 
+			
+					.requestMatchers("/me").permitAll()
 					.requestMatchers("/students/**").hasRole("STUDENT")
 					.requestMatchers("/teachers/**").hasRole("TEACHER")
 					.requestMatchers("/admins/**").hasRole("ADMIN")
 					.requestMatchers("/managers/**").hasRole("MANAGER")
 					.anyRequest().authenticated()
 				)
+		
 		.formLogin(form -> 
 				form 
 						.loginPage("/showMyLoginPage")
@@ -47,7 +53,9 @@ public class SecurityConfig {
 		  .exceptionHandling(configurer ->
 		  		configurer.accessDeniedPage("/access-denied")
 				  
-				  );
+				  
+		  
+  );
 		return http.build();
 	}
 }

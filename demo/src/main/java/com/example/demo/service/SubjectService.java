@@ -9,23 +9,23 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Subject;
 import com.example.demo.repository.SubjectRepository;
 @Service
-public class SubjectService implements ISubjectService{
+public class SubjectService{
 	private final SubjectRepository subjectRepository;
 
     @Autowired
     public SubjectService(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
     }
-	@Override
+	
 	public List<Subject> getAllSubject() {
 		// TODO Auto-generated method stub
 		return subjectRepository.findAll();
 	}
 
-	@Override
-	public Optional<Subject> getSubjectById(int id) {
+
+	public Subject getSubjectById(int id) {
 		// TODO Auto-generated method stub
-		return subjectRepository.findById(id);
+		return subjectRepository.getSubjectById(id);
 	}
 
 }
