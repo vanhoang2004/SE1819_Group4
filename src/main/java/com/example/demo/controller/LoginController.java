@@ -1,16 +1,29 @@
 package com.example.demo.controller;
 
+import com.example.demo.data.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
+
+	@Autowired
+	UserRepository ur;
+
 	@GetMapping("/")
-	public String redirectBasedOnRole() {
+	public String redirectBasedOnRole(HttpServletRequest request) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && auth.isAuthenticated()) {
+			System.out.println(auth.getPrincipal());
+			String userDetails = (String) auth.getPrincipal();
+			request.getSession().setAttribute("logged_user", ur.findUserByUsername(userDetails));
+		}
 
 		// Checking roles
 		for (GrantedAuthority authority : auth.getAuthorities()) {

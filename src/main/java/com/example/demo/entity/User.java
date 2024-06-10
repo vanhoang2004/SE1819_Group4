@@ -1,10 +1,15 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name="Users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name="UserID")
@@ -52,10 +57,36 @@ public class User {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return getEnabled();
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
-//no encryption
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    //no encryption
     public String getPassword() {
         if(password!=null && password.startsWith("{noop}")) return password.substring(6);
         return password;

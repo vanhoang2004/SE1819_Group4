@@ -3,6 +3,7 @@
 <head>
     <title>Admin Homepage</title>
     <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
 </head>
 <body>
 <!-- Navbar -->
@@ -53,10 +54,8 @@
         <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
             <!-- Container wrapper -->
             <div class="container-fluid">
-
                 <!-- Navbar brand -->
                 <a class="navbar-brand" href="home">All Users</a>
-
                 <!-- Toggle button -->
                 <button
                         class="navbar-toggler"
@@ -68,16 +67,14 @@
                         aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
                 </button>
-
                 <!-- Collapsible wrapper -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent2">
                     <div th:insert="~{resources :: navbar-main-links}"></div>
 
                     <!-- Search -->
-                    <form action="search" method="post" class="w-auto py-1" style="max-width: 12rem">
-                        <div class="input-group">
-
-                            <input type="text" name="txt" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                    <form th:action="@{/admin/home}" method="get" class="w-auto py-1">
+                        <div class="input-group justify-content-end">
+                            <input type="text" name="search" class="form-control rounded-0" placeholder="Search" aria-label="Search" required>
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-secondary btn-number"/>
                                 &nbsp;<i class="fa fa-search"></i>
@@ -85,7 +82,6 @@
                             </div>
                         </div><!-- comment -->
                     </form>
-
                 </div>
             </div>
             <!-- Container wrapper -->
@@ -116,12 +112,6 @@
                         User account enabled.
                     </div>
                 </div>
-                <a href="#addUserModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
-                    <span>Add User</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                    </svg>
-                </a>
                 <div id="addUserModal" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -162,51 +152,16 @@
                         </div>
                     </div>
                 </div>
-<!--                <div class="text-center">-->
-<!--                    <form name="f" action="" method="post">-->
-<!--                        </br>-->
-<!--                        <div class="row">-->
-<!--                            <c:forEach  items="${listP}" var="o">-->
-<!--                                <div class="col-lg-3 col-md-6 mb-4">-->
-<!--                                    <div class="card" style="height: 500px;">-->
-<!--                                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"-->
-<!--                                             data-mdb-ripple-color="light">-->
-<!--                                            <img src="${o.image}"-->
-<!--                                                 class="w-100" style="height: 320px;"/>-->
-<!--                                            <a href="#!">-->
-<!--                                                <div class="mask">-->
-<!--                                                    &lt;!&ndash;                                                        <div class="d-flex justify-content-start align-items-end h-100">-->
-<!--                                                                                                                <h5><span class="badge bg-dark ms-2"><input type="button" onclick="buy('${o.id}')" value="Buy item"/></span></h5>-->
-<!--                                                                                                            </div>-->
-
-<!--                                                                                                            <div class="d-flex justify-content-start align-items-end h-100">-->
-<!--                                                                                                                <h5><span class="badge bg-dark ms-2"><div class="d-flex justify-content-start align-items-end h-100">-->
-<!--                                                                                                                            <h5><span class="badge bg-dark ms-2">Amount:-->
-<!--                                                                                                                                    <input type="number" name="num" value="1" style="text-align:center"/></span></h5>-->
-
-<!--                                                                                                                        </div></span></h5>-->
-<!--                                                                                                            </div>&ndash;&gt;-->
-<!--                                                </div>-->
-<!--                                                <div class="hover-overlay">-->
-<!--                                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>-->
-<!--                                                </div>-->
-<!--                                            </a>-->
-<!--                                        </div>-->
-<!--                                        <div class="card-body">-->
-<!--                                            <a href="" class="text-reset">-->
-<!--                                                <h5 class="card-title mb-2"><a href="detail?pid=${o.id}"/>${o.name}</h5>-->
-<!--                                            </a>-->
-<!--                                            <a href="" class="text-reset ">-->
-<!--                                                <p>${o.description}</p>-->
-<!--                                            </a>-->
-<!--                                            <h6 class="mb-3 price">${o.price} $</h6>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </c:forEach>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
+                <div class="d-flex justify-content-between mb-4">
+                    <h2 th:if="${param.search}" th:text="'Showing search results for \'' + ${param.search} + '\''"></h2>
+                    <h2 th:unless="${param.search}">All Users</h2>
+                    <a href="#addUserModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
+                        <span>Add User</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                        </svg>
+                    </a>
+                </div>
                 <table class="table table-striped">
                     <thead class="table-dark">
                         <tr>
@@ -230,19 +185,42 @@
                         <td th:text="${user.role}"></td>
                         <td th:text="${user.enabled ? 'Yes' : 'No'}"></td>
                         <td>
-                            <a th:href="@{/admin/users/update(userId=${user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
-                            <!--Disabling-->
-                            <div th:if="${user.enabled}" th:id="'disable-message-' + ${user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
-                            <a th:if="${user.enabled}" th:href="@{/admin/home/disable(userId=${user.userId})}" class="text-danger"
-                               th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${user.userId}]]).getAttribute('data-disable-message'))) return false">
-                                <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>
-                            </a>
-                            <!--Enabling-->
-                            <div th:if="!${user.enabled}" th:id="'enable-message-' + ${user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
-                            <a th:if="!${user.enabled}" th:href="@{/admin/home/enable(userId=${user.userId})}" class="text-success"
-                               th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${user.userId}]]).getAttribute('data-enable-message'))) return false">
-                                <i class="material-icons" data-toggle="tooltip" title="Enable">&#xe8ac;</i>
-                            </a>
+                            <div th:if="${session.logged_user.userId}==${user.userId}">
+                                <a th:href="@{/admin/users/update(userId=${user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
+                                <!--Disabling-->
+                                <div th:if="${user.enabled}" th:id="'disable-message-' + ${user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                                <a th:if="${user.enabled}" th:href="@{/admin/home/disable(userId=${user.userId})}" class="text-danger"
+                                   th:onclick="if(!(confirm('Are you sure you want to disable your user? You will be logged out!') && confirm(document.getElementById('disable-message-' + [[${user.userId}]]).getAttribute('data-disable-message')))) return false">
+                                    <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>
+                                </a>
+                                <!--Enabling-->
+                                <div th:if="!${user.enabled}" th:id="'enable-message-' + ${user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                                <a th:if="!${user.enabled}" th:href="@{/admin/home/enable(userId=${user.userId})}" class="text-success"
+                                   th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${user.userId}]]).getAttribute('data-enable-message'))) return false">
+                                    <i class="material-icons" data-toggle="tooltip" title="Enable">&#xe8ac;</i>
+                                </a>
+                            </div>
+
+                            <div th:unless="${session.logged_user.userId}==${user.userId}">
+                                <a th:href="@{/admin/users/update(userId=${user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Update">&#xE254;</i></a>
+                                <!--Disabling-->
+                                <div th:if="${user.enabled}" th:id="'disable-message-' + ${user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                                <a th:if="${user.enabled}" th:href="@{/admin/home/disable(userId=${user.userId})}" class="text-danger"
+                                   th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${user.userId}]]).getAttribute('data-disable-message'))) return false">
+                                    <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>
+                                </a>
+                                <!--Enabling-->
+                                <div th:if="!${user.enabled}" th:id="'enable-message-' + ${user.userId}" style="display: none;" th:data-enable-message="'Enable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>
+                                <a th:if="!${user.enabled}" th:href="@{/admin/home/enable(userId=${user.userId})}" class="text-success"
+                                   th:onclick="if(!confirm(document.getElementById('enable-message-' + [[${user.userId}]]).getAttribute('data-enable-message'))) return false">
+                                    <i class="material-icons" data-toggle="tooltip" title="Enable">&#xe8ac;</i>
+                                </a>
+                            </div>
+<!--                            <div th:if="${user.enabled}" th:id="'disable-message-' + ${user.userId}" style="display: none;" th:data-disable-message="'Disable this user?&#10;User ID: ' + ${user.userId} + '&#10;Username: ' + ${user.username}"></div>-->
+<!--                            <a th:if="${user.enabled}" th:href="@{/admin/home/disable(userId=${user.userId})}" class="text-danger"-->
+<!--                               th:onclick="if(!confirm(document.getElementById('disable-message-' + [[${user.userId}]]).getAttribute('data-disable-message'))) return false">-->
+<!--                                <i class="material-icons" data-toggle="tooltip" title="Disable">&#xe8ac;</i>-->
+<!--                            </a>-->
                             <!--End of cell-->
                         </td>
                     </tr>
@@ -251,26 +229,6 @@
             </section>
 
             <!-- Pagination -->
-<!--            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">-->
-<!--                <ul class="pagination">-->
-<!--                    <c:forEach var="o" begin="1" end="${a}">-->
-<!--                        <li class="page-item active">-->
-<!--                            &lt;!&ndash;                            <a class="page-link" href="#" aria-label="Previous">-->
-<!--                                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                                        </a>&ndash;&gt;-->
-
-<!--                        <li class="page-item" ${indexPage==o?"active":""}><a class="page-link" href="home?index=${o}">${o}</a></li>-->
-
-
-
-<!--                        <li class="page-item">-->
-<!--                            &lt;!&ndash;                            <a class="page-link" href="#" aria-label="Next">-->
-<!--                                                            <span aria-hidden="true">&raquo;</span>-->
-<!--                                                        </a>&ndash;&gt;-->
-<!--                        </li>-->
-<!--                    </c:forEach>-->
-<!--                </ul>-->
-<!--            </nav>-->
             <!-- Pagination -->
         </div>
     </main>

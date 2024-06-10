@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.data.*;
 import com.example.demo.entity.*;
 import com.example.demo.entity.Class;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +35,9 @@ public class AdminController {
 
 //Users
     @GetMapping("/home")
-    public String getUsers(Model m){
-        m.addAttribute("users",ur.findAll());
+    public String getUsers(Model m, @RequestParam(value="search",required = false) String search){
+        if(search != null) m.addAttribute("users",ur.search(search));
+        else m.addAttribute("users",ur.findAll());
         return "home";
     }
 
@@ -63,47 +65,32 @@ public class AdminController {
     }
 
     @GetMapping("/home/disable")
-    public String disableUserFromHome(@RequestParam("userId") int duid){
+    public String disableUserFromHome(@RequestParam("userId") int duid, HttpServletRequest request){
+        User u = ur.findUserById(duid);
         disableById(duid);
-        return "redirect:/admin/home?disabled";
+        if(duid == ((User)request.getSession().getAttribute("logged_user")).getUserId()) return "auto-logout";
+        return "home";
     }
 
     @GetMapping("/users/disable")
-    public String disableUser(@RequestParam("userId") int duid){
+    public String disableUser(@RequestParam("userId") int duid, HttpServletRequest request){
         User u = ur.findUserById(duid);
         disableById(duid);
-        switch(u.getRole()){
-            case "Admin":
-                return "redirect:/admin/admins?disabled";
-            case "Manager":
-                return "redirect:/admin/managers?disabled";
-            case "Teacher":
-                return "redirect:/admin/teachers?disabled";
-            case "Student":
-                return "redirect:/admin/students?disabled";
-            default: return "redirect:/admin/home?disabled";
-        }
+        if(duid == ((User)request.getSession().getAttribute("logged_user")).getUserId()) return "auto-logout";
+        return switch (u.getRole()) {
+            case "Admin" -> "redirect:/admin/admins?disabled";
+            case "Manager" -> "redirect:/admin/managers?disabled";
+            case "Teacher" -> "redirect:/admin/teachers?disabled";
+            case "Student" -> "redirect:/admin/students?disabled";
+            default -> "redirect:/admin/home?disabled";
+        };
     }
 
     @PostMapping("/users/changerole/admin")
     public String changeRoleFromAdmin(@ModelAttribute("user") Admin a, RedirectAttributes ra){
         a.setUserId(a.getUser().getUserId());
         int userId = a.getUserId();
-        if(a.getUser().getRole()=="Manager"){
-            Manager ma = new Manager();
-            ma.setUserId(a.getUserId());
-            ma.setUser(a.getUser());
-        }
-        else if(a.getUser().getRole()=="Teacher"){
-            Teacher t = new Teacher();
-            t.setUserId(a.getUserId());
-            t.setUser(a.getUser());
-        }
-        else if(a.getUser().getRole()=="Student"){
-            Student s = new Student();
-            s.setUserId(a.getUserId());
-            s.setUser(a.getUser());
-        }
+        ra.addAttribute("old_role","Admin");
         ra.addAttribute("role", a.getUser().getRole());
         return "redirect:/admin/users/update?userId=" + userId;
     }
@@ -112,94 +99,34 @@ public class AdminController {
     public String changeRoleFromManager(@ModelAttribute("user") Manager ma, RedirectAttributes ra){
         ma.setUserId(ma.getUser().getUserId());
         int userId = ma.getUserId();
-        if(ma.getUser().getRole()=="Admin"){
-            Admin a = new Admin();
-            a.setUserId(a.getUserId());
-            a.setUser(a.getUser());
-        }
-        else if(ma.getUser().getRole()=="Teacher"){
-            Teacher t = new Teacher();
-            t.setUserId(ma.getUserId());
-            t.setUser(ma.getUser());
-        }
-        else if(ma.getUser().getRole()=="Student"){
-            Student s = new Student();
-            s.setUserId(ma.getUserId());
-            s.setUser(ma.getUser());
-        }
+        ra.addAttribute("old_role","Manager");
         ra.addAttribute("role", ma.getUser().getRole());
         return "redirect:/admin/users/update?userId=" + userId;
     }
 
-    @PostMapping("/users/changerole")
-    public String changeRole(@ModelAttribute("user") Object o){
-//        Old role = Manager
-        try{
-            Manager ma = (Manager) o;
-            if(ma.getUser().getRole()=="Admin"){
-                Admin a = new Admin();
-                a.setUserId(a.getUserId());
-                a.setUser(a.getUser());
-            }
-            else if(ma.getUser().getRole()=="Teacher"){
-                Teacher t = new Teacher();
-                t.setUserId(ma.getUserId());
-                t.setUser(ma.getUser());
-            }
-            else if(ma.getUser().getRole()=="Student"){
-                Student s = new Student();
-                s.setUserId(ma.getUserId());
-                s.setUser(ma.getUser());
-            }
-        }
-        catch(ClassCastException e){}
-//        Old role = Teacher
-        try{
-            Teacher t = (Teacher) o;
-            if(t.getUser().getRole()=="Admin"){
-                Admin a = new Admin();
-                a.setUserId(a.getUserId());
-                a.setUser(a.getUser());
-            }
-            else if(t.getUser().getRole()=="Manager"){
-                Manager ma = new Manager();
-                ma.setUserId(t.getUserId());
-                ma.setUser(t.getUser());
-            }
-            else if(t.getUser().getRole()=="Student"){
-                Student s = new Student();
-                s.setUserId(t.getUserId());
-                s.setUser(t.getUser());
-            }
-        }
-        catch(ClassCastException e){}
-//        Old role = Student
-        try{
-            Student s = (Student) o;
-            if(s.getUser().getRole()=="Admin"){
-                Admin a = new Admin();
-                a.setUserId(a.getUserId());
-                a.setUser(a.getUser());
-            }
-            if(s.getUser().getRole()=="Manager"){
-                Manager ma = new Manager();
-                ma.setUserId(s.getUserId());
-                ma.setUser(s.getUser());
-            }
-            else if(s.getUser().getRole()=="Teacher"){
-                Teacher t = new Teacher();
-                t.setUserId(s.getUserId());
-                t.setUser(s.getUser());
-            }
-        }
-        catch(ClassCastException e){}
-        return "redirect:/admin/users/update?userId=";
+    @PostMapping("/users/changerole/teacher")
+    public String changeRoleFromTeacher(@ModelAttribute("user") Teacher t, RedirectAttributes ra){
+        t.setUserId(t.getUser().getUserId());
+        int userId = t.getUserId();
+        ra.addAttribute("old_role","Teacher");
+        ra.addAttribute("role", t.getUser().getRole());
+        return "redirect:/admin/users/update?userId=" + userId;
+    }
+
+    @PostMapping("/users/changerole/student")
+    public String changeRoleFromStudent(@ModelAttribute("user") Student s, RedirectAttributes ra){
+        s.setUserId(s.getUser().getUserId());
+        int userId = s.getUserId();
+        ra.addAttribute("old_role","Student");
+        ra.addAttribute("role", s.getUser().getRole());
+        return "redirect:/admin/users/update?userId=" + userId;
     }
 
     @GetMapping("/users/update")
-    public String updateUser(@RequestParam("userId") int uuid, @ModelAttribute("role") String role, Model m) {
+    public String updateUser(@RequestParam("userId") int uuid, @ModelAttribute("role") String role, @ModelAttribute("old_role") String oldRole, Model m, RedirectAttributes ra) {
         User u = ur.findUserById(uuid);
         if(role==null || role.isEmpty()) role = u.getRole();
+        ra.addAttribute("old_role",oldRole);
         switch (role){
             case "Admin":
                 Admin a = ar.findAdminById(uuid);
@@ -242,36 +169,60 @@ public class AdminController {
                     s.setUser(u);
                 }
                 m.addAttribute("user",s);
+                m.addAttribute("classes",cr.findAll());
                 return "update-user-student";
-            default: return "redirect:/admin/home";
+            default: return "home";
         }
     }
 
-    @PostMapping("/users/save/admin")
-    public String saveUserAdmin(@ModelAttribute("user") Admin a){
+    @PostMapping("/users/save/admin{oldRole}")
+    public String saveUserAdmin(@ModelAttribute("user") Admin a, @RequestParam(value="oldRole", required=false) String oldRole){
         if(a.getUser().getRole() == null || a.getUser().getRole().isEmpty()) a.getUser().setRole("Admin");
         if(a.getUser().getUserId() == null) a.getUser().setEnabled(true);
-        System.out.println(a);
         User temp = ur.save(a.getUser());
         a.setUserId(temp.getUserId());
         ar.save(a);
+        if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,a.getUserId());
         return "redirect:/admin/admins?saved";
     }
 
-    @PostMapping("/users/save/manager")
-    public String saveUserManager(@ModelAttribute("user") Manager ma){
+    @PostMapping("/users/save/manager{oldRole}")
+    public String saveUserManager(@ModelAttribute("user") Manager ma, @RequestParam(value="oldRole", required=false) String oldRole){
         if(ma.getUser().getRole() == null || ma.getUser().getRole().isEmpty()) ma.getUser().setRole("Admin");
         if(ma.getUser().getUserId() == null) ma.getUser().setEnabled(true);
-        System.out.println(ma);
         User temp = ur.save(ma.getUser());
         ma.setUserId(temp.getUserId());
         ma.setSubject(sjr.findSubjectById(ma.getSubjectId()));
         mr.save(ma);
+        if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,ma.getUserId());
         return "redirect:/admin/managers?saved";
     }
 
+    @PostMapping("/users/save/teacher{oldRole}")
+    public String saveUserTeacher(@ModelAttribute("user") Teacher t, @RequestParam(value="oldRole", required=false) String oldRole){
+        if(t.getUser().getRole() == null || t.getUser().getRole().isEmpty()) t.getUser().setRole("Admin");
+        if(t.getUser().getUserId() == null) t.getUser().setEnabled(true);
+        User temp = ur.save(t.getUser());
+        t.setUserId(temp.getUserId());
+        t.setSubject(sjr.findSubjectById(t.getSubjectId()));
+        tr.save(t);
+        if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,t.getUserId());
+        return "redirect:/admin/teachers?saved";
+    }
 
-    //Admins
+    @PostMapping("/users/save/student{oldRole}")
+    public String saveUserStudent(@ModelAttribute("user") Student s, @RequestParam(value="oldRole", required=false) String oldRole){
+        if(s.getUser().getRole() == null || s.getUser().getRole().isEmpty()) s.getUser().setRole("Admin");
+        if(s.getUser().getUserId() == null) s.getUser().setEnabled(true);
+        User temp = ur.save(s.getUser());
+        s.setUserId(temp.getUserId());
+        s.setSclass(cr.findClassById(s.getClassCode()));
+        str.save(s);
+        if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,s.getUserId());
+        return "redirect:/admin/students?saved";
+    }
+
+//Admins
     @GetMapping("/admins")
     public String getAdmins(Model m){
         m.addAttribute("admins",ar.findAll());
@@ -279,71 +230,13 @@ public class AdminController {
         return "list-admins";
     }
 
-    @GetMapping("/admins/update")
-    public String updateAdmin(@RequestParam("userId") int ucid, Model m) {
-        Admin a = ar.findAdminById(ucid);
-        m.addAttribute("admin",a);
-        return "update-admin";
-    }
-
-    @PostMapping("/admins/save")
-    public String saveAdmin(@ModelAttribute("admin") Admin a){
-        if(a.getUser().getRole() == null || a.getUser().getRole().isEmpty()) a.getUser().setRole("Admin");
-        if(a.getUser().getUserId() == null) a.getUser().setEnabled(true);
-        System.out.println(a);
-        User temp = ur.save(a.getUser());
-        a.setUserId(temp.getUserId());
-        System.out.println(a);
-        ar.save(a);
-        return "redirect:/admin/admins?saved";
-    }
-
-    @GetMapping("/admins/disable")
-    public String disableAdmin(@RequestParam("userId") int daid){
-        disableById(daid);
-        return "redirect:/admin/admins?disabled";
-    }
-
 //Managers
     @GetMapping("/managers")
     public String getManagers(Model m){
-//        List managers = mr.findAll();
-//        m.addAttribute("managers",managers);
         m.addAttribute("managers",mr.findAll());
-//        System.out.println(managers);
-
         m.addAttribute("manager",new Manager());
-
-//        List subjects = sjr.findAll();
-//        m.addAttribute("subjects",subjects);
         m.addAttribute("subjects",sjr.findAll());
-//        System.out.println(subjects);
         return "list-managers";
-    }
-
-    @GetMapping("/managers/update")
-    public String updateManager(@RequestParam("userId") int ucid, Model m) {
-        m.addAttribute("manager",mr.findManagerById(ucid));
-        m.addAttribute("subjects",sjr.findAll());
-        return "update-manager";
-    }
-
-    @PostMapping("/managers/save")
-    public String saveManager(@ModelAttribute("manager") Manager ma){
-        if(ma.getUser().getRole() == null || ma.getUser().getRole().isEmpty()) ma.getUser().setRole("Manager");
-        if(ma.getUser().getUserId() == null) ma.getUser().setEnabled(true);
-        User temp = ur.save(ma.getUser());
-        ma.setUserId(temp.getUserId());
-        ma.setSubject(sjr.findSubjectById(ma.getSubjectId()));
-        System.out.println(ma);
-        mr.save(ma);
-        return "redirect:/admin/managers?saved";
-    }
-
-    @GetMapping("/managers/disable")
-    public String disableManager(@RequestParam("userId") int dmid){
-        disableById(dmid);
-        return "redirect:/admin/managers?disabled";
     }
 
 //Teachers
@@ -355,31 +248,6 @@ public class AdminController {
         return "list-teachers";
     }
 
-    @GetMapping("/teachers/update")
-    public String updateTeacher(@RequestParam("userId") int ucid, Model m) {
-        m.addAttribute("teacher",tr.findTeacherById(ucid));
-        m.addAttribute("subjects",sjr.findAll());
-        return "update-teacher";
-    }
-
-    @PostMapping("/teachers/save")
-    public String saveTeacher(@ModelAttribute("teacher") Teacher t){
-        if(t.getUser().getRole() == null || t.getUser().getRole().isEmpty()) t.getUser().setRole("Teacher");
-        if(t.getUser().getUserId() == null) t.getUser().setEnabled(true);
-        User temp = ur.save(t.getUser());
-        t.setUserId(temp.getUserId());
-        t.setSubject(sjr.findSubjectById(t.getSubjectId()));
-        System.out.println(t);
-        tr.save(t);
-        return "redirect:/admin/teachers?saved";
-    }
-
-    @GetMapping("/teachers/disable")
-    public String disableTeacher(@RequestParam("userId") int dtid){
-        disableById(dtid);
-        return "redirect:/admin/teachers?disabled";
-    }
-
 //Students
     @GetMapping("/students")
     public String getStudents(Model m){
@@ -389,53 +257,31 @@ public class AdminController {
         return "list-students";
     }
 
-    @GetMapping("/students/update")
-    public String updateStudent(@RequestParam("userId") int ucid, Model m) {
-        m.addAttribute("student",str.findStudentById(ucid));
-        m.addAttribute("classes",cr.findAll());
-        return "update-student";
-    }
-
-    @PostMapping("/students/save")
-    public String saveStudent(@ModelAttribute("student") Student s){
-        if(s.getUser().getRole() == null || s.getUser().getRole().isEmpty()) s.getUser().setRole("Student");
-        if(s.getUser().getUserId() == null) s.getUser().setEnabled(true);
-        User temp = ur.save(s.getUser());
-        s.setUserId(temp.getUserId());
-        s.setSclass(cr.findClassById(s.getClassCode()));
-        System.out.println(s);
-        str.save(s);
-        return "redirect:/admin/students?saved";
-    }
-
-    @GetMapping("/students/disable")
-    public String disableStudent(@RequestParam("userId") int dsid){
-        disableById(dsid);
-        return "redirect:/admin/students?disabled";
-    }
-
 //Classes
     @GetMapping("/classes")
-    public String getClasses(Model m){
+    public String getClasses(Model m, @RequestParam(value="search",required = false) String search, @RequestParam(value="filter",required = false) String filter){
         m.addAttribute("class",new Class());
-        m.addAttribute("classes",cr.findAll());
-        return "classes";
+        if(search!=null) m.addAttribute("classes",cr.search(search));
+        else if(filter!=null) m.addAttribute("classes",cr.filterByGrade(filter));
+        else m.addAttribute("classes",cr.findAll());
+        return "list-classes";
     }
 
     @GetMapping("/classes/update")
     public String updateClass(@RequestParam("classCode") int uccode, Model m) {
         Class c = cr.findClassById(uccode);
         m.addAttribute("class",c);
-        return "classedit";
+        return "update-class";
     }
 
     @PostMapping("/classes/save")
     public String saveClass(@ModelAttribute("class") Class c){
+        if(!c.getClassName().matches("^(10|11|12)[A-Za-z]+\\d*$")) return "redirect:/admin/classes?invalid";
         cr.save(c);
         return "redirect:/admin/classes?saved";
     }
 
-    @GetMapping("classes/disable")
+    @GetMapping("classes/delete")
     public String deleteClass(@RequestParam("classCode") int dccode){
         cr.deleteById(dccode);
         return "redirect:/admin/classes?deleted";
@@ -454,19 +300,13 @@ public class AdminController {
         ur.save(u);
     }
 
-    private void roleToAdmin(User u){
-        u.setRole("Admin");
-    }
-
-    private void roleToManager(User u){
-        u.setRole("Manager");
-    }
-
-    private void roleToTeacher(User u){
-        u.setRole("Teacher");
-    }
-
-    private void roleToStudent(User u){
-        u.setRole("Student");
+    private void deleteOldRole(String oldRole, int id){
+        System.out.println("Old role: " + oldRole + " " + id);
+        switch(oldRole){
+            case "Admin": ar.deleteById(id); break;
+            case "Manager": mr.deleteById(id); break;
+            case "Teacher": tr.deleteById(id); break;
+            case "Student": str.deleteById(id); break;
+        }
     }
 }
