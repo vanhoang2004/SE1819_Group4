@@ -268,7 +268,7 @@
 <body>
 <div class="modal-dialog">
     <div class="modal-content">
-        <form th:action="@{/teacher/editpage2}" method="post" th:object="${question}">
+        <form th:action="@{/teacher/editpage2/{teacherpracticeid}/{classcode}(teacherpracticeid=${teacherpracticeid}, classcode=${classcode})}" method="post" th:object="${question}">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Question in Class Practice</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title><!DOCTYPE html>
-        <html xmlns:th="http://www.thymeleaf.org">
-        <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>List</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -272,7 +268,7 @@
 <body>
 <div class="modal-dialog">
     <div class="modal-content">
-        <form th:action="@{/teacher/editpage1}" method="post" th:object="${prac}">
+        <form th:action="@{/teacher/editpage/{classcode}(classcode=${classcode})}" method="post" th:object="${mate}">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Class Materials</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -280,28 +276,21 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Title</label>
-                    <input th:field="*{title}" type="text"  th:value="${prac.title}" class="form-control" required>
+                    <input th:field="*{title}" type="text"  th:value="${mate.title}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <input th:field="*{deadline}" th:value="${prac.deadline}" type="text" class="form-control" required>
+                    <input th:field="*{content}" th:value="${mate.content}" type="text" class="form-control" required>
                 </div>
-                <input th:field="*{classcode}" type="text" th:value="${prac.classcode}">
-                <input th:field="*{subjectid}" type="text" th:value="${prac.subjectid}">
-                <input th:field="*{teacherpracticeid}" type="text" th:value="${prac.teacherpracticeid}">
-                <input th:field="*{publishdate}" type="text" th:value="${prac.publishdate}">
+                <input th:field="*{classcode}" type="text" th:value="${mate.classcode}">
+                <input th:field="*{subjectid}" type="text" th:value="${mate.subjectid}">
+                <input th:field="*{teachermaterialid}" type="text" th:value="${mate.teachermaterialid}">
 
 
             </div>
 
             <div class="modal-footer">
-                <!-- Cancel Button -->
                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <!-- Edit Questions Button -->
-                <a th:href="@{/teacher/practicequestion/{teacherpracticeid}(teacherpracticeid=${prac.teacherpracticeid})}" class="btn btn-default" data-dismiss="modal">
-                    Edit questions
-                </a>
-                <!-- Save Button -->
                 <input type="submit" class="btn btn-info" value="Save">
             </div>
         </form>

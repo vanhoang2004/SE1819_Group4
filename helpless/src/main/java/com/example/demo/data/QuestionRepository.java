@@ -28,4 +28,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
             "VALUES\n" +
             "(:teacherpracticeid, (SELECT MAX(QuestionID) FROM Questions))", nativeQuery = true)
     void insertQuestionByQuestionId(Integer teacherpracticeid);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from teacherpracticedetails where questionid =:questionid", nativeQuery = true)
+    void DeleteQuestionByQuestionId(Integer questionid);
 }

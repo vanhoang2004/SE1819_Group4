@@ -124,6 +124,7 @@ public class TeacherController {
             teacherMaterials=tmr.searchTeacherMaterial(subjectid, classcode, keyword);
         }
         model.addAttribute("teachermaterials", teacherMaterials);
+        model.addAttribute("subjectid", subjectid);
         return "teachermateriallist";
     }
 
@@ -138,6 +139,7 @@ public class TeacherController {
             teacherpractices=tpr.searchTeacherPractice(subjectid, classcode, keyword);
         }
         model.addAttribute("teacherpractices", teacherpractices);
+        model.addAttribute("subjectid", subjectid);
         return "teacherpracticelist";
     }
 
@@ -145,100 +147,116 @@ public class TeacherController {
 
     //CLASS MATERIALS
     //edit class materials
-    @GetMapping("/teachermaterial/editpage/{id}")
-    public String list1(Model model,@PathVariable Integer id) {
+    @GetMapping("/teachermaterial/editpage/{id}/{classcode}")
+    public String list1(Model model,@PathVariable Integer id, @PathVariable Integer classcode) {
         TeacherMaterials teacherMaterials = tmr.findTeacherMaterialsById(id);
         model.addAttribute("mate", teacherMaterials);
+        model.addAttribute("classcode", classcode);
         return "edit-teachermaterial";
     }
-    @PostMapping("/editpage")
-    public String postTeacherMaterial(@ModelAttribute("mate") TeacherMaterials teacherMaterials) {
+    @PostMapping("/editpage/{classcode}")
+    public String postTeacherMaterial(@ModelAttribute("mate") TeacherMaterials teacherMaterials, @PathVariable Integer classcode) {
         tmr.save(teacherMaterials);
-        return "teachermateriallist";
+        return "redirect:/teacher/teachermateriallist/" + classcode;
     }
 
     //delete class materials
-    @GetMapping("/teachermaterial/{id}")
-    public String deleteTeacherMaterial(@ModelAttribute TeacherMaterials teacherMaterials,@PathVariable int id) {
+    @GetMapping("/teachermaterial/{id}/{classcode}")
+    public String deleteTeacherMaterial(Model model, @ModelAttribute TeacherMaterials teacherMaterials,@PathVariable int id, @PathVariable Integer classcode) {
         tmr.deleteById(id);
-        return "teachermateriallist";
+        model.addAttribute("classcode", classcode);
+        return "redirect:/teacher/teachermateriallist/" + classcode;
     }
 
     // create class materials
     @PostMapping("/teachermaterial")
-    public String getTeacherPractice(@ModelAttribute TeacherMaterials teacherMaterials){
+    public String getTeacherPractice(Model model, @ModelAttribute TeacherMaterials teacherMaterials){
         tmr.save(teacherMaterials);
-        return "teachermateriallist";
+        int classcode = teacherMaterials.getClasscode();
+        return "redirect:/teacher/teachermateriallist/" + classcode;
     }
 
     // CLASS PRATICE
     //edit class practice (no edit question)
-    @GetMapping("/teacherpractice/editpage1/{id}")
-    public String list2(Model model,@PathVariable Integer id) {
+    @GetMapping("/teacherpractice/editpage1/{id}/{classcode}")
+    public String list2(Model model,@PathVariable Integer id, @PathVariable Integer classcode) {
         TeacherPractice teacherpractices = tpr.findTeacherPracticeById(id);
         model.addAttribute("prac", teacherpractices);
+        model.addAttribute("classcode", classcode);
         return "edit-teacherpractice";
     }
-    @PostMapping("/editpage1")
-    public String postTeacherPractice(@ModelAttribute("prac") TeacherPractice teacherpractices) {
+    @PostMapping("/editpage1/{classcode}")
+    public String postTeacherPractice(Model model, @ModelAttribute("prac") TeacherPractice teacherpractices, @PathVariable Integer classcode) {
         tpr.save(teacherpractices);
-        return "teachermateriallist";
+        model.addAttribute("classcode", classcode);
+        return "redirect:/teacher/teacherpracticelist/" + classcode;
     }
 
     //delete class practice(no delete questions)
-    @GetMapping("/teacherpractice/{id}")
-    public String deleteTeacherPractice(@ModelAttribute TeacherPractice teacherpractices,@PathVariable int id) {
+    @GetMapping("/teacherpractice/{id}/{classcode}")
+    public String deleteTeacherPractice(Model model, @ModelAttribute TeacherPractice teacherpractices,@PathVariable int id, @PathVariable Integer classcode) {
         tpr.deleteById(id);
-        return "teacherpracticelist";
+        model.addAttribute("classcode", classcode);
+        return "redirect:/teacher/teacherpracticelist/" + classcode;
     }
 
     //create new class practice (no adding questions)
-    @PostMapping("/teacherpractice")
-    public String getPractice(@ModelAttribute TeacherPractice teacherpractices){
+    @PostMapping("/teacherpractice/{classcode}")
+    public String getPractice(Model model,@ModelAttribute TeacherPractice teacherpractices, @PathVariable Integer classcode){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         String formattedNow = now.format(formatter);
         teacherpractices.setPublishdate(formattedNow);
         tpr.save(teacherpractices);
-        return "teachermateriallist";
+        model.addAttribute("classcode", classcode);
+        return "redirect:/teacher/teacherpracticelist/" + classcode;
     }
 
 
     //EDIT QUESTION
     //Show all question in a class practice
-    @GetMapping("/practicequestion/{teacherpracticeid}")
-    public String list3(Model model, @PathVariable Integer teacherpracticeid) {
+    @GetMapping("/practicequestion/{teacherpracticeid}/{classcode}")
+    public String list3(Model model, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode) {
         List<Question> questions = qr.findQuestionByTeacherPracticeid(teacherpracticeid);
-
+        model.addAttribute("teacherpracticeid", teacherpracticeid);
+        model.addAttribute("classcode", classcode);
         model.addAttribute("questions", questions);
         return "practicequestionlist";
     }
     //Edit question in class practice
-    @GetMapping("/practicequestionedit/editpage2/{questionid}")
-    public String list4(Model model,@PathVariable Integer questionid) {
+    @GetMapping("/practicequestionedit/editpage2/{questionid}/{teacherpracticeid}/{classcode}")
+    public String list4(Model model, @PathVariable Integer questionid, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode) {
         Question question = qr.findQuestionByQuestionId(questionid);
+        model.addAttribute("teacherpracticeid", teacherpracticeid);
+        model.addAttribute("classcode", classcode);
         model.addAttribute("question", question);
         return "edit-practicequestion";
     }
-    @PostMapping("/editpage2")
-    public String postQuestionPracticeEdit(@ModelAttribute("question") Question questions) {
+    @PostMapping("/editpage2/{teacherpracticeid}/{classcode}")
+    public String postQuestionPracticeEdit(Model model, @ModelAttribute("question") Question questions, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode) {
+        model.addAttribute("teacherpracticeid", teacherpracticeid);
+        model.addAttribute("classcode", classcode);
         qr.save(questions);
-        return "practicequestionlist";
+        return "redirect:/teacher/practicequestion/" + teacherpracticeid + "/" + classcode;
     }
 
     //delete Question in class practice(no delete questions)
-    @GetMapping("/practicequestiondelete/{questionid}")
-    public String deletePracticeQuestion(@ModelAttribute Question questions,@PathVariable Integer questionid) {
+    @GetMapping("/practicequestiondelete/{questionid}/{teacherpracticeid}/{classcode}")
+    public String deletePracticeQuestion(Model model, @ModelAttribute Question questions,@PathVariable Integer questionid, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode) {
+        model.addAttribute("teacherpracticeid", teacherpracticeid);
+        model.addAttribute("classcode", classcode);
+        qr.DeleteQuestionByQuestionId(questionid);
         qr.deleteById(questionid);
-        return "teacherpracticelist";
+        return "redirect:/teacher/practicequestion/" + teacherpracticeid + "/" + classcode;
     }
 
     //Add a new question
-    @PostMapping("/praticequestionedit")
-    public String addQuestion(@ModelAttribute Question questions){
+    @PostMapping("/praticequestionedit/{teacherpracticeid}/{classcode}")
+    public String addQuestion(Model model, @ModelAttribute Question questions, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode){
+
         qr.save(questions);
         qr.insertQuestionByQuestionId(3);
-        return "teacherpracticelist";
+        return "redirect:/teacher/practicequestion/" + teacherpracticeid + "/" + classcode;
     }
 
 
@@ -254,5 +272,4 @@ public class TeacherController {
     public String getList() {
         return "list";
     }
-
 }
