@@ -664,14 +664,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Chapter</label>
-                                <input name="chapterid" type="text" class="form-control" required>
+                                <select name="chapterid" class="form-control">
+                                    <option th:each="chapter : ${chapters}" th:value="${chapter.id}" th:text="${chapter.name}">Text</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>Level</label>
-                                <input name="levelid" type="text" class="form-control" required>
+                                <select name="levelid" class="form-control">
+                                    <option th:each="level : ${levels}" th:value="${level.id}" th:text="${level.name}">Text</option>
+                                </select>
                             </div>
 
-                            <input name = "subjectid" type="hidden" th:value="2">
+                            <input name = "subjectid" type="hidden" th:value="${subjectid}">
 
                             <input name = "status" type="hidden" th:value="1">
 

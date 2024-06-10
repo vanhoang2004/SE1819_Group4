@@ -26,8 +26,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     @Transactional
     @Query(value = "INSERT INTO TeacherPracticeDetails (TeacherPracticeID, QuestionID)\n" +
             "VALUES\n" +
-            "(:teacherpracticeid, (SELECT MAX(QuestionID) FROM Questions))", nativeQuery = true)
-    void insertQuestionByQuestionId(Integer teacherpracticeid);
+            "(:teacherpracticeid, :questionid)", nativeQuery = true)
+    void insertQuestionByQuestionId(Integer teacherpracticeid, Integer questionid);
 
     @Modifying
     @Transactional

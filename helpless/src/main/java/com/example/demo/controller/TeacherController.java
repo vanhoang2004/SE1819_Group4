@@ -28,12 +28,14 @@ public class TeacherController {
     TeacherMaterialsRepository tmr;
     TeacherPracticeRepository tpr;
     QuestionRepository qr;
+    LevelRepository lr;
+    ChapterRepository cr;
 
     @Autowired
     public TeacherController(SubjectRepository su, ClassRepository clas, MocktestRepository mt,
                              StudentRepository sr,MaterialRepository mr, TeacherRepository tr,
                              TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
-                             QuestionRepository qr) {
+                             QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
         this.su = su;
         this.clas = clas;
         this.mt = mt;
@@ -43,6 +45,8 @@ public class TeacherController {
         this.tmr = tmr;
         this.tpr = tpr;
         this.qr = qr;
+        this.lr = lr;
+        this.cr = cr;
     }
 
 //Delete
@@ -217,7 +221,16 @@ public class TeacherController {
     //Show all question in a class practice
     @GetMapping("/practicequestion/{teacherpracticeid}/{classcode}")
     public String list3(Model model, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        int subjectid = tr.findSubjectidByUserName(name);
+        List<Level> levels = lr.findAll();
+        List<Chapter> chapters = cr.findChapterBySubject(subjectid);
         List<Question> questions = qr.findQuestionByTeacherPracticeid(teacherpracticeid);
+        
+        model.addAttribute("subjectid", subjectid);
+        model.addAttribute("levels", levels);
+        model.addAttribute("chapters", chapters);
         model.addAttribute("teacherpracticeid", teacherpracticeid);
         model.addAttribute("classcode", classcode);
         model.addAttribute("questions", questions);
@@ -252,10 +265,21 @@ public class TeacherController {
 
     //Add a new question
     @PostMapping("/praticequestionedit/{teacherpracticeid}/{classcode}")
-    public String addQuestion(Model model, @ModelAttribute Question questions, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode){
+    public String addQuestion(Model model, @ModelAttribute Question nques, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode){
 
-        qr.save(questions);
-        qr.insertQuestionByQuestionId(3);
+
+//        for(Level i: levels) {
+//            System.out.println(i.getName());
+//        }
+//        for(Chapter c: chapters) {
+//            System.out.println(c.getName());
+//        }
+//        System.out.println("Levels size: " + levels.size());
+//        System.out.println("Chapters size: " + chapters.size());
+
+
+        qr.save(nques);
+        qr.insertQuestionByQuestionId(teacherpracticeid, nques.getQuestionid());
         return "redirect:/teacher/practicequestion/" + teacherpracticeid + "/" + classcode;
     }
 
