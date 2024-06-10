@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.data.*;
 import com.example.demo.entity.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
@@ -58,7 +59,7 @@ public class ExampleController {
     }
 
     @GetMapping("/questionbank")
-    public String questionbank(Model model) {
+    public String questionbank(Model model,@Param("keyword" )String keyword,@RequestParam(value="filter",required = false) Integer chapterID) {
        Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
         List<Chapters> chapters = chapter.findChapterBySubject(subjects.getId());
@@ -66,6 +67,11 @@ public class ExampleController {
         List<Level> levels = level.findAll();
         model.addAttribute("level", levels);
         List<Question> questions = question.findQuestionBySubjectID(getUserID());
+        System.out.println("-------------------------"+chapterID);
+        if(keyword!=null || chapterID != null){
+            System.out.println(chapterID);
+            questions=question.searchQuestion(getUserID(),keyword,chapterID);
+        }
         model.addAttribute("ques", questions);
         return "questionbank";
     }
@@ -107,16 +113,31 @@ public class ExampleController {
         return "redirect:/test/materials";
     }
     @GetMapping("/materials/{id}")
-    public String deleteMaterial(@ModelAttribute Materials materials,@PathVariable int id) {
+    public String deleteMaterial(@ModelAttribute Materials materials,@PathVariable Integer id) {
+
 material.deleteById(id);
     return "redirect:/test/materials";
     }
+    @Transactional
     @GetMapping("/questionbank/{id}")
-    public String deleteQuestion(@ModelAttribute Question questions,@PathVariable int id) {
-        mockquestion.deleteById(id);
+    public String deleteQuestion(@ModelAttribute Question questions,@PathVariable Integer id) {
+        List<MockQuestion> mockque= mockquestion.MockTestByQuestion(id);
+
+        MockQuestionKey key = new MockQuestionKey();
+        if(mockque==null)
+            question.deleteById(id);
+        for(MockQuestion i: mockque){
+            key.setMocktestid(i.getMockTest().getId());
+            key.setQuestionid(i.getQuestion().getId());
+
+            mockquestion.deleteById(key);}
+
+
         question.deleteById(id);
+
         return "redirect:/test/questionbank";
     }
+
 
     @GetMapping("/mockdetails/{id}")
     public String mockQuestion(Model model,@PathVariable Integer id) {
@@ -132,7 +153,29 @@ material.deleteById(id);
         model.addAttribute("nques",q);
         MockTest nMockTest= mock.mocktestbyID(id);
         model.addAttribute("mocktest",nMockTest);
+
         return "mockquestion";
+    }
+    @Transactional
+    @GetMapping("/mockdetails/{id}/{questionid}")
+    public String deleteQuestionDetails(@ModelAttribute Question questions,@PathVariable("id") Integer id,@PathVariable("questionid") Integer questionid) {
+        List<MockQuestion> mockque= mockquestion.MockTestByQuestion(questionid);
+
+        MockQuestionKey key = new MockQuestionKey();
+        if(mockque==null)
+            question.deleteById(questionid);
+for(MockQuestion i: mockque){
+    key.setMocktestid(i.getMockTest().getId());
+    key.setQuestionid(i.getQuestion().getId());
+    mockquestion.deleteById(key);
+
+}
+
+
+
+        question.deleteById(questionid);
+
+        return "redirect:/test/mockdetails/"+id;
     }
     @PostMapping("/mockdetails/{id}")
     public String addMockquestion(@ModelAttribute("nques") Question questions,@PathVariable Integer id){
@@ -147,7 +190,6 @@ material.deleteById(id);
 
         System.out.println("\n=== New MockQuestion: " + mockques);
     mockquestion.save(mockques);
-
         return "redirect:/test/mockdetails/" + id;    }
 
     @GetMapping("/materials")

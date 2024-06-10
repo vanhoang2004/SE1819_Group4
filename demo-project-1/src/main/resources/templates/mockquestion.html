@@ -315,7 +315,12 @@
                     <td th:each="chapter:${chapter}" th:if="${chapter.id}==${ques.chapterID}" th:text="${chapter.name}"></td>
                     <td th:each="level:${level}" th:if="${level.id}==${ques.levelID}" th:text="${level.name}"></td>
                     <td>
-                        <a href="" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a th:href="@{/test/questionbank/editquestion/{id}(id=${ques.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a th:href="@{/test/mockdetails/{id}/{questionid}(id=${mocktest.id}, questionid=${ques.id})}" class="delete">
+                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                        </a>
+
+
                     </td>
                 </tr>
                 </tbody>
@@ -337,8 +342,8 @@
                 <div class="modal-body">
                     <!-- QuestionID should bind to the 'id' attribute of the Question object -->
                     <div class="form-group">
-                        <label>QuestionID</label>
-                        <input name="id" th:field="*{id}" readonly type="text" class="form-control" required>
+
+                        <input name="id" th:field="*{id}" readonly type="hidden" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Title</label>
@@ -369,10 +374,9 @@
                         <input th:field="*{ans}" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Subject
-                            <input th:field="*{subjectID}"  type="hidden" th:value="${subject.id}" >
-                            <input  type="text" readonly th:value="${subject.name}" class="form-control" required>
-                        </label>
+                        <label>Subject</label>
+                        <input name="subjectID"  type="hidden" th:value="${subject.id}" >
+                        <input type="text" readonly th:value="${subject.name}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>

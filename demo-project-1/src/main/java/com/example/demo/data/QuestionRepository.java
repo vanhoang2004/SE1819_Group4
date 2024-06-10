@@ -26,4 +26,15 @@ Question findQuestionBYID(int id);
             "(:mocktestid, :questionid)", nativeQuery = true)
     void insertQuestionByQuestionId(Integer mocktestid, Integer questionid);
 
+
+    // search and filter
+    @Query(value = "SELECT q.QuestionID, q.QuestionTitle, q.Image,q.Option1,q.Option2,q.Option3,q.Option4,q.Answer,q.SubjectID,q.ChapterID,q.LevelID,q.status FROM questions q "+
+            "INNER JOIN managers mgr ON q.SubjectID = mgr.SubjectID "+
+            "Where mgr.UserID = :userID and (q.QuestionTitle like %:keyword% or q.ChapterID = :chapterID )",nativeQuery = true)
+    List<Question> searchQuestion (int userID,String keyword,Integer chapterID);
+    @Query(value = "SELECT q.QuestionID, q.QuestionTitle, q.Image,q.Option1,q.Option2,q.Option3,q.Option4,q.Answer,q.SubjectID,q.ChapterID,q.LevelID,q.status FROM questions q "+
+            "INNER JOIN managers mgr ON q.SubjectID = mgr.SubjectID "+
+            "Where mgr.UserID = :userID and q.ChapterID = :chapterID",nativeQuery = true)
+    List<Question> FilterQuestion (int userID,Integer chapterID);
+
 }
