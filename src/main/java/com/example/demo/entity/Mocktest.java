@@ -3,51 +3,48 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
-@Table(name="Mocktests")
-public class Mocktest {
+@Table(name="mocktests")
+public class MockTest {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="MocktestiD")
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="mocktestid")
+    private Integer id;
 
-    @Column(name="Mocktesttitle")
+    @Column(name = "mocktesttitle")
     private String title;
 
-    @Column(name="SubjectID")
-    private int subjectId;
+    @Column(name = "subjectid")
+    private Integer subjectId;
 
-    @Column(name="Start")
+    @Column(name = "start")
     private LocalDateTime start;
 
-    @Column(name="End")
+    @Column(name = "end")
     private LocalDateTime end;
-
-    public int getId() {
-        return id;
+       public MockTest() {
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getTitle() {
-        return title;
-    }
+    // manytoone
 
-    public void setTitle(String title) {
+    @ManyToMany
+    @JoinTable(name = "mocktestdetails", joinColumns = @JoinColumn(name = "mocktestid"), inverseJoinColumns = @JoinColumn(name = "questionid"))
+    private Set<Question> likedQuestion;
+
+
+
+
+    public MockTest(String title, Integer subjectId, LocalDateTime start, LocalDateTime end) {
         this.title = title;
-    }
-
-    public int getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
+        this.start = start;
+        this.end = end;
     }
+    // Getters and setters
 
     public LocalDateTime getStart() {
         return start;
@@ -65,13 +62,39 @@ public class Mocktest {
         this.end = end;
     }
 
-    public Mocktest(String title, int subjectId, LocalDateTime start, LocalDateTime end) {
-        this.title = title;
-        this.subjectId = subjectId;
-        this.start = start;
-        this.end = end;
+    public Integer getId() {
+        return id;
     }
 
-    public Mocktest() {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    @Override
+    public String toString() {
+        return "MockTest{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", subjectId=" + subjectId +
+                ", start=" + start +
+                ", end=" + end +
+//                ", likedQuestion=" + likedQuestion +
+                '}';
     }
 }

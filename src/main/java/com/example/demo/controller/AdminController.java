@@ -38,7 +38,7 @@ public class AdminController {
     public String getUsers(Model m, @RequestParam(value="search",required = false) String search){
         if(search != null) m.addAttribute("users",ur.search(search));
         else m.addAttribute("users",ur.findAll());
-        return "home";
+        return "admin/home";
     }
 
     @GetMapping("/home/enable")
@@ -69,7 +69,7 @@ public class AdminController {
         User u = ur.findUserById(duid);
         disableById(duid);
         if(duid == ((User)request.getSession().getAttribute("logged_user")).getUserId()) return "auto-logout";
-        return "home";
+        return "admin/home";
     }
 
     @GetMapping("/users/disable")
@@ -137,7 +137,7 @@ public class AdminController {
                     a.setUser(u);
                 }
                 m.addAttribute("user",a);
-                return "update-user-admin";
+                return "admin/update-user-admin";
             case "Manager":
                 Manager ma = mr.findManagerById(uuid);
                 if(ma==null){
@@ -148,7 +148,7 @@ public class AdminController {
                 }
                 m.addAttribute("user",ma);
                 m.addAttribute("subjects",sjr.findAll());
-                return "update-user-manager";
+                return "admin/update-user-manager";
             case "Teacher":
                 Teacher t = tr.findTeacherById(uuid);
                 if(t==null){
@@ -159,7 +159,7 @@ public class AdminController {
                 }
                 m.addAttribute("user",t);
                 m.addAttribute("subjects",sjr.findAll());
-                return "update-user-teacher";
+                return "admin/update-user-teacher";
             case "Student":
                 Student s = str.findStudentById(uuid);
                 if(s==null){
@@ -170,8 +170,8 @@ public class AdminController {
                 }
                 m.addAttribute("user",s);
                 m.addAttribute("classes",cr.findAll());
-                return "update-user-student";
-            default: return "home";
+                return "admin/update-user-student";
+            default: return "admin/home";
         }
     }
 
@@ -179,8 +179,6 @@ public class AdminController {
     public String saveUserAdmin(@ModelAttribute("user") Admin a, @RequestParam(value="oldRole", required=false) String oldRole){
         if(a.getUser().getRole() == null || a.getUser().getRole().isEmpty()) a.getUser().setRole("Admin");
         if(a.getUser().getUserId() == null) a.getUser().setEnabled(true);
-        User temp = ur.save(a.getUser());
-        a.setUserId(temp.getUserId());
         ar.save(a);
         if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,a.getUserId());
         return "redirect:/admin/admins?saved";
@@ -190,9 +188,6 @@ public class AdminController {
     public String saveUserManager(@ModelAttribute("user") Manager ma, @RequestParam(value="oldRole", required=false) String oldRole){
         if(ma.getUser().getRole() == null || ma.getUser().getRole().isEmpty()) ma.getUser().setRole("Admin");
         if(ma.getUser().getUserId() == null) ma.getUser().setEnabled(true);
-        User temp = ur.save(ma.getUser());
-        ma.setUserId(temp.getUserId());
-        ma.setSubject(sjr.findSubjectById(ma.getSubjectId()));
         mr.save(ma);
         if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,ma.getUserId());
         return "redirect:/admin/managers?saved";
@@ -202,8 +197,8 @@ public class AdminController {
     public String saveUserTeacher(@ModelAttribute("user") Teacher t, @RequestParam(value="oldRole", required=false) String oldRole){
         if(t.getUser().getRole() == null || t.getUser().getRole().isEmpty()) t.getUser().setRole("Admin");
         if(t.getUser().getUserId() == null) t.getUser().setEnabled(true);
-        User temp = ur.save(t.getUser());
-        t.setUserId(temp.getUserId());
+//        User temp = ur.save(t.getUser());
+//        t.setUserId(temp.getUserId());
         t.setSubject(sjr.findSubjectById(t.getSubjectId()));
         tr.save(t);
         if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,t.getUserId());
@@ -214,9 +209,6 @@ public class AdminController {
     public String saveUserStudent(@ModelAttribute("user") Student s, @RequestParam(value="oldRole", required=false) String oldRole){
         if(s.getUser().getRole() == null || s.getUser().getRole().isEmpty()) s.getUser().setRole("Admin");
         if(s.getUser().getUserId() == null) s.getUser().setEnabled(true);
-        User temp = ur.save(s.getUser());
-        s.setUserId(temp.getUserId());
-        s.setSclass(cr.findClassById(s.getClassCode()));
         str.save(s);
         if(oldRole!=null && !oldRole.isEmpty()) deleteOldRole(oldRole,s.getUserId());
         return "redirect:/admin/students?saved";
@@ -227,7 +219,7 @@ public class AdminController {
     public String getAdmins(Model m){
         m.addAttribute("admins",ar.findAll());
         m.addAttribute("admin", new Admin());
-        return "list-admins";
+        return "admin/list-admins";
     }
 
 //Managers
@@ -236,7 +228,7 @@ public class AdminController {
         m.addAttribute("managers",mr.findAll());
         m.addAttribute("manager",new Manager());
         m.addAttribute("subjects",sjr.findAll());
-        return "list-managers";
+        return "admin/list-managers";
     }
 
 //Teachers
@@ -245,7 +237,7 @@ public class AdminController {
         m.addAttribute("teachers", tr.findAll());
         m.addAttribute("teacher",new Teacher());
         m.addAttribute("subjects",sjr.findAll());
-        return "list-teachers";
+        return "admin/list-teachers";
     }
 
 //Students
@@ -254,7 +246,7 @@ public class AdminController {
         m.addAttribute("students",str.findAll());
         m.addAttribute("student", new Student());
         m.addAttribute("classes", cr.findAll());
-        return "list-students";
+        return "admin/list-students";
     }
 
 //Classes
@@ -264,14 +256,14 @@ public class AdminController {
         if(search!=null) m.addAttribute("classes",cr.search(search));
         else if(filter!=null) m.addAttribute("classes",cr.filterByGrade(filter));
         else m.addAttribute("classes",cr.findAll());
-        return "list-classes";
+        return "admin/list-classes";
     }
 
     @GetMapping("/classes/update")
     public String updateClass(@RequestParam("classCode") int uccode, Model m) {
         Class c = cr.findClassById(uccode);
         m.addAttribute("class",c);
-        return "update-class";
+        return "admin/update-class";
     }
 
     @PostMapping("/classes/save")

@@ -13,6 +13,7 @@ public class Admin {
     private String title;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name = "UserID", referencedColumnName = "UserID", insertable = false, updatable = false)
     private User user;
 

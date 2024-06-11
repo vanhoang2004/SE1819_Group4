@@ -10,6 +10,7 @@ public class Teacher {
     private Integer userId;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name="UserID")
     private User user;
 

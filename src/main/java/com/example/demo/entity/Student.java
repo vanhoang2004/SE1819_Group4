@@ -10,11 +10,9 @@ public class Student {
     private Integer userId;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
     @JoinColumn(name="UserID")
     private User user;
-
-    @Column(name="Classcode", insertable = false, updatable = false)
-    private Integer classCode;
 
     @ManyToOne
     @JoinColumn(name="Classcode")
@@ -26,14 +24,6 @@ public class Student {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getClassCode() {
-        return classCode;
-    }
-
-    public void setClassCode(Integer classCode) {
-        this.classCode = classCode;
     }
 
     public Class getSclass() {
