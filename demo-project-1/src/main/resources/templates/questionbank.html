@@ -238,6 +238,8 @@
         }
     </style>
     <script>
+
+
         function filter(selectedValue) {
         var filterValue = selectedValue.value;
         var currentUrl = window.location.href;
@@ -377,7 +379,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Title</label>
-                        <input name="title" type="text" class="form-control" required>
+                        <input name="title" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Image</label>
@@ -385,30 +387,30 @@
                     </div>
                     <div class="form-group">
                         <label>Option 1</label>
-                        <input name="op1" type="text" class="form-control" required>
+                        <input name="op1" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Option 2</label>
-                        <input name="op2" type="text" class="form-control" required>
+                        <input name="op2" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Option 3</label>
-                        <input name="op3" type="text" class="form-control" required>
+                        <input name="op3" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Option 4</label>
-                        <input name="op4" type="text" class="form-control" required>
+                        <input name="op4" type="text" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label>Answer</label>
-                        <input name="ans" type="text" class="form-control" required>
+                        <input name="ans" type="text" class="form-control" >
                     </div>
 
                     <div class="form-group">
 
                         <label>Subject
                             <input name="subjectID"  type="hidden" th:value="${subject.id}" >
-                            <input  type="text" readonly th:value="${subject.name}" class="form-control" required>
+                            <input  type="text" readonly th:value="${subject.name}" class="form-control" >
                         </label>
                     </div>
                     <div class="form-group">
@@ -424,7 +426,17 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input name="status" type="hidden" th:value="0"class="form-control" required>
+                        <input name="status" type="hidden" th:value="0"class="form-control" >
+                    </div>
+                    <div>
+                        <div>
+                            <a>Click the link below to download the Excel file:</a>
+                            <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>
+                        </div>
+                        <div>
+                            <label>Choose a file</label>
+                            <input name="file" type="file" accept=".xlsx">
+                        </div>
                     </div>
 
                 </div>

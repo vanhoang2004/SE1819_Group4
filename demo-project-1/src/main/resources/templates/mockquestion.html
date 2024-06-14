@@ -290,7 +290,6 @@
                     <th>Answer</th>
                     <th> Image</th>
                     <th>Subject</th>
-                    <th>Chapter</th>
                     <th>Level</th>
 
                     <th></th>
@@ -312,7 +311,6 @@
                         <img th:src="${ques.Image}" style="width: 200px;">
                     </td>
                     <td th:each="subject:${subject}" th:if="${subject.id}==${ques.subjectID}" th:text="${subject.name}"></td>
-                    <td th:each="chapter:${chapter}" th:if="${chapter.id}==${ques.chapterID}" th:text="${chapter.name}"></td>
                     <td th:each="level:${level}" th:if="${level.id}==${ques.levelID}" th:text="${level.name}"></td>
                     <td>
                         <a th:href="@{/test/questionbank/editquestion/{id}(id=${ques.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -393,6 +391,7 @@
                     <div class="form-group">
                         <input th:field="*{status}" type="hidden" th:value="1" class="form-control" required>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

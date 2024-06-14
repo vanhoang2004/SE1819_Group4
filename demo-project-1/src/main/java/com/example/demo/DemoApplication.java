@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.controller.ExampleController;
+import com.example.demo.entity.ChangePass;
+import com.example.demo.entity.Question;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -14,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -32,8 +37,15 @@ public class DemoApplication {
 //				.contentType(MediaType.valueOf("image/png"))
 //				.body(imageData);
 //	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(DemoApplication.class, args);
-	}
+//		ExampleController e= new ExampleController();
+//		List<Question> questionList = new ArrayList<>();
+//	questionList=e.readExcel("questionTemplate.xlsx");
+//		for(Question i: questionList){
+//	System.out.println(i+"---------------------");
+}
+//
+//		e.CreateExcel();
 
 }
