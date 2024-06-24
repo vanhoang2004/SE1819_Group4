@@ -17,17 +17,19 @@ public class Student {
     @JoinColumn(name = "UserID", referencedColumnName = "UserID")
     private User user;
 
-    @Column(name = "Classcode")
-    private int classcode;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "classcode", referencedColumnName = "classcode")
+    private Classes classes;
 
-    // Constructors, getters, and setters
+
 
     public Student() {
     }
 
-    public Student(int userId, int classcode) {
-        this.userId = userId;
-        this.classcode = classcode;
+    public Student(User user, Classes classes) {
+        this.user = user;
+        this.classes = classes;
     }
 
     public int getUserId() {
@@ -46,11 +48,11 @@ public class Student {
         this.user = user;
     }
 
-    public int getClasscode() {
-        return classcode;
+    public Classes getClasses() {
+        return classes;
     }
 
-    public void setClasscode(int classcode) {
-        this.classcode = classcode;
+    public void setClasses(Classes classes) {
+        this.classes = classes;
     }
 }

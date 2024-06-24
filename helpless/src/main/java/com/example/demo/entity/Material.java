@@ -10,11 +10,15 @@ public class Material {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int materialid;
 
-    @Column(name="subjectid")
-    private int subjectid;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+    private Subject subject;
 
-    @Column(name="chapterid")
-    private int chapterid;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="chapterid", referencedColumnName ="chapterid")
+    private Chapter chapter;
 
     @Column(name="title")
     private String title;
@@ -25,10 +29,9 @@ public class Material {
     public Material() {
     }
 
-    public Material(int materialid, int subjectid, int chapterid, String title, String content) {
-        this.materialid = materialid;
-        this.subjectid = subjectid;
-        this.chapterid = chapterid;
+    public Material(Subject subject, Chapter chapter, String title, String content) {
+        this.subject = subject;
+        this.chapter = chapter;
         this.title = title;
         this.content = content;
     }
@@ -41,20 +44,20 @@ public class Material {
         this.materialid = materialid;
     }
 
-    public int getSubjectid() {
-        return subjectid;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectid(int subjectid) {
-        this.subjectid = subjectid;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public int getChapterid() {
-        return chapterid;
+    public Chapter getChapter() {
+        return chapter;
     }
 
-    public void setChapterid(int chapterid) {
-        this.chapterid = chapterid;
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 
     public String getTitle() {

@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="mocktests")
 public class Mocktest {
@@ -14,22 +16,23 @@ public class Mocktest {
     @Column(name="mocktesttitle")
     private String mocktesttitle;
 
-    @Column(name="subjectid")
-    private String subjectId;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+    private Subject subject;
 
     @Column(name="start")
-    private String start;
+    private LocalDateTime start;
 
     @Column(name="end")
-    private String end;
+    private LocalDateTime end;
 
     public Mocktest() {
     }
 
-    public Mocktest(String mocktesttitle, String subjectId, String start, String end) {
-
+    public Mocktest(String mocktesttitle, Subject subject, LocalDateTime start, LocalDateTime end) {
         this.mocktesttitle = mocktesttitle;
-        this.subjectId = subjectId;
+        this.subject = subject;
         this.start = start;
         this.end = end;
     }
@@ -50,32 +53,28 @@ public class Mocktest {
         this.mocktesttitle = mocktesttitle;
     }
 
-    public String getSubjectId() {
-        return subjectId;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public String getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
     }
-
-
-
-
 }
 

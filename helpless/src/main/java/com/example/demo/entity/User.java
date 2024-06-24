@@ -14,20 +14,32 @@ public class User {
     @Column(name="username")
     private String username;
 
+    @Column(name="fullname")
+    private String fullname;
+
     @Column(name="password")
     private String password;
 
     @Column(name="useremail")
     private String useremail;
 
-    public User(int userId, String username, String password, String useremail) {
+    public User(int userId, String username, String password, String fullname, String useremail) {
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.fullname = fullname;
         this.useremail = useremail;
     }
 
     public User() {
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public int getUserId() {

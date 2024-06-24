@@ -2,7 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.data.*;
 import com.example.demo.entity.*;
-import com.example.demo.entity.Class;
+import com.example.demo.entity.Classes;
+import com.example.demo.service.ChartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,12 +32,15 @@ public class TeacherController {
     QuestionRepository qr;
     LevelRepository lr;
     ChapterRepository cr;
+    TakenMocktestRepository tmtr;
+    ChartService cs;
 
     @Autowired
     public TeacherController(SubjectRepository su, ClassRepository clas, MocktestRepository mt,
                              StudentRepository sr,MaterialRepository mr, TeacherRepository tr,
                              TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
-                             QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
+                             QuestionRepository qr, LevelRepository lr, ChapterRepository cr,
+                             TakenMocktestRepository tmtr, ChartService cs) {
         this.su = su;
         this.clas = clas;
         this.mt = mt;
@@ -47,6 +52,8 @@ public class TeacherController {
         this.qr = qr;
         this.lr = lr;
         this.cr = cr;
+        this.tmtr = tmtr;
+        this.cs = cs;
     }
 
 //Delete
@@ -64,32 +71,98 @@ public class TeacherController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String name = auth.getName();
         Teacher teacher = tr.findByUserid(name);
-        List<Class> classes = clas.findClassByUserId(name);
+        List<Classes> classes = clas.findClassByUserId(name);
+        int subjectid = tr.findSubjectidByUserName(name);
 
         if(keyword!=null){
             classes=clas.searchClass(teacher.getUserId(),keyword);
         }
         model.addAttribute("classes", classes);
+        model.addAttribute("subjectid", subjectid);
         model.addAttribute("teacher", teacher);
         return "homepage";
     }
 
+    //get question bank
+    @GetMapping("/questionbank/{subjectid}")
+    public String getQuestionbank(Model model, @PathVariable int subjectid, @Param("keyword") String keyword, @RequestParam(value="filter",required = false) String filter) {
+
+        //List<Question> questions = qr.findQuestionBySubjectId(subjectid);
+
+        List<Question> questions;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            // Search mocktest by keyword
+            questions = qr.searchQuestionBytitle(subjectid, keyword);
+        } else if (filter != null && !filter.isEmpty()) {
+            // Filter mocktest by filter
+            questions = qr.findQuestionByChapterId(subjectid, Integer.parseInt(filter));
+        } else {
+            // Find mocktest by subjectid
+            questions = qr.findQuestionBySubjectId(subjectid);
+        }
+
+        List<Level> levels = lr.findAll();
+        List<Chapter> chapters = cr.findChapterBySubject(subjectid);
+
+        model.addAttribute("questions", questions);
+        model.addAttribute("levels", levels);
+        model.addAttribute("chapters", chapters);
+        model.addAttribute("subjectid", subjectid);
+
+
+        return "teacherquestionbank";
+    }
+
     //get mocktest according to subjectid from username, and classcode from click
     @GetMapping("/classpage/{classcode}")
-    public String getMocktest(Model model, @PathVariable int classcode, @Param("keyword") String keyword) {
+    public String getMocktest(Model model, @PathVariable int classcode, @Param("keyword") String keyword, @RequestParam(value="filter",required = false) String filter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         //get subjectid from username from authentication
         int subjectid = tr.findSubjectidByUserName(name);
         //take list mocktest by subjectid
-        List<Mocktest> mocktests = mt.findMocktestBySubjectid(subjectid);
-        if(keyword!=null){
-            mocktests=mt.searchMocktest(subjectid, keyword);
+        List<Mocktest> mocktests;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            // Search mocktest by keyword
+            mocktests = mt.searchMocktest(subjectid, keyword);
+        } else if (filter != null && !filter.isEmpty()) {
+            // Filter mocktest by filter
+            mocktests = mt.filterMocktest(subjectid, filter);
+        } else {
+            // Find mocktest by subjectid
+            mocktests = mt.findMocktestBySubjectid(subjectid);
         }
+
         model.addAttribute("classcode", classcode);
         model.addAttribute("mocktests", mocktests);
         return "classpage";
     }
+
+    //get score table
+    @GetMapping("/mockscore/{classcode}/{mocktestid}")
+    public String getMockScore(Model model, @PathVariable int classcode, @PathVariable int mocktestid) throws IOException {
+        List<TakenMockTest> studentScores = tmtr.listScore(classcode, mocktestid);
+        int cnt1 = 0, cnt2 = 0, cnt3 = 0;
+        for(TakenMockTest i : studentScores) {
+            if(i.getScore() <= 6) {
+                cnt1++;
+            } else if (i.getScore() > 6 && i.getScore() <= 8) {
+                cnt2++;
+            }
+            else if(i.getScore() > 8 && i.getScore() <= 10){
+                cnt3++;
+            }
+        }
+        String pieChartBase64 = cs.generatePieChart(cnt1, cnt2, cnt3);
+        model.addAttribute("pieChartBase64", pieChartBase64);
+        model.addAttribute("classcode", classcode);
+        model.addAttribute("mocktestid", mocktestid);
+        model.addAttribute("studentscores", studentScores);
+        return "studentmocktestscore"; // Ensure this view name matches your actual HTML template
+    }
+
 
     //get school material list according to subjectid from username
     @GetMapping("/materiallist/{classcode}")
@@ -176,7 +249,7 @@ public class TeacherController {
     @PostMapping("/teachermaterial")
     public String getTeacherPractice(Model model, @ModelAttribute TeacherMaterials teacherMaterials){
         tmr.save(teacherMaterials);
-        int classcode = teacherMaterials.getClasscode();
+        int classcode = teacherMaterials.getClasses().getClasscode();
         return "redirect:/teacher/teachermateriallist/" + classcode;
     }
 
@@ -210,7 +283,7 @@ public class TeacherController {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         String formattedNow = now.format(formatter);
-        teacherpractices.setPublishdate(formattedNow);
+        teacherpractices.setPublishdate(now);
         tpr.save(teacherpractices);
         model.addAttribute("classcode", classcode);
         return "redirect:/teacher/teacherpracticelist/" + classcode;
@@ -266,22 +339,20 @@ public class TeacherController {
     //Add a new question
     @PostMapping("/praticequestionedit/{teacherpracticeid}/{classcode}")
     public String addQuestion(Model model, @ModelAttribute Question nques, @PathVariable Integer teacherpracticeid, @PathVariable Integer classcode){
-
-
-//        for(Level i: levels) {
-//            System.out.println(i.getName());
-//        }
-//        for(Chapter c: chapters) {
-//            System.out.println(c.getName());
-//        }
-//        System.out.println("Levels size: " + levels.size());
-//        System.out.println("Chapters size: " + chapters.size());
-
-
         qr.save(nques);
         qr.insertQuestionByQuestionId(teacherpracticeid, nques.getQuestionid());
         return "redirect:/teacher/practicequestion/" + teacherpracticeid + "/" + classcode;
     }
+
+
+    //Send question for approval
+    @PostMapping("questionapprove/{subjectid}")
+    public String sendQuestion(Model model, @ModelAttribute Question nques, @PathVariable Integer subjectid){
+        qr.save(nques);
+        return "redirect:/teacher/questionbank/" + subjectid;
+    }
+
+
 
 
     //get what
@@ -290,6 +361,8 @@ public class TeacherController {
 //        model.addAttribute("class", classcode);
 //        return "classpage";
 //    }
+
+
 
     //don't know what
     @GetMapping("/list")

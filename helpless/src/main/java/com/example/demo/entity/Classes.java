@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="Classes")
-public class Class {
+public class Classes {
 
     @Id
     @Column(name="Classcode")
@@ -16,11 +16,11 @@ public class Class {
 
 
 
-    public Class(String classname) {
+    public Classes(String classname) {
         this.classname = classname;
     }
 
-    public Class() {
+    public Classes() {
     }
 
     public int getClasscode() {

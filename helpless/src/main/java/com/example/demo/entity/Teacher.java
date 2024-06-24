@@ -14,16 +14,17 @@ public class Teacher {
     @JoinColumn(name = "UserID", referencedColumnName = "UserID")
     private User user;
 
-    @Column(name = "subjectid")
-    private int subjectid;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+    private Subject subject;
 
     public Teacher() {
     }
 
-    public Teacher(int userId, User user, int subjectid) {
-        this.userId = userId;
+    public Teacher(Subject subject, User user) {
+        this.subject = subject;
         this.user = user;
-        this.subjectid = subjectid;
     }
 
     public int getUserId() {
@@ -42,12 +43,12 @@ public class Teacher {
         this.user = user;
     }
 
-    public int getSubjectid() {
-        return subjectid;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectid(int subjectid) {
-        this.subjectid = subjectid;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }
 

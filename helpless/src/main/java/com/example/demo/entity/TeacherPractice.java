@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="teacherpractice")
 public class TeacherPractice {
@@ -13,27 +15,31 @@ public class TeacherPractice {
     @Column(name="title")
     private String title;
 
-    @Column(name="classcode")
-    private Integer classcode;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "classcode", referencedColumnName = "classcode")
+    private Classes classes;
 
-    @Column(name="subjectid")
-    private Integer subjectid;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+    private Subject subject;
 
     @Column(name="deadline")
-    private String deadline;
+    private LocalDateTime deadline;
 
 
     @Column(name="publishdate")
-    private String publishdate;
+    private LocalDateTime publishdate;
 
     public TeacherPractice() {
     }
 
-    public TeacherPractice(Integer teacherpracticeid, String title, Integer classcode, Integer subjectid, String deadline, String publishdate) {
-        this.teacherpracticeid = teacherpracticeid;
+    public TeacherPractice(String title, Classes classes, Subject subject, LocalDateTime deadline, LocalDateTime publishdate) {
         this.title = title;
-        this.classcode = classcode;
-        this.subjectid = subjectid;
+        this.classes = classes;
+        this.subject = subject;
         this.deadline = deadline;
         this.publishdate = publishdate;
     }
@@ -54,35 +60,35 @@ public class TeacherPractice {
         this.title = title;
     }
 
-    public Integer getClasscode() {
-        return classcode;
+    public Classes getClasses() {
+        return classes;
     }
 
-    public void setClasscode(Integer classcode) {
-        this.classcode = classcode;
+    public void setClasses(Classes classes) {
+        this.classes = classes;
     }
 
-    public Integer getSubjectid() {
-        return subjectid;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectid(Integer subjectid) {
-        this.subjectid = subjectid;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public String getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public String getPublishdate() {
+    public LocalDateTime getPublishdate() {
         return publishdate;
     }
 
-    public void setPublishdate(String publishdate) {
+    public void setPublishdate(LocalDateTime publishdate) {
         this.publishdate = publishdate;
     }
 }

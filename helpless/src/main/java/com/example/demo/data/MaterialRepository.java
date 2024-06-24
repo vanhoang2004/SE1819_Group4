@@ -16,4 +16,7 @@ public interface MaterialRepository extends JpaRepository<Material, Integer> {
     @Query(value = "select*from materials m\n" +
             "where m.subjectid =:subjectid and m.title like %:keyword%", nativeQuery = true)
     List<Material> searchMaterial(Integer subjectid, @Param("keyword") String keyword);
+
+    @Query(value = "SELECT * FROM Materials WHERE SubjectID = :subjectId AND ChapterID = :chapterId", nativeQuery = true)
+    List<Material> getAllMaterialBySubjectAndChapter(@Param("subjectId") int subjectID,@Param("chapterId") int chapterID);
 }

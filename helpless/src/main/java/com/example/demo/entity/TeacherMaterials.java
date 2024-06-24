@@ -17,21 +17,31 @@ public class TeacherMaterials {
     @Column(name="content")
     private String content;
 
-    @Column(name="classcode")
-    private Integer classcode;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "classcode", referencedColumnName = "classcode")
+    private Classes classes;
 
-    @Column(name="subjectid")
-    private Integer subjectid;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
+    private Subject subject;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "UserID", referencedColumnName = "UserID")
+    private User user;
 
     public TeacherMaterials() {
     }
 
-    public TeacherMaterials(Integer teachermaterialid, String title, String content, Integer classcode, Integer subjectid) {
-        this.teachermaterialid = teachermaterialid;
+    public TeacherMaterials(String title, String content, Classes classes, Subject subject, User user) {
         this.title = title;
         this.content = content;
-        this.classcode = classcode;
-        this.subjectid = subjectid;
+        this.classes = classes;
+        this.subject = subject;
+        this.user = user;
     }
 
     public Integer getTeachermaterialid() {
@@ -58,19 +68,27 @@ public class TeacherMaterials {
         this.content = content;
     }
 
-    public Integer getClasscode() {
-        return classcode;
+    public Classes getClasses() {
+        return classes;
     }
 
-    public void setClasscode(Integer classcode) {
-        this.classcode = classcode;
+    public void setClasses(Classes classes) {
+        this.classes = classes;
     }
 
-    public Integer getSubjectid() {
-        return subjectid;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setSubjectid(Integer subjectid) {
-        this.subjectid = subjectid;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

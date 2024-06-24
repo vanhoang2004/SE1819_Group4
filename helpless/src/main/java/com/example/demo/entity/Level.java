@@ -15,9 +15,6 @@ public class Level {
     public Level() {
     }
 
-    public Level(Integer id) {
-        this.id = id;
-    }
 
     public Level(String name) {
         this.name = name;

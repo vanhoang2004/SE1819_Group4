@@ -24,4 +24,6 @@ public interface TeacherPracticeRepository extends JpaRepository<TeacherPractice
                     "where subjectid =:subjectid and classcode =:classcode and title like %:keyword%", nativeQuery = true)
     List<TeacherPractice> searchTeacherPractice(Integer subjectid, Integer classcode, @Param("keyword") String keyword);
 
+    @Query(value="SELECT * FROM TeacherPractice WHERE ClassCode = :classcode AND SubjectID =:subjectid", nativeQuery = true)
+    List<TeacherPractice> getTeacherPracticeByClassAndSubject(int classcode, int subjectid);
 }

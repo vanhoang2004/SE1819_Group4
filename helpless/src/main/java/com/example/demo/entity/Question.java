@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Map;
+
 @Entity
 @Table(name = "questions")
 public class Question {
@@ -156,6 +158,57 @@ public class Question {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+
+    public static Question fromMap(Map<String, String> data) {
+        Question question = new Question();
+
+        // Kiểm tra và gán các giá trị từ Map
+        if (data.containsKey("questiontitle")) {
+            question.setQuestiontitle(data.get("questiontitle"));
+        }
+        if (data.containsKey("image")) {
+            question.setImage(data.get("image"));
+        }
+        if (data.containsKey("option1")) {
+            question.setOption1(data.get("option1"));
+        }
+        if (data.containsKey("option2")) {
+            question.setOption2(data.get("option2"));
+        }
+        if (data.containsKey("option3")) {
+            question.setOption3(data.get("option3"));
+        }
+        if (data.containsKey("option4")) {
+            question.setOption4(data.get("option4"));
+        }
+        if (data.containsKey("answer")) {
+            question.setAnswer(data.get("answer"));
+        }
+        if (data.containsKey("subjectid")) {
+            question.setSubjectid(parseIntSafely(data.get("subjectid")));
+        }
+        if (data.containsKey("chapterid")) {
+            question.setChapterid(parseIntSafely(data.get("chapterid")));
+        }
+        if (data.containsKey("levelid")) {
+            question.setLevelid(parseIntSafely(data.get("levelid")));
+        }
+        if (data.containsKey("status")) {
+            question.setStatus(parseIntSafely(data.get("status")));
+        }
+
+        return question;
+    }
+
+    // Phương thức tiện ích để chuyển đổi chuỗi thành số nguyên một cách an toàn
+    private static Integer parseIntSafely(String value) {
+        try {
+            return (int) Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return null; // Hoặc xử lý lỗi theo cách khác nếu cần thiết
+        }
     }
 }
 
