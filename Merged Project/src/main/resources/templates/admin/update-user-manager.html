@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Manager Info</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<div class="container">
+    <form id="userForm" th:action="@{'/admin/users/save/manager?oldRole=' + ${old_role}}" th:object="${user}" method="POST">
+        <div class="modal-header">
+            <h4 class="modal-title">Manager Info</h4>
+            <a href="../home">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+            </a>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>User ID <span style="color:red;">*</span></label>
+                <input id="userId" th:field="*{user.userId}" type="text" readonly class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Username <span style="color:red;">*</span></label>
+                <input th:field="*{user.username}" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Password <span style="color:red;">*</span></label>
+                <input th:field="*{user.password}" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Full Name <span style="color:red;">*</span></label>
+                <input th:field="*{user.fullname}" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Email <span style="color:red;">*</span></label>
+                <input th:field="*{user.useremail}" type="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Role <span style="color:red;">*</span></label>
+                <br>
+                <select id="role" th:field="*{user.role}" onchange="handleRoleChange(this)">
+                    <option th:value="'Admin'">Admin</option>
+                    <option th:value="'Manager'" selected>Manager</option>
+                    <option th:value="'Teacher'">Teacher</option>
+                    <option th:value="'Student'">Student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Subject <span style="color:red;">*</span></label>
+                <br>
+                <select th:field="*{subject.subjectId}" required>
+                    <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.subjectId}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input th:field="*{user.enabled}" th:value="*{user.enabled}" type="hidden" class="form-control" required>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="../managers" class="btn btn-info">Return to Managers</a>
+            <a href="../home" class="btn btn-primary">Return Home</a>
+            <input type="submit" class="btn btn-success" value="Save">
+        </div>
+    </form>
+    </div>
+    <script type="text/javascript">
+        function handleRoleChange(selectElement) {
+            var selectedRole = selectElement.value;
+//            console.log("Selected role: " + selectedRole); // Debug print for selectedRole
+//            var userId = document.getElementById('userId').value;
+            var confirmation = confirm("Are you sure you want to change the role to " + selectedRole + "? Consult the user before changing this field.");
+            if (confirmation) {
+//                console.log("New role value set in the form: " + document.getElementById('role').value); // Debug print for the new value
+//                console.log("User ID: " + document.getElementById('userId').value); // Debug print for userId
+                // Submit the form with updated role and userId
+                document.getElementById('userForm').action = "/admin/users/changerole/manager";
+                document.getElementById('userForm').submit();
+            } else {
+                // Revert to the previous selection if not confirmed
+                selectElement.value = document.getElementById('role').dataset.currentRole;
+            }
+        }
+    </script>
+</body>
+</html>
