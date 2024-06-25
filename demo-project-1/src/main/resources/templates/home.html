@@ -77,36 +77,19 @@
         <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
             <!-- Container wrapper -->
             <div class="container-fluid">
-
-
-
-
-                    <th:if test="${sessionScope.acc.isAdmin == 1}">
                         <a class="nav-link me-3" href="mocktests">
                             <i class=""></i>MockTest
                         </a>
-
-                    </th:if>
-
-
-                   <th:if test="${sessionScope.acc.isAdmin == 1}">
                        <a class="nav-link me-3" href="materials">
                            <i class=""></i>Material
                        </a>
-
-                   </th:if>
-                <th:if test="${sessionScope.acc.isAdmin == 1}">
                        <a class="nav-link me-3" href="questionbank">
                            <i class=""></i>Question Bank
                        </a>
+                <a class="nav-link me-3" href="questionrequest">
+                    <i class=""></i>Question Request
+                </a>
 
-                   </th:if>
-
-
-
-                <!-- Toggle button -->
-
-                <!-- Collapsible wrapper -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent2">
 
                     <!-- Search -->
@@ -130,13 +113,10 @@
     </div>
     <main>
         <div class="container">
-            <!-- Navbar -->
-
-            <!-- Navbar -->
-
-
-
             <!-- Products -->
+
+
+
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -153,7 +133,7 @@
                     <td th:text="${test.title}"></td>
                     <td th:each="subject:${subject}" th:if="${subject.id}==${test.subjectId}" th:text="${subject.name}"></td>
                     <td>
-                        <a th:href="@{/test/mockdetails/{id}(id=${test.id})}">View Question</a>
+                        <a th:href="@{/test/analysis/{id}(id=${test.id})}">View Result</a>
                     </td>
                 </tr>
 

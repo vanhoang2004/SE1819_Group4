@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.data.*;
 import com.example.demo.entity.*;
 import com.fasterxml.jackson.core.JsonToken;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.hibernate.boot.model.source.internal.hbm.Helper;
@@ -24,10 +25,13 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -52,6 +56,8 @@ public class ExampleController {
     MockQuestionRepository mockquestion;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    TakenMockTestRepository takenMockTestRepository;
 
     public Integer getUserID(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -123,13 +129,12 @@ public class ExampleController {
 //            return null;
 //        }
 //    }
-
+    //String filePath = "C:/Users/Admin/Desktop/New/" + file;
     //Read Excel
-
 
     public List<Question> readExcel(String file) throws IOException {
         List<Question> questionsList = new ArrayList<>();
-        String filePath = "C:/Users/Admin/Desktop/New/" + file;
+        String filePath = "C:/Users/Admin/Downloads/" + file;
         FileInputStream fileInputStream = new FileInputStream(filePath);
             XSSFWorkbook wb= new XSSFWorkbook(fileInputStream);
         XSSFSheet sheet = wb.getSheetAt(0);
@@ -148,19 +153,14 @@ public class ExampleController {
                 ques.setLevelID(checkLevel(getCellValueAsString(row.getCell(7))));
                 questionsList.add(ques);
             }
-wb.close();
+            wb.close();
             fileInputStream.close();
         return questionsList;
     }
 
     public static String[] Headers={
-                "Question Title",
-            "Image",
-            "Option 1",
-            "Option 2",
-            "Option 3",
-            "Option 4",
-            "Answer"
+                "UserName",
+            "Score"
 
     };
     @GetMapping("/downloadExcel")
@@ -174,7 +174,7 @@ wb.close();
                 Cell cell = row.createCell(i);
                 cell.setCellValue(Headers[i]);
             }
-            FileOutputStream out= new FileOutputStream(new File("C:/Users/Admin/Desktop/New/questionTemplate.xlsx"));
+            FileOutputStream out= new FileOutputStream(new File("C:/Users/Admin/Desktop/New/result.xlsx"));
             wb.write(out);
             out.close();
 
@@ -183,10 +183,10 @@ wb.close();
         }
         System.out.println("Excel file created");
     }
+
     @GetMapping("/homepage")
     public String listMockTest(Model model, @Param("keyword") String keyword) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
-
         model.addAttribute("subject",subjects);
      List<MockTest> mockTests = mock.findMockTestByUserId(getUserID());
     if(keyword!=null){
@@ -476,5 +476,145 @@ for(MockQuestion i: mockque){
         userRepository.save(user);
         return "redirect:/test/homepage";
     }
+
+    @GetMapping("/questionrequest")
+    public String requestQuestion(Model model){
+        Subject subjects = subject.findSubjectByUserID(getUserID());
+        model.addAttribute("subject",subjects);
+        List<Chapters> chapters = chapter.findChapterBySubject(subjects.getId());
+        model.addAttribute("chapter",chapters);
+        List<Level> levels = level.findAll();
+        model.addAttribute("level", levels);
+        List<Question> ques = question.questionByStatus(getUserID(),2);
+        model.addAttribute("ques",ques);
+        return "question-request";
+    }
+    @PostMapping("/questionrequest")
+    public String postRequestQuestion(@RequestParam("id") Integer id,Model model,@RequestParam("check") String check){
+
+        Question question1 = question.findQuestionBYID(id);
+        if(check.equals("approve")){
+            question1.setStatus(0);
+            question.save(question1);
+        }
+        else if(check.equals("cancel")){
+            question1.setStatus(1);
+
+        }
+        System.out.println(check);
+
+                question.save(question1);
+
+
+        return "redirect:/test/questionrequest";
+    }
+
+    // Analysis
+    @Autowired
+    private ChartService chartService;
+    @GetMapping("/analysis/{id}")
+    public String analysis(Model model,@PathVariable Integer id,@Param("filter") Integer filter,HttpServletResponse response
+    ) throws IOException {
+        List<TakenMockTest> list = takenMockTestRepository.takenTestByMockTestID(id);
+        if (filter != null) {
+            switch (filter) {
+                case 1:
+                    list = takenMockTestRepository.takenTestByScore(id, 0, 5);
+                    break;
+                case 2:
+                    list = takenMockTestRepository.takenTestByScore(id, 5, 8);
+                    break;
+                case 3:
+                    list = takenMockTestRepository.takenTestByScore(id, 8, 10);
+                    break;
+                case 4:
+                    list = takenMockTestRepository.takenTestByMockTestID(id);
+                    break;
+                default:
+                    break;
+            }
+        }
+        if(list.isEmpty()){
+            model.addAttribute("error","No result");
+        }
+        model.addAttribute("mock",list);
+        List<User> student = userRepository.findAll();
+        model.addAttribute("student",student);
+        int cnt1=0;
+
+        List<TakenMockTest> list1 = takenMockTestRepository.takenTestByScore(id, 0, 5);
+        for(int i=0;i<list1.size();i++){
+            cnt1++;
+        }
+
+        model.addAttribute("cnt1",cnt1);
+        int cnt2=0;
+
+        List<TakenMockTest> list2 = takenMockTestRepository.takenTestByScore(id, 5, 8);
+        for(int i=0;i<list2.size();i++){
+            cnt2++;
+        }
+        model.addAttribute("cnt2",cnt2);
+
+        int cnt3=0;
+        List<TakenMockTest> list3 = takenMockTestRepository.takenTestByScore(id, 8, 10);
+        for(int i=0;i<list3.size();i++){
+            cnt3++;
+        }
+        model.addAttribute("cnt3",cnt3);
+
+        String pieChartBase64 = chartService.generatePieChart(cnt1, cnt2, cnt3);
+        model.addAttribute("pieChartBase64", pieChartBase64);
+        return "analysis";
+    }
+// export file excel
+
+//    @GetMapping("/export/{id}")
+//    public ResponseEntity<byte[]> exportToExcel(@PathVariable("id") Integer id) throws IOException {
+//        System.out.println(id);
+//        List<TakenMockTest> taken = takenMockTestRepository.takenTestByMockTestID(id);
+//
+//        Workbook workbook = new XSSFWorkbook();
+//        Sheet sheet = workbook.createSheet("StudentScore");
+//
+//        Row header = sheet.createRow(0);
+//        header.createCell(0).setCellValue("Student ID");
+//        header.createCell(1).setCellValue("Score");
+//
+//        int rowNum = 1;
+//        for (TakenMockTest test : taken) {
+//            Row row = sheet.createRow(rowNum++);
+//            row.createCell(0).setCellValue(test.getUserID());
+//            row.createCell(1).setCellValue(test.getScore());
+//        }
+//
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        workbook.write(bos);
+//        byte[] bytes = bos.toByteArray();
+//        workbook.close();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=studentscore.xlsx");
+//
+//        return ResponseEntity
+//                .ok()
+//                .headers(headers)
+//                .body(bytes);
+//    }
+
+
+@Autowired
+private com.example.demo.controller.ExcelService excelService;
+    @GetMapping("/export/{mocktestid}")
+    public void generateExcelReport(HttpServletResponse response, @PathVariable("mocktestid") int mocktestid,Model model) throws IOException {
+        response.setContentType("application/octet-stream");
+        List<TakenMockTest> list = takenMockTestRepository.takenTestByMockTestID(mocktestid);
+        model.addAttribute("mock",list);
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment;filename=score.xls";
+        response.setHeader(headerKey, headerValue);
+        excelService.generateExcel(response,mocktestid);
+    }
+
 
 }

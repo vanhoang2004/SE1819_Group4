@@ -36,5 +36,9 @@ Question findQuestionBYID(int id);
             "INNER JOIN managers mgr ON q.SubjectID = mgr.SubjectID "+
             "Where mgr.UserID = :userID and q.ChapterID = :chapterID",nativeQuery = true)
     List<Question> FilterQuestion (int userID,Integer chapterID);
+    @Query(value = "SELECT q.QuestionID, q.QuestionTitle, q.Image,q.Option1,q.Option2,q.Option3,q.Option4,q.Answer,q.SubjectID,q.ChapterID,q.LevelID,q.status FROM questions q "+
+            "INNER JOIN managers mgr ON q.SubjectID = mgr.SubjectID "+
+            "Where mgr.UserID = :userID and q.status  = :status",nativeQuery = true)
+    List<Question> questionByStatus (int userID,Integer status);
 
 }
