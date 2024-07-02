@@ -9,11 +9,15 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +25,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,29 +192,76 @@ public class ManagerController {
         return "manager/home";
     }
 
+    private Page<Question> getQuestion(int page,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return question.findQuestionBySubjectID(getUserID(),pageable);
+    }
+
     @GetMapping("/questionbank")
-    public String questionbank(Model model,@Param("keyword")String keyword, @RequestParam(value="filter", required = false) Integer chapterID) {
+    public String questionbank(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               Model model,
+                               @Param("keyword")String keyword,
+                               @RequestParam(value="filter", required = false) Integer chapterID) {
        Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
         List<Level> levels = level.findAll();
         model.addAttribute("level", levels);
-        List<Question> questions = question.findQuestionBySubjectID(getUserID());
-        System.out.println("-------------------------"+chapterID);
-        if(keyword!=null || chapterID != null){
-            System.out.println(chapterID);
-            questions=question.searchQuestion(getUserID(),keyword,chapterID);
+//       List<Question> questions = question.findQuestionBySubjectID(getUserID());
+//        if(keyword!=null || chapterID != null){
+//            System.out.println(chapterID);
+//            questions=question.searchQuestion(getUserID(),keyword,chapterID);
+//        }
+        if (page < 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero");
+        }
+        Page<Question> questions = getQuestion(page,size);
+
+        if (keyword != null || chapterID != null) {
+            questions = question.searchQuestion(getUserID(), keyword, chapterID, PageRequest.of(page, size));
         }
         model.addAttribute("ques", questions);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", questions.getTotalPages());
+        model.addAttribute("size", size);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("filter", chapterID);
         return "manager/questionbank";
     }
 
     @PostMapping("/questionbank")
-    public String getQuestion(@ModelAttribute Question question, @RequestParam(value = "file", required = false) String file) throws IOException {
-        if (!question.getTitle().isEmpty()) {
-            this.question.save(question);
+    public String getQuestion(@ModelAttribute(name="ques") Question question,
+                              @RequestParam(value = "file", required = false) String file,
+                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+
+                              Model model)throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+//        if (!question.getTitle().isEmpty()) {
+            question.setImage(fileName);
+            Question saveQues= this.question.save(question);
+
+        String uploadDir ="./questionbank/"+ saveQues.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
         }
+try(InputStream inputStream = multipartFile.getInputStream();){
+    Path filePath= uploadPath.resolve(fileName);
+    System.out.println(filePath.toFile().getAbsoluteFile());
+    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+} catch (IOException e){
+    throw new IOException("Could not save uploadfile: "+fileName);
+}
+
+
+
+
+
+//        }
+
         if (file!=null && !file.isEmpty()) {
             List<Question> list = readExcel(file);
             for (Question q : list) {
@@ -218,8 +271,43 @@ public class ManagerController {
                 q.setStatus(question.getStatus());
                 this.question.save(q);
             }
+            throw new IllegalArgumentException("Answer must be one of the options");
+
         }
         return "redirect:/test/questionbank";
+
+//
+//        try {
+//            if (!question.getTitle().isEmpty()) {
+//                this.question.save(question);
+//            }
+//            if (file != null && !file.isEmpty()) {
+//                List<Question> list = readExcel(file);
+//                for (Question q : list) {
+//                    q.setSubjectID(question.getSubjectID());
+//                    q.setChapterID(question.getChapterID());
+//                    q.setLevelID(question.getLevelID());
+//                    q.setStatus(question.getStatus());
+//
+//                    // Validate that answer is one of the options
+//                    if (!q.getAns().equals(q.getOp1()) &&
+//                            !q.getAns().equals(q.getOp2()) &&
+//                            !q.getAns().equals(q.getOp3()) &&
+//                            !q.getAns().equals(q.getOp4())) {
+//                        throw new IllegalArgumentException("Answer must be one of the options");
+//                    }
+//
+//                    this.question.save(q);
+//                }
+//            }
+//
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//            model.addAttribute("error",e.getMessage());// Log the validation error
+//            return "redirect:/test/questionbank";
+//
+//        }
+//        return "redirect:/test/questionbank";
     }
 
     @GetMapping("questionbank/editquestion/{id}")
@@ -235,11 +323,62 @@ public class ManagerController {
         return "manager/edit-question";
     }
 
-    @PostMapping("/editquestion")
-    public String postQuestion(@ModelAttribute("ques") Question questions) {
-        question.save(questions);
-        return "redirect:/test/questionbank";
+//    @PostMapping("/editquestion")
+//    public String postQuestion(@ModelAttribute("ques") Question questions,
+//                               @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile
+//                               ) throws IOException {
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//
+////        if (!question.getTitle().isEmpty()) {
+//
+//        if (!fileName.isEmpty()|| fileName!=null){
+//            questions.setImage(fileName);
+//            Question saveQues= this.question.save(questions);
+//            String uploadDir ="./questionbank/"+ saveQues.getId();
+//            Path uploadPath = Paths.get(uploadDir);
+//            if(!Files.exists(uploadPath)){
+//                Files.createDirectories(uploadPath);
+//            }
+//            try(InputStream inputStream = multipartFile.getInputStream();){
+//                Path filePath= uploadPath.resolve(fileName);
+//                System.out.println(filePath.toFile().getAbsoluteFile());
+//                Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+//            } catch (IOException e){
+//                throw new IOException("Could not save uploadfile: "+fileName);
+//            }
+//        }
+//
+//        return "redirect:/test/questionbank";
+//    }
+@PostMapping("/editquestion")
+public String postQuestion(@ModelAttribute("ques") Question questions,
+                           @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile
+) throws IOException {
+    if (multipartFile != null && !multipartFile.isEmpty()) {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        questions.setImage(fileName);
+        Question savedQuestion = this.question.save(questions);
+
+        String uploadDir = "./questionbank/" + savedQuestion.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save upload file: " + fileName, e);
+        }
+    } else {
+        Question existingQuestion = this.question.findById(questions.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid question Id:" + questions.getId()));
+        questions.setImage(existingQuestion.getImage());
+        this.question.save(questions);
     }
+
+    return "redirect:/test/questionbank";
+}
 
     @GetMapping("materials/editmaterial/{id}")
     public String getMaterial(Model model,@PathVariable int id) {

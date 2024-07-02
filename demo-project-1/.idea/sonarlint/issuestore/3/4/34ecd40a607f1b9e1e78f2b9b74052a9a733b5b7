@@ -1,0 +1,99 @@
+
+Œ
+java:S1192Ì"HDefine a constant instead of duplicating this literal "chapter" 6 times.(‡’…Š8Ú‹»÷„2J$95f2ba92-248a-4dec-a864-ce815de478a9
+Œ
+java:S1192¾"HDefine a constant instead of duplicating this literal "subject" 8 times.(šĞ°8Ú‹»÷„2J$22cc749e-13b0-481d-9efa-d0c4490a7ae5
+
+java:S1192Ó"FDefine a constant instead of duplicating this literal "error" 3 times.(Âì³ùøÿÿÿÿ8Ú‹»÷„2J$4904ab6b-f963-4554-8f08-22dc77a1e8ee
+“
+java:S1192È"ODefine a constant instead of duplicating this literal "changepassword" 3 times.(Õæ¶Œ8Ú‹»÷„2J$912b73cc-e877-43c4-901c-86c86e00339d
+
+java:S1192Î"FDefine a constant instead of duplicating this literal "level" 4 times.(Ã±ãúùÿÿÿÿ8Ú‹»÷„2J$2e24fed9-e69b-49cc-86b3-2872259a3ca4
+
+java:S1192‰"YDefine a constant instead of duplicating this literal "redirect:/test/materials" 3 times.(æÆ¦«8Ú‹»÷„2J$cb6b57f3-63c2-435f-87e5-2c34746907b0
+¥
+java:S1192é"\Define a constant instead of duplicating this literal "redirect:/test/questionbank" 3 times.(óÂâÔùÿÿÿÿ8Ú‹»÷„2J$3d5bd5f6-ee64-4130-b115-b1c5dd596daa
+¡
+java:S1488B"^Immediately return this expression instead of assigning it to the temporary variable "userid".(â´ìõ8Ú‹»÷„2J$f959267d-1c80-48dd-b204-622eb843780e
+—
+java:S1104¡"SMake Headers a static final constant or non-public and provide accessors if needed.(¥•Âƒ8Ú‹»÷„2J$082df610-7fe7-4a8e-931f-c16a352a31ef
+q
+java:S1444¡"-Make this "public static Headers" field final(¥•Âƒ8Ú‹»÷„2J$eb845bef-76b1-45c8-963b-1926aeb7231d
+
+java:S2095©"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(×Ş•‘8º»÷„2J$b1030b6f-3997-4f6f-a398-5002fb151211
+–
+java:S3008¡"RRename this field "Headers" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥•Âƒ8º»÷„2J$079013ac-b05c-4dd5-a691-6752d1f38d12
+…
+java:S6813)"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$d0fc5e2d-c38f-4e74-9a8b-e4a13665e72f
+…
+java:S6813+"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$1cb36a8a-523d-483e-a5ab-a4278d967292
+…
+java:S6813-"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$8046b1cb-6923-4ccf-a12f-a8fe61a92305
+…
+java:S6813/"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$18a94b53-d2c3-4b48-9cde-29cc978615ea
+…
+java:S68131"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$68518ec8-28aa-43fe-b009-159a879a74d0
+…
+java:S68133"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$732cb618-a550-4579-809f-45f00b90e7d4
+…
+java:S68135"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$d97ff3b3-1f87-4f81-81d1-81ef3c2a2167
+…
+java:S68137"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$5188dd21-227f-4793-b50c-640bf425e3e0
+…
+java:S68139"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$16db5baf-b1af-4879-abd4-d4a2bb07ed35
+…
+java:S6813;"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$7b59b72e-5513-45ae-b092-6e2b8e13b82d
+†
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$0301fc17-54fe-4794-a303-9436b72ffdbe
+†
+java:S6813Ş"BRemove this field injection and use constructor injection instead.(êæÄŞ8º»÷„2J$9fbc2243-9b4d-434a-8f3e-a8a476e14716
+¦
+java:S4144é"]Update this method so that its implementation is not identical to "postMaterial" on line 263.(í“ß‘øÿÿÿÿ8º»÷„2J$4f076f7f-caec-4f9e-983f-5ef3391568a3
+a
+java:S2386¡"Make this member "protected".(¥•Âƒ8º»÷„2J$46cd5026-8f3b-434c-ba50-3a236f43d069
+~	java:S125e"<This block of commented-out lines of code should be removed.(ù¶ì8Ç»÷„2J$632d8836-c8c3-43a2-96bb-4b420a9ce47b
+ƒ	java:S125w"<This block of commented-out lines of code should be removed.(¨Ôç½øÿÿÿÿ8Ç»÷„2J$86db6254-74f6-4dc2-9b44-f5c8e0c0296f
+u
+java:S1481",Remove this unused "formula" local variable.(ÇÁ†ûÿÿÿÿ8Ç»÷„2J$4b498502-eac2-4fba-8d83-2ed566721da2
+–	java:S100§"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼ÄÏËÿÿÿÿÿ8Ö»÷„2J$259b4835-9bc2-4d37-a41b-b8450b70e273
+…
+java:S1075±"ARefactor your code to get this URI from a customizable parameter.(áŠ€Á8Ö»÷„2J$41633ea5-1d5e-4c2b-9c93-9522c295d21b
+s	java:S106¶"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8Ö»÷„2J$d8cd2463-fef7-46e2-8478-80cf8bf0ad0b
+n	java:S106¸"+Replace this use of System.out by a logger.(ëø³Ã8Ö»÷„2J$183016d9-1caf-4919-b52c-6ee612628060
+m	java:S106Ğ"+Replace this use of System.out by a logger.(íë±V8Ö»÷„2J$29c478a0-675a-4be3-befb-2645c089948d
+s	java:S106Ò"+Replace this use of System.out by a logger.(Ø’¼ıÿÿÿÿ8Ö»÷„2J$2bb52edb-6623-4bea-b43b-94f7def894fa
+n	java:S106Õ"+Replace this use of System.out by a logger.(²³È8æ»÷„2J$6fbd2db1-b946-4f5c-b17d-abd3591755e0
+„	java:S125Š"<This block of commented-out lines of code should be removed.(ÛôìÆıÿÿÿÿ8æ»÷„2J$4d64664e-03d1-4b30-9de2-b9543ad453e5
+„	java:S125‘"<This block of commented-out lines of code should be removed.(öŞ¨éøÿÿÿÿ8æ»÷„2J$d7b4c515-97fb-442a-a5c9-b2170fb04b66
+„	java:S125˜"<This block of commented-out lines of code should be removed.(ŸÎÚğúÿÿÿÿ8æ»÷„2J$909421eb-46da-4df3-aafd-574cac23a39d
+„	java:S125©"<This block of commented-out lines of code should be removed.(×ıÀ‡øÿÿÿÿ8æ»÷„2J$11667c7b-ed07-4529-9687-694878bfa64b
+„	java:S125­"<This block of commented-out lines of code should be removed.(†Øäúÿÿÿÿ8æ»÷„2J$c5b90f96-8896-4c06-89e7-030210cd7aab
+	java:S125½"<This block of commented-out lines of code should be removed.(‡œ¯8æ»÷„2J$7424dc40-501d-4358-9ba8-b0bf97a360b0
+s	java:S106ø"+Replace this use of System.out by a logger.(‰œ¼ãşÿÿÿÿ8æ»÷„2J$59a872bf-4c5d-43eb-9815-bd3d44eccc3a
+	java:S125½"<This block of commented-out lines of code should be removed.(Œ¹òÉ8õ»÷„2J$c5550929-859e-431d-ad2a-37c10cd40f68
+„
+java:S1128"ARemove this unused import 'com.fasterxml.jackson.core.JsonToken'.(–úç8õ»÷„2J$ccf62fa7-46de-4c2d-a472-23c8ec0cf313
+“
+java:S1128	"PRemove this unused import 'org.hibernate.boot.model.source.internal.hbm.Helper'.(èçİ–8õ»÷„2J$071703a6-57e8-4d97-a70d-f49d84a5fd3a
+’
+java:S1128"ORemove this unused import 'org.springframework.beans.factory.annotation.Value'.(ìø›8õ»÷„2J$99c8697b-93c0-41e4-b819-1a63e98e8842
+‰
+java:S1128"ARemove this unused import 'org.springframework.http.HttpHeaders'.(ãŸñ×úÿÿÿÿ8õ»÷„2J$50bde4ea-4de1-4c19-9610-8882f118becc
+ˆ
+java:S1128"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8õ»÷„2J$aaeaf4f0-1524-410d-8c84-a3aeb355fa50
+‡
+java:S1128"?Remove this unused import 'org.springframework.http.MediaType'.(úŸİ¯şÿÿÿÿ8õ»÷„2J$11ac0a9a-b645-4b25-be0e-763aafecffbf
+Œ
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8õ»÷„2J$1d579b35-aac7-4c8e-b4da-29dfa2e274e8
+a
+java:S1128"Remove this duplicated import.(ñıÓ“8õ»÷„2J$4a085a97-66b1-41a8-9837-e8c864b74f61
+’
+java:S1128"ORemove this unused import 'org.springframework.security.core.GrantedAuthority'.(½Á±ÿ8õ»÷„2J$3801241d-8ab8-4237-bb90-c70092d06255
+u
+java:S1128"2Remove this unused import 'javax.imageio.ImageIO'.(‘çÔû8õ»÷„2J$1c4196dc-bd11-4881-81bd-3f17d84c9c80
+
+java:S1128"9Remove this unused import 'java.awt.image.BufferedImage'.(×íĞ‡şÿÿÿÿ8õ»÷„2J$e3573cf7-768d-4a10-9455-f4be9aa9555e
+
+java:S1128 "HRemove this unused import 'java.nio.file.attribute.BasicFileAttributes'.(“ããÿÿÿÿÿ8õ»÷„2J$91e3ea65-8911-4589-866c-fff3e51798db
+u
+java:S1128""-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ8õ»÷„2J$4922ee96-5c79-414a-8c3c-ee66a5949181

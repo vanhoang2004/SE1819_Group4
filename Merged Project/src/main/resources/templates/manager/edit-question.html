@@ -240,35 +240,51 @@
         }
     </style>
     <script>
-        $(document).ready(function () {
-            // Activate tooltip
-            $('[data-toggle="tooltip"]').tooltip();
+        function showImageThumbnail(fileInput){
+file = fileInput.files[0];
+reader = new FileReader();
+reader.onload = function(e){
+$('#thumbnail').attr('src',e.target.result);
+};
+reader.readAsDataURL(file);
+    }
+    $(document).ready(function () {
+              // Image
+       $('#fileImage').change(function(){
+       showImageThumbnail(this);
 
-            // Select/Deselect checkboxes
-            var checkbox = $('table tbody input[type="checkbox"]');
-            $("#selectAll").click(function () {
-                if (this.checked) {
-                    checkbox.each(function () {
-                        this.checked = true;
-                    });
-                } else {
-                    checkbox.each(function () {
-                        this.checked = false;
-                    });
-                }
-            });
-            checkbox.click(function () {
-                if (!this.checked) {
-                    $("#selectAll").prop("checked", false);
-                }
-            });
+       });
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function () {
+            if (this.checked) {
+                checkbox.each(function () {
+                    this.checked = true;
+                });
+            } else {
+                checkbox.each(function () {
+                    this.checked = false;
+                });
+            }
         });
+        checkbox.click(function () {
+            if (!this.checked) {
+                $("#selectAll").prop("checked", false);
+            }
+        });
+    });
     </script>
 </head>
 <body>
 <div class="modal-dialog"/>
     <div class="modal-content">
-        <form action="/test/editquestion" method="post" th:object="${ques}">
+        <form th:action="@{/test/editquestion}" method="post" th:object="${ques}"
+              enctype="multipart/form-data"
+              style="max-width:400px;margin: 0 auto;"
+        >
             <div class="modal-header">
                 <h4 class="modal-title">Edit Question</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -284,7 +300,9 @@
                 </div>
                 <div class="form-group">
                     <label>Image</label>
-                    <input th:field="*{image}" type="url" class="form-control">
+                    <img th:src="@{${ques.QuesImagePath}}" style="width: 200px;">
+                    <input name="fileImage" type="file" class="form-control" id="fileImage" accept="image/png,image/jpeg"/>
+                    <img id="thumbnail" alt="Preview" style="width: 100px; height: 100px; object-fit: cover;" />
                 </div>
                 <div class="form-group">
                     <label>Option 1</label>

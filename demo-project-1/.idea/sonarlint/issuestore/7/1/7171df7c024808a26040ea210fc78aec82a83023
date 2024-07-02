@@ -1,0 +1,43 @@
+
+¯
+java:S1130+"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(œû¿Ø8ÿõ‚2J$0465fdf4-966c-42bf-9fa6-fa00767b188b
+ƒ	java:S125"<This block of commented-out lines of code should be removed.(§ôñ¥ıÿÿÿÿ8ÿõ‚2J$49ddbf75-583a-44f9-a701-5f14be5ad399
+ƒ	java:S125-"<This block of commented-out lines of code should be removed.(«ßïšùÿÿÿÿ8®¶ÿõ‚2J$87a0b34d-1f2e-4a7c-aad3-192421c6f628
+~	java:S1254"<This block of commented-out lines of code should be removed.(Ó÷Ö8Ÿÿõ‚2J$88341a49-ca6e-47c8-afd3-2d4ce4459edc
+
+java:S1128"JRemove this unused import 'com.example.demo.controller.ExampleController'.(»ùÆî8¢óÆ„2J$66a42a79-1c58-4e53-a466-532f870ae1e5
+
+java:S1128"JRemove this unused import 'com.example.demo.data.TakenMockTestRepository'.(ìËœÃ8¢óÆ„2J$351a28ec-9d2b-47c9-9bb1-1871c31ded48
+
+java:S1128"?Remove this unused import 'com.example.demo.entity.ChangePass'.(Ü™w8£óÆ„2J$362126e1-c6b1-4e14-8b9f-bbffd4183267
+€
+java:S1128"=Remove this unused import 'com.example.demo.entity.Question'.(§•³ä8£óÆ„2J$373503d4-022d-4d6e-af61-3b468be672cf
+Š
+java:S1128"BRemove this unused import 'com.example.demo.entity.TakenMockTest'.(Ó¯ñàüÿÿÿÿ8£óÆ„2J$7745fa95-6af5-4be3-aa9e-77ca8a281405
+ˆ
+java:S1128
+"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8£óÆ„2J$3c557b6a-052c-45c2-bcfd-02087bda83a8
+‡
+java:S1128"DRemove this unused import 'org.springframework.http.HttpStatusCode'.(®å™Õ8£óÆ„2J$7424220f-24f0-4ef0-a24e-049220f6b7ae
+‡
+java:S1128"?Remove this unused import 'org.springframework.http.MediaType'.(úŸİ¯şÿÿÿÿ8£óÆ„2J$abf99e97-741e-43b7-aee1-54e4681326d8
+Œ
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8£óÆ„2J$f716fd77-9dd3-45ef-b8f8-cf0fd87190b7
+’
+java:S1128"ORemove this unused import 'org.springframework.web.bind.annotation.GetMapping'.(‡¡‰Ø8£óÆ„2J$8b5a3d12-71ef-422f-9180-9c386587212b
+™
+java:S1128"QRemove this unused import 'org.springframework.web.bind.annotation.PathVariable'.(¹ûñÅşÿÿÿÿ8£óÆ„2J$0c2a1835-afdf-4b2f-ac34-5cc8fbcd762f
+˜
+java:S1128"PRemove this unused import 'org.springframework.web.bind.annotation.PostMapping'.(äƒà°ùÿÿÿÿ8£óÆ„2J$6b9d8ee8-cbac-44cc-924c-51e880165fc2
+™
+java:S1128"QRemove this unused import 'org.springframework.web.bind.annotation.RequestParam'.(Â¬À·ùÿÿÿÿ8£óÆ„2J$f60d864e-dc14-4426-91dc-870c220a85e9
+”
+java:S1128"LRemove this unused import 'org.springframework.web.multipart.MultipartFile'.(ôŸœÿÿÿÿÿ8£óÆ„2J$68dc1803-e798-4774-8a5c-22d5943eff5d
+h
+java:S1128"%Remove this unused import 'java.awt'.(ï´µ©8£óÆ„2J$be9151f9-501e-4db2-a0f0-77f31008c228
+w
+java:S1128"/Remove this unused import 'java.sql.SQLOutput'.(ê¤òÃùÿÿÿÿ8£óÆ„2J$fe3a90e4-7ddd-45fb-8685-128ac11edd57
+s
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8£óÆ„2J$5f7217db-c1e6-4ce3-a4df-acbd2a80d055
+s
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8£óÆ„2J$d10a5b0e-287f-4824-8fb2-dbfbf3323476

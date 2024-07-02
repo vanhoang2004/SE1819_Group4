@@ -182,4 +182,10 @@ public class Question {
                 ", status=" + status +
                 '}';
     }
+
+    @Transient
+    public String  getQuesImagePath(){
+        if(Image==null || id==null) return null;
+        return "/questionbank/"+ id+"/"+ Image;
+    }
 }

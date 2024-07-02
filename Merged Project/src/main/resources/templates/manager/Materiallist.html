@@ -331,7 +331,10 @@
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/test/materials}" method="post">
+            <form th:action="@{/test/materials}" method="post"
+                  enctype="multipart/form-data"
+                  style="max-width:400px;margin: 0 auto;"
+            >
                 <div class="modal-header">
                     <h4 class="modal-title">Add Material</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -354,9 +357,14 @@
                             <option th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}" ></option>
                         </select>
                     </div>
+<!--                    <div class="form-group">-->
+<!--                        <label>Content</label>-->
+<!--                        <input name="content" type="text" class="form-control" required>-->
+<!--                    </div>-->
                     <div class="form-group">
                         <label>Content</label>
-                        <input name="content" type="text" class="form-control" required>
+                        <input name="content" type="file" class="form-control" id="fileImage" accept=".docx,.pdf"/>
+                        <img id="thumbnail" alt="Preview" style="width: 100px; height: 100px; object-fit: cover;" />
                     </div>
 
                 </div>
