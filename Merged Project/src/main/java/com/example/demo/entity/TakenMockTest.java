@@ -5,16 +5,19 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="takenmocktest")
 public class TakenMockTest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="takenmocktestid")
     private Integer takenMockTestID;
 
-    @Column(name="mocktestid")
-    private Integer mockTestID;
+    @ManyToOne
+    @JoinColumn(name = "mocktestid", nullable = false)
+    private MockTest mockTest;
 
-    @Column(name="userid")
-    private Integer userID;
+    @ManyToOne
+    @JoinColumn(name = "userid", nullable = false)
+    private User user;
 
     @Column(name="score")
     private float score;
@@ -22,34 +25,35 @@ public class TakenMockTest {
     public TakenMockTest() {
     }
 
-    public TakenMockTest(int mockTestID, int userID, float score) {
-        this.mockTestID = mockTestID;
-        this.userID = userID;
+    public TakenMockTest(MockTest mockTest, User user, float score) {
+        this.mockTest = mockTest;
+        this.user = user;
         this.score = score;
     }
 
-    public int getTakenMockTestID() {
+    // Getters and setters
+    public Integer getTakenMockTestID() {
         return takenMockTestID;
     }
 
-    public void setTakenMockTestID(int takenMockTestID) {
+    public void setTakenMockTestID(Integer takenMockTestID) {
         this.takenMockTestID = takenMockTestID;
     }
 
-    public int getMockTestID() {
-        return mockTestID;
+    public MockTest getMockTest() {
+        return mockTest;
     }
 
-    public void setMockTestID(int mockTestID) {
-        this.mockTestID = mockTestID;
+    public void setMockTest(MockTest mockTest) {
+        this.mockTest = mockTest;
     }
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public float getScore() {
@@ -60,5 +64,13 @@ public class TakenMockTest {
         this.score = score;
     }
 
-
+    @Override
+    public String toString() {
+        return "TakenMockTest{" +
+                "takenMockTestID=" + takenMockTestID +
+                ", mockTest=" + mockTest +
+                ", user=" + user +
+                ", score=" + score +
+                '}';
+    }
 }

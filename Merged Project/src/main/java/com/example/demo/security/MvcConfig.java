@@ -23,6 +23,11 @@ public class MvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/questionbank/**")
                 .addResourceLocations("file:/" + quesUploadPath + "/");
+
+        Path materialsUploadDir = Paths.get("./materials");
+        String materialUploadPath = materialsUploadDir.toFile().getAbsolutePath();
+        registry.addResourceHandler("/materials/**")
+                .addResourceLocations("file:/" + materialUploadPath + "/");
     }
 }
 

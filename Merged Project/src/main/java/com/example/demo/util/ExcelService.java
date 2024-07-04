@@ -66,8 +66,8 @@ private UserRepository userRepository;
             int dataRowIndex = 1;
 
             for (TakenMockTest takenMockTest : listScore) {
-                User user = userRepository.findUserById(takenMockTest.getUserID());
-                Student classcode = studentRepository.findStudentById(takenMockTest.getUserID());
+                User user = userRepository.findUserById(takenMockTest.getUser().getUserId());
+                Student classcode = studentRepository.findStudentById(takenMockTest.getUser().getUserId());
                 Class classname = classRepository.findClassById(classcode.getSclass().getClassCode());
                 if (user != null) {
                     HSSFRow dataRow = sheet.createRow(dataRowIndex);

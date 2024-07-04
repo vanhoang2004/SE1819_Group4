@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,12 +32,18 @@ public class MockTest {
 
     // manytoone
 
-    @ManyToMany
-    @JoinTable(name = "mocktestdetails", joinColumns = @JoinColumn(name = "mocktestid"), inverseJoinColumns = @JoinColumn(name = "questionid"))
-    private Set<Question> likedQuestion;
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "mocktestdetails",
+            joinColumns = @JoinColumn(name = "mocktestid"),
+            inverseJoinColumns = @JoinColumn(name = "questionid")
+    )
+    private List<Question> likedQuestion;
 
-
-
+    @OneToMany(mappedBy = "mockTest", cascade = CascadeType.ALL)
+    private List<MockQuestion> mockQuestions;
+    @OneToMany(mappedBy = "mockTest", cascade = CascadeType.ALL)
+    private List<TakenMockTest> takenMockTests;
 
     public MockTest(String title, Integer subjectId, LocalDateTime start, LocalDateTime end) {
         this.title = title;

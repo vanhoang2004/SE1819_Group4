@@ -380,29 +380,99 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
     return "redirect:/test/questionbank";
 }
 
+  // Materials
+
+    @GetMapping("/materials")
+    public String materrialList(Model model,
+                                @Param("keyword") String keyword) {
+        Subject subjects = subject.findSubjectByUserID(getUserID());
+        model.addAttribute("subject",subjects);
+        List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
+        model.addAttribute("chapter",chapters);
+        List<Materials> mater = material.findMaterialsbySubject(getUserID());
+        if(keyword!=null){
+            mater = material.searchMaterial(getUserID(),keyword);
+        }
+        model.addAttribute("material",mater);
+        return "manager/Materiallist";
+
+    }
+
+    @PostMapping("/materials")
+    public String getMaterials(@ModelAttribute(name = "material") Materials materials,
+                               @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        materials.setContent(fileName);
+        Materials saveMaterial = material.save(materials);
+        String uploadDir = "./materials/" + saveMaterial.getId();
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            System.out.println(filePath.toFile().getAbsoluteFile());
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName, e);
+        }
+
+        return "redirect:/test/materials";
+
+    }
+
     @GetMapping("materials/editmaterial/{id}")
     public String getMaterial(Model model,@PathVariable int id) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
-      Materials mater = material.findMaterialbyID(id);
+        Materials mater = material.findMaterialbyID(id);
         model.addAttribute("material",mater);
         return "manager/edit-material";
     }
 
     @PostMapping("/editmaterial")
-    public String postMaterial(@ModelAttribute("material") Materials materials) {
-        material.save(materials);
+    public String postMaterial(@ModelAttribute("material") Materials materials,
+                               @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
+if(multipartFile!=null&& !multipartFile.isEmpty()){
+    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    materials.setContent(fileName);
+    Materials saveMaterial = material.save(materials);
+    String uploadDir = "./materials/" + saveMaterial.getId();
+    Path uploadPath = Paths.get(uploadDir);
+
+    if (!Files.exists(uploadPath)) {
+        Files.createDirectories(uploadPath);
+    }
+
+    try (InputStream inputStream = multipartFile.getInputStream()) {
+        Path filePath = uploadPath.resolve(fileName);
+        System.out.println(filePath.toFile().getAbsoluteFile());
+        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        throw new IOException("Could not save uploaded file: " + fileName, e);
+    }
+}
+else {
+    Materials existingMaterials = material.findById(materials.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid materials Id:" + materials.getId()));
+    materials.setContent(existingMaterials.getContent());
+    material.save(materials);
+}
         return "redirect:/test/materials";
     }
+
 
     @GetMapping("/materials/{id}")
     public String deleteMaterial(@ModelAttribute Materials materials,@PathVariable Integer id) {
     material.deleteById(id);
     return "redirect:/test/materials";
     }
+// End materials
 
+    //
     @Transactional
     @GetMapping("/questionbank/{id}")
     public String deleteQuestion(@ModelAttribute Question questions,@PathVariable Integer id) {
@@ -423,7 +493,7 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
         return "redirect:/test/questionbank";
     }
 
-
+// MockTest Details
     @GetMapping("/mockdetails/{id}")
     public String mockQuestion(Model model,@PathVariable Integer id) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
@@ -475,48 +545,39 @@ for(MockQuestion i: mockque){
     mockquestion.save(mockques);
         return "redirect:/test/mockdetails/" + id;    }
 
-    @GetMapping("/materials")
-    public String materrialList(Model model,@Param("keyword") String keyword) {
-        Subject subjects = subject.findSubjectByUserID(getUserID());
-        model.addAttribute("subject",subjects);
-        List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
-        model.addAttribute("chapter",chapters);
-        List<Materials> mater = material.findMaterialsbySubject(getUserID());
-        if(keyword!=null){
-            mater = material.searchMaterial(getUserID(),keyword);
-        }
-        model.addAttribute("material",mater);
-        return "manager/Materiallist";
-
-    }
-    @PostMapping("/materials")
-    public String getMaterials(@ModelAttribute Materials materials){
-        material.save(materials);
-        return "redirect:/test/materials";
-    }
+// Mocktest
    // @Autowired
    @Transactional
    @GetMapping("/mocktests/{id}")
-   public String deleteMockTest(@ModelAttribute MockTest mocktest,@PathVariable("id") Integer id) {
-       List<MockQuestion> mockque = mockquestion.mockDetails(id);
-
+   public String deleteMockTest(@PathVariable("id") Integer id) {
+       System.out.println(id);
+       List<MockQuestion> mockQuestions = mockquestion.mockDetails(id);
        MockQuestionKey key = new MockQuestionKey();
-       if (mockque != null && !mockque.isEmpty()) {
-           for (MockQuestion i : mockque) {
-               key.setMocktestid(i.getMockTest().getId());
-               key.setQuestionid(i.getQuestion().getId());
-
-               question.deleteById(i.getQuestion().getId());
-               // Xóa MockQuestion trước
-               mockquestion.deleteById(key);
-
+        List<Integer> listID = new ArrayList<>();
+           for (MockQuestion mockQuestion : mockQuestions) {
+                   Integer qID= mockQuestion.getQuestion().getId();
+                   listID.add(qID);
+               key.setMocktestid(mockQuestion.getMockTest().getId());
+               key.setQuestionid(mockQuestion.getQuestion().getId());
+               System.out.println("questionID:"+qID+"+++++");
+               System.out.println(key.toString());
+              mockquestion.deleteById(key);
            }
-       }
+           for(Integer i: listID){
+               System.out.println("ListD: "+i);
+               question.deleteById(i);
+           }
 
-       // Xóa MockTest cuối cùng
-       mock.deleteById(id);
+       List<TakenMockTest> listT= takenMockTestRepository.takenTestByMockTestID(id);
+           for (TakenMockTest i: listT){
+               System.out.println(i.toString());
+               takenMockTestRepository.delete(i);
+           }
+//       // Xóa MockTest cuối cùng
+      mock.deleteById(id);
        return "redirect:/test/mocktests";
    }
+
     @GetMapping("/mocktests")
     public String getMockTests(Model model,@ModelAttribute Manager manager ) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
@@ -581,6 +642,23 @@ for(MockQuestion i: mockque){
          }
         return "redirect:/test/mocktests";
     }
+
+    @GetMapping("mocktests/editmocktest/{id}")
+    public String getEditMockTest(Model model,@PathVariable int id) {
+        Subject subjects = subject.findSubjectByUserID(getUserID());
+        model.addAttribute("subject",subjects);
+        MockTest mockTest = mock.mocktestbyID(id);
+        model.addAttribute("mocktest",mockTest);
+        return "manager/edit-mocktest";
+    }
+
+    @PostMapping("/editmocktest")
+    public String postEditMocktest(@ModelAttribute("mocktest") MockTest mockTest) {
+        mock.save(mockTest);
+        return "redirect:/test/mocktests";
+    }
+
+    // Changepassword
 
     @GetMapping("/changepassword")
     public  String changepass(Model model){

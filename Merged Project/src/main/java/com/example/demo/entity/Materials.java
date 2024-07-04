@@ -73,4 +73,10 @@ public class Materials {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Transient
+    public String  getMaterialsPath(){
+        if(content==null || id==null) return null;
+        return content;
+    }
 }

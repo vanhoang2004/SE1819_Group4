@@ -290,6 +290,10 @@
                     </div>
                 </div>
             </div>
+            <div class="text-danger">
+                <h3>[[${error}]]</h3>
+
+            </div>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -315,7 +319,7 @@
                         <td th:text="${subject.subjectName}">
                         </td>
                         <td th:each="chapter:${chapter}" th:if="${chapter.id}==${material.chapterID}" th:text="${chapter.name}"></td>
-                        <td th:text="${material.content}"></td>
+                        <td th:text="${material.materialsPath}"></td>
                         <td>
                             <a th:href="@{/test/materials/editmaterial/{id}(id=${material.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a th:href="@{/test/materials/{id}(id=${material.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -331,9 +335,9 @@
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/test/materials}" method="post"
+            <form th:action="@{/test/materials}" method="post" th:object="${material}"
                   enctype="multipart/form-data"
-                  style="max-width:400px;margin: 0 auto;"
+
             >
                 <div class="modal-header">
                     <h4 class="modal-title">Add Material</h4>
@@ -349,7 +353,6 @@
                             <input name="subjectID"  type="hidden" th:value="${subject.subjectId}" >
                             <input  type="text" readonly th:value="${subject.subjectName}" class="form-control" required>
                         </label>
-
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>
@@ -363,8 +366,7 @@
 <!--                    </div>-->
                     <div class="form-group">
                         <label>Content</label>
-                        <input name="content" type="file" class="form-control" id="fileImage" accept=".docx,.pdf"/>
-                        <img id="thumbnail" alt="Preview" style="width: 100px; height: 100px; object-fit: cover;" />
+                        <input name="contentFile" type="file" class="form-control" accept=".docx,.pdf"/>
                     </div>
 
                 </div>

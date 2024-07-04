@@ -1,6 +1,7 @@
 package com.example.demo.data;
 
 import com.example.demo.entity.TakenMockTest;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,4 +17,6 @@ public interface TakenMockTestRepository extends JpaRepository<TakenMockTest, In
             "JOIN Users u ON t.UserID = u.UserID\n" +
             "WHERE t.MockTestID = :id ;\n",nativeQuery = true)
     List<TakenMockTest> takenTestByMockTestID2(Integer id);
+    @Transactional
+    void deleteByMockTestId(Integer mockTestId);
 }

@@ -29,6 +29,7 @@ public class Class {
     @OneToMany(mappedBy = "nclass", cascade = CascadeType.ALL)
     private List<Notification> notifications;
 
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "classsubject",
