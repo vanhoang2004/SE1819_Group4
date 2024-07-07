@@ -1,6 +1,7 @@
 package com.example.demo.data;
 
 import com.example.demo.entity.Question;
+import com.microsoft.schemas.office.visio.x2012.main.impl.PageTypeImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     @Query(value = "SELECT q.QuestionID, q.QuestionTitle, q.Image,q.Option1,q.Option2,q.Option3,q.Option4,q.Answer,q.SubjectID,q.ChapterID,q.LevelID,q.status FROM questions q "+
             "INNER JOIN mocktestdetails m ON m.QuestionID= q.QuestionID Where m.MockTestID= :mocktestid ",nativeQuery = true)
-    List<Question> mockTestDetails (int mocktestid);
+    Page<Question> mockTestDetails (int mocktestid,Pageable pageable);
 @Query(value="SELECT * FROM questions WHERE QuestionID= :id",nativeQuery = true)
 Question findQuestionBYID(int id);
 

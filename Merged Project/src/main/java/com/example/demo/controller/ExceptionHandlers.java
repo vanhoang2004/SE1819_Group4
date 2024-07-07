@@ -26,7 +26,6 @@ public class ExceptionHandlers {
         System.out.println("Caught file upload error");
         ra.addFlashAttribute("error","You could not upload file bigger than 20 MB");
         return "redirect:/test/materials";
-
     }
     @ExceptionHandler(SQLException.class)
     public String handlerSQLError(RedirectAttributes ra){

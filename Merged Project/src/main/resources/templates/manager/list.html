@@ -314,7 +314,9 @@
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/test/mocktests}"   method="post" >
+            <form th:action="@{/test/mocktests}"   method="post"
+                  enctype="multipart/form-data"
+            >
                 <div class="modal-header">
                     <h4 class="modal-title">Add MockTest</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -347,7 +349,7 @@
 <!--                            <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>-->
                             <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>
                                 <label>Choose a file</label>
-                                <input name="file" type="file" accept=".xlsx" required>
+                                <input name="fileExcel" type="file" accept=".xlsx"  class="form-control" required>
                         </div>
                     </div>
                 </div>

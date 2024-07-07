@@ -88,8 +88,8 @@
     <main>
 <!--        <a th:href="@{/test/export/{mocktestid}(mocktestid=${mock[0].mockTestID})}">Export to Excel</a>-->
         <div style="display: flex; justify-content: center;">
-        <form th:if="${error} == null" th:action="@{/test/export/{mocktestid}(mocktestid=${mock[0].mockTestID})}" method="get">
-            <input type="hidden" th:name="mocktestid" th:value="${mock[0].mockTestID}">
+        <form th:if="${error} == null" th:action="@{/test/export/{mocktestid}(mocktestid=${mockTestID})}" method="get">
+            <input type="hidden" th:name="mocktestid" th:value="${mockTestID}">
             <button class="btn btn-success" type="submit">Export to Excel</button>
         </form>
         </div>
@@ -116,7 +116,7 @@
                 <tbody >
                 <tr th:each="test : ${mock}">
                     <td th:text="${test.takenMockTestID}"></td>
-                    <td th:each="student:${student}" th:if="${student.userId}==${test.userID}" th:text="${student.fullname}"></td>
+                    <td th:each="student:${student}" th:if="${student.userId}==${test.user.userId}" th:text="${student.fullname}"></td>
                     <td th:text="${test.score}"></td>
 <!--                    <td th:each="subject:${subject}" th:if="${subject.id}==${test.subjectId}" th:text="${subject.name}"></td>-->
 <!--                    <td>-->
@@ -127,8 +127,10 @@
             </table>
             <div th:text="${error}"></div>
             <!-- Pagination -->
-            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+            <th:block th:if="${error == null}">
+            <nav   aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
                 <ul class="pagination">
+
                     <th:forEach var="o" begin="1" end="${a}">
                         <li class="page-item active">
                             <!--                            <a class="page-link" href="#" aria-label="Previous">
@@ -145,8 +147,10 @@
                                                         </a>-->
                         </li>
                     </th:forEach>
+
                 </ul>
             </nav>
+            </th:block>
             <!-- Pagination -->
         </div>
     </main>
