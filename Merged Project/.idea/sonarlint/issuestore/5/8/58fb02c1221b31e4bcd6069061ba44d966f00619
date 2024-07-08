@@ -1,15 +1,0 @@
-
-Ž
-java:S2441$"MMake "List" and its parameters serializable or don't store it in the session.(°ÿøÓúÿÿÿÿJ$237e7ee9-f8b7-4ad4-9a5f-a9facc1ccef0
-ˆ
-java:S2441%"MMake "List" and its parameters serializable or don't store it in the session.(à¸ÿ>J$da1d25d4-42ad-4d58-8221-b258155a2880
-‰
-java:S2441&"MMake "List" and its parameters serializable or don't store it in the session.(¦ëÔÍJ$6d93b4fa-cfb1-47d6-9a76-10d9e289ac05
-}
-java:S1128"ARemove this unused import 'com.example.demo.entity.Notification'.(¾ð“òJ$b2320e61-c62d-435f-853e-93e32da5e554
-‘
-java:S1128"PRemove this unused import 'org.springframework.web.bind.annotation.PostMapping'.(äƒà°ùÿÿÿÿJ$0e76c165-22c5-406f-b851-9e0f2f76c807
-’
-java:S1128"QRemove this unused import 'org.springframework.web.bind.annotation.RequestParam'.(Â¬À·ùÿÿÿÿJ$340bfb2d-2c17-47b3-b4c1-3d86794a16ee
-l
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±ÄøÿÿÿÿJ$31986aae-ef23-460c-aaec-1ca66766ed46
