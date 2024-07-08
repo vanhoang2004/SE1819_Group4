@@ -1,5 +1,9 @@
 <!DOCTYPE html>
+<<<<<<<< Updated upstream:Personal Project/src/main/resources/templates/edit.html
 <html lang="en">
+========
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+>>>>>>>> Stashed changes:Merged Project/src/main/resources/templates/manager/edit-material.html
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>List</title>
@@ -268,6 +272,7 @@
 <body>
 <div class="modal-dialog">
     <div class="modal-content">
+<<<<<<<< Updated upstream:Personal Project/src/main/resources/templates/edit.html
         <form action="edit">
             <div class="modal-header">
                 <h4 class="modal-title">Edit Product</h4>
@@ -306,14 +311,50 @@
                         </c:forEach>
                     </select>
                 </div>
+========
+            <div class="modal-header">
+                <form th:action="@{/test/editmaterial}" method="post" th:object="${material}"  enctype="multipart/form-data">
+
+            <h4 class="modal-title">Edit Materials</h4>
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Materials ID</label>
+                    <input th:field="*{id}"   type="text" th:value="${material.id}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input th:field="*{title}" type="text"  th:value="${material.title}" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+
+                    <label>Subject
+                        <input th:field="*{subjectID}"  type="hidden" th:value="${subject.subjectId}" >
+                        <input  type="text" readonly th:value="${subject.subjectName}" class="form-control" required>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Chapter</label>
+                    <select th:field="*{chapterID}">
+                        <option th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <input name="contentFile" type="file" th:value="${material.materialsPath}" class="form-control" accept=".docx,.pdf"/>
+                </div>
+>>>>>>>> Stashed changes:Merged Project/src/main/resources/templates/manager/edit-material.html
 
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <input type="submit" class="btn btn-info" value="Save">
+                <a th:href="@{/test/materials}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <input type="submit" class="btn btn-success" value="Save">
             </div>
         </form>
     </div>
+</div>
 </div>
 </body>
 </html>

@@ -239,6 +239,9 @@
     </style>
     <script>
 
+            function confirmDelete() {
+                return confirm('Are you sure you want to delete this question?');
+            }
 
         function filter(selectedValue) {
         var filterValue = selectedValue.value;
@@ -363,7 +366,7 @@
                     <td th:each="level:${level}" th:if="${level.id}==${ques.levelID}" th:text="${level.name}"></td>
                     <td>
                         <a th:href="@{/test/questionbank/editquestion/{id}(id=${ques.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a th:href="@{/test/questionbank/{id}(id=${ques.id})}" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        <a th:href="@{/test/questionbank/{id}(id=${ques.id})}" onclick="return confirmDelete();" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                 </tr>
                 </tbody>

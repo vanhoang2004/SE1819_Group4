@@ -268,6 +268,7 @@
 <body>
 <div class="modal-dialog">
     <div class="modal-content">
+<<<<<<<< Updated upstream:demo-project-1/target/classes/templates/edit-material.html
             <div class="modal-header">
                 <form action="/test/editmaterial" method="post" th:object="${material}">
 
@@ -300,12 +301,46 @@
                 <div class="form-group">
                     <label>Content</label>
                     <input th:field="*{content}" type="text"  th:value="${material.content}" class="form-control" required>
+========
+        <form th:action="@{/test/editmocktest}" th:object="${mocktest}" method="post">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit MockTest</h4>
+<!--                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>MockTestID</label>
+                    <input th:field="*{id}"   type="text" th:value="${mocktest.id}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input th:field="*{title}"  th:value="${mocktest.title}" type="text" class="form-control" >
+                </div>
+                <div class="form-group">
+                    <label>Subject
+                        <input th:field="*{subjectId}"  type="hidden" th:value="${subject.subjectId}" >
+                        <input  type="text" readonly th:value="${subject.subjectName}" class="form-control" required>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input th:field="*{start}" th:value="${mocktest.start}"  type="datetime-local" class="form-control" >
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input th:field="*{end}" th:value="${mocktest.end}" type="datetime-local" class="form-control" >
+>>>>>>>> Stashed changes:Merged Project/src/main/resources/templates/manager/edit-mocktest.html
                 </div>
 
             </div>
             <div class="modal-footer">
+<<<<<<<< Updated upstream:demo-project-1/target/classes/templates/edit-material.html
                 <a th:href="@{/test/materials}" class="btn btn-default" data-dismiss="modal">Cancel</a>
                 <input type="submit" class="btn btn-success" value="Edit">
+========
+                <a th:href="@{/test/mocktests}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <input type="submit" class="btn btn-success" value="Save">
+>>>>>>>> Stashed changes:Merged Project/src/main/resources/templates/manager/edit-mocktest.html
             </div>
         </form>
     </div>
