@@ -1,4 +1,3 @@
-
 DROP SCHEMA IF EXISTS `demo1`;
 CREATE SCHEMA `demo1`;
 USE `demo1`;
@@ -97,38 +96,47 @@ CREATE TABLE IF NOT EXISTS Students (
     FOREIGN KEY (Classcode) REFERENCES Classes(Classcode)
 );
 
--- Creating the 'TakenMockTest' table
+-- Creating the 'TakenMockTest' table with TakenMockTestID as the primary key
 CREATE TABLE TakenMockTest (
-    MockTestID int DEFAULT NULL,
-    UserID int DEFAULT NULL,
-    StudentQuestionID INT DEFAULT NULL,
+    TakenMockTestID INT NOT NULL AUTO_INCREMENT,
+    MockTestID INT DEFAULT NULL,
+    UserID INT DEFAULT NULL,
     Score FLOAT DEFAULT NULL,
+    PRIMARY KEY (TakenMockTestID),
     FOREIGN KEY (MockTestID) REFERENCES MockTests(MockTestID),
     FOREIGN KEY (UserID) REFERENCES Students(UserID),
-    FOREIGN KEY (StudentQuestionID) REFERENCES StudentTakenQuestions(StudentQuestionID)
+    starttime datetime default null,
+    endtime datetime default null
 );
 
--- Creating the 'StudentPracticeQuestions' table
-CREATE TABLE StudentPracticeQuestions (
-    StudentPracticeID INT NOT NULL AUTO_INCREMENT,
+-- Creating the 'StudentMockTestQuestions' table with TakenMockTestID as a foreign key
+CREATE TABLE StudentMockTestQuestions (
     Choice VARCHAR(200) DEFAULT NULL,
     Result VARCHAR(200) DEFAULT NULL,
     QuestionID INT DEFAULT NULL,
-    PRIMARY KEY (StudentPracticeID),
-    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID)
+    TakenMockTestID INT DEFAULT NULL,
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID),
+    FOREIGN KEY (TakenMockTestID) REFERENCES TakenMockTest(TakenMockTestID)
 );
 
--- Creating the 'StudentTakenPractices' table
+-- Creating the 'StudentTakenPractices' table with StudentTakenPracticeID as the primary key
 CREATE TABLE StudentTakenPractices (
-    UserID int NOT NULL,
-    StudentPracticeID INT DEFAULT NULL,
+    StudentTakenPracticeID INT NOT NULL AUTO_INCREMENT,
+    UserID INT NOT NULL,
     Score FLOAT DEFAULT NULL,
-    primary key (UserID),
-    FOREIGN KEY (UserID) REFERENCES Students(UserID),
-    FOREIGN KEY (StudentPracticeID) REFERENCES StudentPracticeQuestions(StudentPracticeID)
+    PRIMARY KEY (StudentTakenPracticeID),
+    FOREIGN KEY (UserID) REFERENCES Students(UserID)
 );
 
-
+-- Creating the 'StudentPracticeQuestions' table with StudentTakenPracticeID as a foreign key
+CREATE TABLE StudentPracticeQuestions (
+    Choice VARCHAR(200) DEFAULT NULL,
+    Result VARCHAR(200) DEFAULT NULL,
+    QuestionID INT DEFAULT NULL,
+    StudentTakenPracticeID INT DEFAULT NULL,
+    FOREIGN KEY (QuestionID) REFERENCES Questions(QuestionID),
+    FOREIGN KEY (StudentTakenPracticeID) REFERENCES StudentTakenPractices(StudentTakenPracticeID)
+);
 
 -- Creating the 'Teachers' table
 CREATE TABLE IF NOT EXISTS Teachers (
@@ -270,15 +278,6 @@ END//
 
 DELIMITER ;
 
--- Creating the 'NotificationClasses' table 
--- CREATE TABLE IF NOT EXISTS NotificationClasses (
---     NotificationID INT,
---     ClassCode INT,
---     FOREIGN KEY (NotificationID) REFERENCES Notifications(NotificationID),
---     FOREIGN KEY (ClassCode) REFERENCES Classes(ClassCode),
---     PRIMARY KEY (NotificationID, ClassCode)
--- );
-
 DELIMITER //
 
 CREATE TRIGGER after_insert_teachermaterials
@@ -295,11 +294,6 @@ BEGIN
     -- Insert into Notifications table
     INSERT INTO Notifications (title, message, type, classcode) VALUES ('New Material', notification_message, 'class', class_code);
 
-    -- Retrieve the notification_id of the inserted notification
---     SET @notification_id = LAST_INSERT_ID();
-
-    -- Insert into NotificationClasses table
---     INSERT INTO NotificationClasses (NotificationID, ClassCode) VALUES (@notification_id, class_code);
 END//
 
 DELIMITER ;

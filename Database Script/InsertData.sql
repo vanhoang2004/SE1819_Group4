@@ -1,10 +1,10 @@
 -- users table
 INSERT INTO Users (Username, Password, Fullname, Useremail) VALUES
-    	('trang', '{noop}123', 'Vũ Hương Trang', 'huongtrangvu9@gmail.com'),
-	('van', '{noop}123', 'Nguyễn Thị Hoàng Vân', 'vannthhe180236@gmail.com'),
+	('trang', '{noop}123', 'Vũ Hương Trang', 'huongtrangvu9@gmail.com'),
+	('van', '{noop}123', 'Nguyễn Thị Hoàng Vân', 'vannthhe180236@fpt.edu.vn'),
 	('nqa', '{noop}123', 'Nguyễn Quang Anh', 'anhnqhe181459@fpt.edu.vn'),
 	('phuong', '{noop}123', 'Phạm Mai Phương', 'phuongpmhs180289@fpt.edu.vn'),
-    	('user1', '{noop}password1', 'John Doe', 'john.doe1@example.com'),
+	('user1', '{noop}password1', 'John Doe', 'john.doe1@example.com'),
 	('user2', '{noop}password2', 'Jane Smith', 'jane.smith2@example.com'),
 	('user3', '{noop}password3', 'Alice Johnson', 'alice.johnson3@example.com'),
 	('user4', '{noop}password4', 'Bob Brown', 'bob.brown4@example.com'),
@@ -31,7 +31,6 @@ INSERT INTO Users (Username, Password, Fullname, Useremail) VALUES
 	('user25', '{noop}password25', 'Wendy Lee', 'wendy.lee25@example.com'),
 	('user26', '{noop}password26', 'Xander Hall', 'xander.hall26@example.com');
 
-
 -- 'Subjects' table
 INSERT INTO Subjects (Subjectname) VALUES 
 ('Toán'), 
@@ -56,11 +55,11 @@ INSERT INTO Levels (LevelName) VALUES
 
 -- MockTests
 INSERT INTO MockTests (MockTestTitle, SubjectID, Start, End) VALUES
-('Thi thử giữa kì', 1, '2024-07-01 09:00:00', '2024-07-08 09:00:00'),
+('Thi thử giữa kì', 1, '2024-07-01 09:00:00', '2024-08-08 09:00:00'),
 ('Thi thử cuối kì', 1, '2024-08-01 09:00:00', '2024-08-08 09:00:00'),
-('Thi thử giữa kì', 2, '2024-07-01 09:00:00', '2024-07-08 09:00:00'),
+('Thi thử giữa kì', 2, '2024-07-01 09:00:00', '2024-08-08 09:00:00'),
 ('Thi thử cuối kì', 2, '2024-08-01 09:00:00', '2024-08-08 09:00:00'),
-('Thi thử giữa kì', 4, '2024-07-01 09:00:00', '2024-07-08 09:00:00');
+('Thi thử giữa kì', 4, '2024-07-01 09:00:00', '2024-08-08 09:00:00');
 
 -- ‘Chapters’ table
 -- Subject 'Toán'
