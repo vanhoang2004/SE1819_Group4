@@ -1,0 +1,14 @@
+
+’
+java:S2095@"JUse try-with-resources or close this "HSSFWorkbook" in a "finally" clause.(ÐÅ±Ìøÿÿÿÿ8É·õÇ„2J$a895f7d8-21da-4af1-a1d5-b54d64c315d9
+’
+java:S2095"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(˜„°Žÿÿÿÿÿ8ú¡óÇ„2J$51453a7e-182f-4972-b0c7-fd3853c2f85a
+…
+java:S68133"BRemove this field injection and use constructor injection instead.(êæÄÞ8û¡óÇ„2J$58550259-2e1c-4504-b2df-01f91ec586a7
+…
+java:S68135"BRemove this field injection and use constructor injection instead.(êæÄÞ8û¡óÇ„2J$b2e1bdf3-1f5e-4429-946c-cd8142df1b12
+…
+java:S68137"BRemove this field injection and use constructor injection instead.(êæÄÞ8û¡óÇ„2J$c27365df-213c-417b-81d3-761a404da41d
+…
+java:S68139"BRemove this field injection and use constructor injection instead.(êæÄÞ8ü¡óÇ„2J$899adb12-5e16-435a-9871-a71f69d7b6da
+m	java:S106="+Replace this use of System.out by a logger.(î¡«Ø8ÚŸ§÷„2J$ccff2b26-6604-43ae-8aa1-04e314d48c56
