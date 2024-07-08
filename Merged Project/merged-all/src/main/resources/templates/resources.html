@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<!--Head elements for CSS, JS and other related resources-->
+<!-- Head elements for CSS, JS and other related resources -->
     <div th:fragment="head">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </div>
-<!--Links in the main navigation bar-->
+<!-- Links in the main navigation bar -->
     <div th:fragment="navbar-main-links">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a th:href="@{/admin/admins}" class="nav-link text-white">Admins</a></li>
@@ -29,7 +29,7 @@
             <li class="nav-item"><a th:href="@{/admin/teacher-class}" class="nav-link text-white">Teachers - Classes</a></li>
         </ul>
     </div>
-<!--Navigation bar at the top of the page-->
+<!-- Navigation bar at the top of the page -->
     <div th:fragment="navbar-top">
         <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
             <!-- Container wrapper -->
@@ -305,7 +305,7 @@
         </nav>
         <!-- Navbar -->
     </div>
-<!--Extra front-end assets-->
+<!-- Extra front-end assets -->
     <div th:fragment="extra">
         <style>
             body {
@@ -558,6 +558,16 @@
                 });
             });
         </script>
+    </div>
+<!-- Maintaining User object's field values -->
+    <div th:fragment="user-fields">
+        <input th:field="*{userId}" th:value="*{userId}" hidden>
+        <input th:field="*{username}" th:value="*{username}" hidden>
+        <input th:field="*{password}" th:value="*{password}" hidden>
+        <input th:field="*{fullname}" th:value="*{fullname}" hidden>
+        <input th:field="*{useremail}" th:value="*{useremail}" hidden>
+        <input th:field="*{role}" th:value="*{role}" hidden>
+        <input th:field="*{enabled}" th:value="*{enabled}" hidden>
     </div>
 </body>
 </html>

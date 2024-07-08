@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Title</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Homepage</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
 </head>
 <body>
 <!-- Navbar -->
-<div th:insert="~{nav.html}"></div>
+<div th:insert="~{resources :: navbar-top}"></div>
 
 <!-- brand search -->
 

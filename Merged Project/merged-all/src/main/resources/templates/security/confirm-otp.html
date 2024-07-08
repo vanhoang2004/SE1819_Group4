@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm OTP</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<div class="container align-items-center">
+    <div class="row">
+        <div id="loginbox" class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1 col-xs-12 mt-2">
+            <div class="card text-white border-info">
+                <h2 class="card-header bg-info">
+                    Recovery Code Sent
+                </h2>
+                <div class="card-body">
+                    <div class="card-text">
+                        <!-- Login Form -->
+                        <p class="text-dark">A recovery OTP has been sent to your email. It will expire within 1 minute.</p>
+                        <form th:action="@{/confirmotp}" method="POST" class="form-horizontal" th:object="${reset_user}">
+                            <div th:insert="~{resources :: user-fields}"></div>
+                            <!-- Place for messages: error, alert etc ... -->
+                            <div class="form-group col-12">
+                                <!-- Check for incorrect OTP -->
+                                <div th:if="${param.incorrect}">
+                                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                        Incorrect OTP.
+                                    </div>
+                                </div>
+                                <!-- Check for expired OTP -->
+                                <div th:if="${param.expired}">
+                                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                                        OTP Expired. Please click "Resend OTP" to generate a new one.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enter OTP -->
+                            <div class="input-group mb-4">
+                                <input type="text" name="otp" placeholder="Enter OTP" class="form-control" />
+                            </div>
+
+                            <!-- Confirm Button -->
+                            <div class="row mb-3">
+                                <button type="submit" class="btn btn-success col-6 offset-3">
+                                    Confirm
+                                </button>
+                            </div>
+                            <div class="row mb-3">
+                                <a th:href="@{/forgotpassword}" class="btn btn-info col-6 offset-3">
+                                    Return
+                                </a>
+                            </div>
+                        </form>
+                        <form th:action="@{/forgotpassword}" method="POST" th:object="${reset_user}">
+                            <div th:insert="~{resources :: user-fields}"></div>
+                            <div class="row">
+                                <button class="btn btn-secondary col-6 offset-3" type="submit">Resend OTP</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

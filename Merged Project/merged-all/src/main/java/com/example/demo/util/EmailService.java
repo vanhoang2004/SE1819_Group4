@@ -1,7 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.util;
 
 import com.example.demo.entity.User;
 import com.example.demo.entity.VerificationToken;
+import com.example.demo.service.VerificationTokenService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,22 @@ public class EmailService {
         helper.setTo(token.getNewEmail());
         helper.setSubject("Email address verification");
         helper.setText(body, true);
+        javaMailSender.send(message);
+    }
+
+    public void sendOtp(User user, String otp) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("otp",otp);
+
+        // Create an HTML template and pass the variable to it
+        String body = templateEngine.process("security/otp-mail", context);
+
+        // Send the verification email
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setSubject("Password Reset");
+        helper.setText(body, true);
+        helper.setTo(user.getUseremail());
         javaMailSender.send(message);
     }
 }
