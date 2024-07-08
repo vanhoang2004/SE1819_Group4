@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Excel File</title>
+</head>
+<body>
+<h3>Import Excel File</h3>
+<!-- Link to download the sample file -->
+<h3>Download Sample File</h3>
+<a th:href="@{excelapprove/downloadFile}">Download Sample Excel File</a>
+
+<br/>
+<br/>
+<br/>
+<!--form to upload file-->
+<form method="post" enctype="multipart/form-data" th:action="@{/excelapprove/process}">
+    <!-- Ensure 'excel/process' matches your controller mapping -->
+    <input type="file" name="file">
+    <br>
+    <input type="submit" value="Import">
+</form>
+
+</body>
+</html>
