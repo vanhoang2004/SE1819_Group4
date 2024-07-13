@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+    <div class="container align-items-center">
+        <div class="row">
+            <div id="loginbox" class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-10 offset-sm-1 col-xs-12 mt-2">
+                <div class="card text-white border-info">
+                    <h2 class="card-header bg-info">
+                        Reset Password
+                    </h2>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h6 class="text-dark mb-3">Password reset successful.</h6>
+                            <a th:href="@{/login}" class="btn btn-info col-6 offset-3">
+                                Back to Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
