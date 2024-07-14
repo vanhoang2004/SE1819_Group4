@@ -1,15 +1,0 @@
-
-W	java:S125"<This block of commented-out lines of code should be removed.(¢ƒ8ò£Ïê‡2
-k
-java:S1128"IRemove this unused import 'com.example.demo.data.MockQuestionRepository'.(•ğıûÿÿÿÿ8ó£Ïê‡2
-^
-java:S1128"ARemove this unused import 'com.example.demo.entity.MockQuestion'.(Ï½÷ö8ó£Ïê‡2
-a
-java:S1128"DRemove this unused import 'com.example.demo.entity.MockQuestionKey'.(é‚º›8ó£Ïê‡2
-›
-java:S1128"SRemove this unused import 'org.springframework.beans.factory.annotation.Autowired'.(¡¸Îùÿÿÿÿ8–ı¶ê‡2J$5a506a3d-f23a-4c2b-afe4-60cef6472ff8
-M
-java:S1128
-"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8ó£Ïê‡2
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ó£Ïê‡2
