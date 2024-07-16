@@ -36,4 +36,12 @@ public class MockQuestionKey implements Serializable {
         this.mocktestid = mocktestid;
         this.questionid = questionid;
     }
+
+    @Override
+    public String toString() {
+        return "MockQuestionKey{" +
+                "mocktestid=" + mocktestid +
+                ", questionid=" + questionid +
+                '}';
+    }
 }

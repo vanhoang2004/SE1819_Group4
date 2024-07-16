@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,7 +76,7 @@ public class AdminController {
 
     @GetMapping("/home/disable")
     public String disableUserFromHome(@RequestParam("userId") int duid, HttpServletRequest request){
-//        User u = ur.findUserById(duid);
+        User u = ur.findUserById(duid);
         disableById(duid);
         if(duid == ((User)request.getSession().getAttribute("logged_user")).getUserId()) return "auto-logout";
         return "admin/home";
@@ -326,15 +325,17 @@ public class AdminController {
     public String deleteClassFromTeacher(@RequestParam("userId") int utid, @RequestParam("classCode") int dccode, RedirectAttributes ra){
         Teacher t = tr.findTeacherById(utid);
         Class c = cr.findClassById(dccode);
-//        System.out.println("\nRemaining classes before adding: " + remainingClasses);
+//        t.getClasses().remove(c);
+//        tr.save(t);
+        System.out.println("\nRemaining classes before adding: " + remainingClasses);
         remainingClasses.add(c);
-//        System.out.println("Added class: " + c);
-//        System.out.println("Remaining classes after adding: " + remainingClasses);
+        System.out.println("Added class: " + c);
+        System.out.println("Remaining classes after adding: " + remainingClasses);
 
-//        System.out.println("\nCurrent classes before removing: " + currentClasses);
+        System.out.println("\nCurrent classes before removing: " + currentClasses);
         currentClasses.removeIf(obj -> obj.getClassCode() == c.getClassCode());
-//        System.out.println("Current classes before removing: " + currentClasses);
-//        System.out.println();
+        System.out.println("Current classes before removing: " + currentClasses);
+        System.out.println();
 
         ra.addAttribute("user",t);
         return "redirect:/admin/users/update?userId=" + utid;
@@ -344,20 +345,29 @@ public class AdminController {
     public String addClassToTeacher(@RequestParam("userId") int utid, @RequestParam("classCode") int dccode, RedirectAttributes ra){
         Teacher t = tr.findTeacherById(utid);
         Class c = cr.findClassById(dccode);
+//        t.getClasses().add(c);
+//        tr.save(t);
 
-//        System.out.println("\nCurrent classes before adding: " + currentClasses);
+        System.out.println("\nCurrent classes before adding: " + currentClasses);
         currentClasses.add(c);
-//        System.out.println("Added class: " + c);
-//        System.out.println("Current classes after adding: " + currentClasses);
+        System.out.println("Added class: " + c);
+        System.out.println("Current classes after adding: " + currentClasses);
 
-//        System.out.println("\nRemaining classes before removing: " + remainingClasses);
+        System.out.println("\nRemaining classes before removing: " + remainingClasses);
         remainingClasses.removeIf(obj -> obj.getClassCode() == c.getClassCode());
-//        System.out.println("Remaining classes after removing: " + remainingClasses);
-//        System.out.println();
+        System.out.println("Remaining classes after removing: " + remainingClasses);
+        System.out.println();
 
         ra.addAttribute("user",t);
         return "redirect:/admin/users/update?userId=" + utid;
     }
+
+//    @PostMapping("/teacher-class/save")
+//    public String saveTeacherClass(@ModelAttribute("user") Teacher t){
+//        t.setUserId((t.getUser().getUserId()));
+//        tr.save(t);
+//        return "redirect:/admin/teacher-class";
+//    }
 
 //Helper functions
     private void disableById(int duid) {

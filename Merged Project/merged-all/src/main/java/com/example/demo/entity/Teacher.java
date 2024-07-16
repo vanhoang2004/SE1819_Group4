@@ -16,8 +16,8 @@ public class Teacher {
     @JoinColumn(name="UserID")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "SubjectID", referencedColumnName = "SubjectID")
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="SubjectID")
     private Subject subject;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)

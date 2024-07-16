@@ -2,76 +2,75 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name="takenmocktest")
 public class TakenMockTest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "takenmocktestid")
-	private int id;
-	@OneToOne
-	@JoinColumn(name = "mocktestid", referencedColumnName = "mocktestid")
-	private MockTest mocktest;
 
-	@OneToOne
-	@JoinColumn(name = "userid", referencedColumnName = "userid")
-	private Student student;
-	@Column(name = "score")
-	private Float score;
-	@Column(name="starttime")
-	private LocalDateTime starttime;
-	@Column(name="endtime")
-	private LocalDateTime endtime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="takenmocktestid")
+    private Integer takenMockTestID;
 
-	public TakenMockTest(MockTest mocktest, Student student, Float score, LocalDateTime starttime,
-                         LocalDateTime endtime) {
+    @ManyToOne
+    @JoinColumn(name = "mocktestid", nullable = false)
+    private MockTest mockTest;
 
-		this.mocktest = mocktest;
-		this.student = student;
-		this.score = score;
-		this.starttime = starttime;
-		this.endtime = endtime;
-	}
-	public TakenMockTest() {
+    @ManyToOne
+    @JoinColumn(name = "userid", nullable = false)
+    private User user;
 
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public MockTest getMockTest() {
-		return mocktest;
-	}
-	public void setMockTest(MockTest mocktest) {
-		this.mocktest = mocktest;
-	}
-	public Student getStudent() {
-		return student;
-	}
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-	public Float getScore() {
-		return score;
-	}
-	public void setScore(Float score) {
-		this.score = score;
-	}
-	public LocalDateTime getStarttime() {
-		return starttime;
-	}
-	public void setStarttime(LocalDateTime starttime) {
-		this.starttime = starttime;
-	}
-	public LocalDateTime getEndtime() {
-		return endtime;
-	}
-	public void setEndtime(LocalDateTime endtime) {
-		this.endtime = endtime;
-	}
+    @Column(name="score")
+    private float score;
 
+    public TakenMockTest() {
+    }
+
+    public TakenMockTest(MockTest mockTest, User user, float score) {
+        this.mockTest = mockTest;
+        this.user = user;
+        this.score = score;
+    }
+
+    // Getters and setters
+    public Integer getTakenMockTestID() {
+        return takenMockTestID;
+    }
+
+    public void setTakenMockTestID(Integer takenMockTestID) {
+        this.takenMockTestID = takenMockTestID;
+    }
+
+    public MockTest getMockTest() {
+        return mockTest;
+    }
+
+    public void setMockTest(MockTest mockTest) {
+        this.mockTest = mockTest;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "TakenMockTest{" +
+                "takenMockTestID=" + takenMockTestID +
+                ", mockTest=" + mockTest +
+                ", user=" + user +
+                ", score=" + score +
+                '}';
+    }
 }

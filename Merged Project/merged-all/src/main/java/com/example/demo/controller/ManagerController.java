@@ -5,15 +5,20 @@ import com.example.demo.entity.*;
 import com.example.demo.util.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +26,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -122,32 +129,53 @@ public class ManagerController {
     //String filePath = "C:/Users/Admin/Desktop/New/" + file;
     //Read Excel
 
-    public List<Question> readExcel(String file) throws IOException {
-        List<Question> questionsList = new ArrayList<>();
-        String filePath = "C:/Users/Admin/Downloads/" + file;
-        FileInputStream fileInputStream = new FileInputStream(filePath);
-            XSSFWorkbook wb= new XSSFWorkbook(fileInputStream);
+//    public List<Question> readExcel(String file) throws IOException {
+//        List<Question> questionsList = new ArrayList<>();
+//        String filePath = "C:/Users/Admin/Downloads/" + file;
+//        FileInputStream fileInputStream = new FileInputStream(filePath);
+//            XSSFWorkbook wb= new XSSFWorkbook(fileInputStream);
+//        XSSFSheet sheet = wb.getSheetAt(0);
+//        FormulaEvaluator formula =wb.getCreationHelper().createFormulaEvaluator();// Giả sử là trang tính đầu tiên
+//            for (Row row : sheet) {
+//                if (row.getRowNum() == 0) { // Bỏ qua hàng tiêu đề nếu có
+//                    continue;
+//                }
+//                Question ques = new Question();
+//                ques.setTitle(getCellValueAsString(row.getCell(0)));
+//                ques.setOp1(getCellValueAsString(row.getCell(2)));
+//                ques.setOp2(getCellValueAsString(row.getCell(3)));
+//                ques.setOp3(getCellValueAsString(row.getCell(4)));
+//                ques.setOp4(getCellValueAsString(row.getCell(5)));
+//                ques.setAns(getCellValueAsString(row.getCell(6)));
+//                ques.setLevelID(checkLevel(getCellValueAsString(row.getCell(7))));
+//                questionsList.add(ques);
+//            }
+//            wb.close();
+//            fileInputStream.close();
+//        return questionsList;
+//    }
+public List<Question> readExcel(MultipartFile file) throws IOException {
+    List<Question> questionsList = new ArrayList<>();
+    try (InputStream inputStream = file.getInputStream(); XSSFWorkbook wb = new XSSFWorkbook(inputStream)) {
         XSSFSheet sheet = wb.getSheetAt(0);
-        FormulaEvaluator formula =wb.getCreationHelper().createFormulaEvaluator();// Giả sử là trang tính đầu tiên
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) { // Bỏ qua hàng tiêu đề nếu có
-                    continue;
-                }
-                Question ques = new Question();
-                ques.setQuestiontitle(getCellValueAsString(row.getCell(0)));
-                ques.setOption1(getCellValueAsString(row.getCell(2)));
-                ques.setOption2(getCellValueAsString(row.getCell(3)));
-                ques.setOption3(getCellValueAsString(row.getCell(4)));
-                ques.setOption4(getCellValueAsString(row.getCell(5)));
-                ques.setAnswer(getCellValueAsString(row.getCell(6)));
-                ques.setLevelid(checkLevel(getCellValueAsString(row.getCell(7))));
-                questionsList.add(ques);
+        FormulaEvaluator formula = wb.getCreationHelper().createFormulaEvaluator(); // Giả sử là trang tính đầu tiên
+        for (Row row : sheet) {
+            if (row.getRowNum() == 0) { // Bỏ qua hàng tiêu đề nếu có
+                continue;
             }
-            wb.close();
-            fileInputStream.close();
-        return questionsList;
+            Question ques = new Question();
+            ques.setTitle(getCellValueAsString(row.getCell(0)));
+            ques.setOp1(getCellValueAsString(row.getCell(2)));
+            ques.setOp2(getCellValueAsString(row.getCell(3)));
+            ques.setOp3(getCellValueAsString(row.getCell(4)));
+            ques.setOp4(getCellValueAsString(row.getCell(5)));
+            ques.setAns(getCellValueAsString(row.getCell(6)));
+            ques.setLevelID(checkLevel(getCellValueAsString(row.getCell(7))));
+            questionsList.add(ques);
+        }
     }
-
+    return questionsList;
+}
     public static String[] Headers={
                 "UserName",
             "Score"
@@ -186,45 +214,121 @@ public class ManagerController {
         return "manager/home";
     }
 
+    private Page<Question> getQuestion(int page,int size){
+        Pageable pageable = PageRequest.of(page,size);
+        return question.findQuestionBySubjectID(getUserID(),pageable);
+    }
+
     @GetMapping("/questionbank")
-    public String questionbank(Model model,@Param("keyword")String keyword, @RequestParam(value="filter", required = false) Integer chapterID) {
+    public String questionbank(@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               Model model,
+                               @Param("keyword")String keyword,
+                               @RequestParam(value="filter", required = false) Integer chapterID) {
        Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
         List<Level> levels = level.findAll();
         model.addAttribute("level", levels);
-        List<Question> questions = question.findQuestionBySubjectID(getUserID());
-        System.out.println("-------------------------"+chapterID);
-        if(keyword!=null || chapterID != null){
-            System.out.println(chapterID);
-            questions=question.searchQuestion(getUserID(),keyword,chapterID);
+        if (page < 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero");
+        }
+        Page<Question> questions = getQuestion(page,size);
+
+        if (keyword != null || chapterID != null) {
+            questions = question.searchQuestion(getUserID(), keyword, chapterID, PageRequest.of(page, size));
         }
         model.addAttribute("ques", questions);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", questions.getTotalPages());
+        model.addAttribute("size", size);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("filter", chapterID);
         return "manager/questionbank";
     }
 
     @PostMapping("/questionbank")
-    public String getQuestion(@ModelAttribute Question question, @RequestParam(value = "file", required = false) String file) throws IOException {
-        if (!question.getQuestiontitle().isEmpty()) {
-            this.question.save(question);
+    public String getQuestion(@ModelAttribute(name="ques") Question question,
+                              @RequestParam(value = "file", required = false) String file,
+                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+
+                              Model model)throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+            question.setImage(fileName);
+            Question saveQues= this.question.save(question);
+
+        String uploadDir ="./questionbank/"+ saveQues.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
         }
-        if (file!=null && !file.isEmpty()) {
-            List<Question> list = readExcel(file);
-            for (Question q : list) {
-                q.setSubjectid(question.getSubjectid());
-                q.setChapterid(question.getChapterid());
-                q.setLevelid(question.getLevelid());
-                q.setStatus(question.getStatus());
-                this.question.save(q);
-            }
-        }
+try(InputStream inputStream = multipartFile.getInputStream();){
+    Path filePath= uploadPath.resolve(fileName);
+    System.out.println(filePath.toFile().getAbsoluteFile());
+    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+} catch (IOException e){
+    throw new IOException("Could not save uploadfile: "+fileName);
+}
+
+
+
+
+
+//        }
+
+//        if (file!=null && !file.isEmpty()) {
+//            List<Question> list = readExcel(file);
+//            for (Question q : list) {
+//                q.setSubjectID(question.getSubjectID());
+//                q.setChapterID(question.getChapterID());
+//                q.setLevelID(question.getLevelID());
+//                q.setStatus(question.getStatus());
+//                this.question.save(q);
+//            }
+//            throw new IllegalArgumentException("Answer must be one of the options");
+//
+//        }
         return "redirect:/test/questionbank";
+
+//
+//        try {
+//            if (!question.getTitle().isEmpty()) {
+//                this.question.save(question);
+//            }
+//            if (file != null && !file.isEmpty()) {
+//                List<Question> list = readExcel(file);
+//                for (Question q : list) {
+//                    q.setSubjectID(question.getSubjectID());
+//                    q.setChapterID(question.getChapterID());
+//                    q.setLevelID(question.getLevelID());
+//                    q.setStatus(question.getStatus());
+//
+//                    // Validate that answer is one of the options
+//                    if (!q.getAns().equals(q.getOp1()) &&
+//                            !q.getAns().equals(q.getOp2()) &&
+//                            !q.getAns().equals(q.getOp3()) &&
+//                            !q.getAns().equals(q.getOp4())) {
+//                        throw new IllegalArgumentException("Answer must be one of the options");
+//                    }
+//
+//                    this.question.save(q);
+//                }
+//            }
+//
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//            model.addAttribute("error",e.getMessage());// Log the validation error
+//            return "redirect:/test/questionbank";
+//
+//        }
+//        return "redirect:/test/questionbank";
     }
 
     @GetMapping("questionbank/editquestion/{id}")
     public String list1(Model model,@PathVariable int id) {
-      Question questions = question.findQuestionById(id);
+      Question questions = question.findQuestionBYID(id);
         model.addAttribute("ques", questions);
         Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
@@ -235,10 +339,104 @@ public class ManagerController {
         return "manager/edit-question";
     }
 
-    @PostMapping("/editquestion")
-    public String postQuestion(@ModelAttribute("ques") Question questions) {
-        question.save(questions);
-        return "redirect:/test/questionbank";
+//    @PostMapping("/editquestion")
+//    public String postQuestion(@ModelAttribute("ques") Question questions,
+//                               @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile
+//                               ) throws IOException {
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//
+////        if (!question.getTitle().isEmpty()) {
+//
+//        if (!fileName.isEmpty()|| fileName!=null){
+//            questions.setImage(fileName);
+//            Question saveQues= this.question.save(questions);
+//            String uploadDir ="./questionbank/"+ saveQues.getId();
+//            Path uploadPath = Paths.get(uploadDir);
+//            if(!Files.exists(uploadPath)){
+//                Files.createDirectories(uploadPath);
+//            }
+//            try(InputStream inputStream = multipartFile.getInputStream();){
+//                Path filePath= uploadPath.resolve(fileName);
+//                System.out.println(filePath.toFile().getAbsoluteFile());
+//                Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+//            } catch (IOException e){
+//                throw new IOException("Could not save uploadfile: "+fileName);
+//            }
+//        }
+//
+//        return "redirect:/test/questionbank";
+//    }
+@PostMapping("/editquestion")
+public String postQuestion(@ModelAttribute("ques") Question questions,
+                           @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile
+) throws IOException {
+    if (multipartFile != null && !multipartFile.isEmpty()) {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        questions.setImage(fileName);
+        Question savedQuestion = this.question.save(questions);
+
+        String uploadDir = "./questionbank/" + savedQuestion.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save upload file: " + fileName, e);
+        }
+    } else {
+        Question existingQuestion = this.question.findById(questions.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid question Id:" + questions.getId()));
+        questions.setImage(existingQuestion.getImage());
+        this.question.save(questions);
+    }
+
+    return "redirect:/test/questionbank";
+}
+
+  // Materials
+
+    @GetMapping("/materials")
+    public String materrialList(Model model,
+                                @Param("keyword") String keyword) {
+        Subject subjects = subject.findSubjectByUserID(getUserID());
+        model.addAttribute("subject",subjects);
+        List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
+        model.addAttribute("chapter",chapters);
+        List<Materials> mater = material.findMaterialsbySubject(getUserID());
+        if(keyword!=null){
+            mater = material.searchMaterial(getUserID(),keyword);
+        }
+        model.addAttribute("material",mater);
+        return "manager/Materiallist";
+
+    }
+
+    @PostMapping("/materials")
+    public String getMaterials(@ModelAttribute(name = "material") Materials materials,
+                               @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        materials.setContent(fileName);
+        Materials saveMaterial = material.save(materials);
+        String uploadDir = "./materials/" + saveMaterial.getId();
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            System.out.println(filePath.toFile().getAbsoluteFile());
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save uploaded file: " + fileName, e);
+        }
+
+        return "redirect:/test/materials";
+
     }
 
     @GetMapping("materials/editmaterial/{id}")
@@ -247,23 +445,50 @@ public class ManagerController {
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
-      Material mater = material.findMaterialbyID(id);
+        Materials mater = material.findMaterialbyID(id);
         model.addAttribute("material",mater);
         return "manager/edit-material";
     }
 
     @PostMapping("/editmaterial")
-    public String postMaterial(@ModelAttribute("material") Material materials) {
-        material.save(materials);
+    public String postMaterial(@ModelAttribute("material") Materials materials,
+                               @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
+if(multipartFile!=null&& !multipartFile.isEmpty()){
+    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    materials.setContent(fileName);
+    Materials saveMaterial = material.save(materials);
+    String uploadDir = "./materials/" + saveMaterial.getId();
+    Path uploadPath = Paths.get(uploadDir);
+
+    if (!Files.exists(uploadPath)) {
+        Files.createDirectories(uploadPath);
+    }
+
+    try (InputStream inputStream = multipartFile.getInputStream()) {
+        Path filePath = uploadPath.resolve(fileName);
+        System.out.println(filePath.toFile().getAbsoluteFile());
+        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        throw new IOException("Could not save uploaded file: " + fileName, e);
+    }
+}
+else {
+    Materials existingMaterials = material.findById(materials.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid materials Id:" + materials.getId()));
+    materials.setContent(existingMaterials.getContent());
+    material.save(materials);
+}
         return "redirect:/test/materials";
     }
 
+
     @GetMapping("/materials/{id}")
-    public String deleteMaterial(@ModelAttribute Material materials,@PathVariable Integer id) {
+    public String deleteMaterial(@ModelAttribute Materials materials,@PathVariable Integer id) {
     material.deleteById(id);
     return "redirect:/test/materials";
     }
+// End materials
 
+    //
     @Transactional
     @GetMapping("/questionbank/{id}")
     public String deleteQuestion(@ModelAttribute Question questions,@PathVariable Integer id) {
@@ -273,8 +498,8 @@ public class ManagerController {
         if(mockque==null)
             question.deleteById(id);
         for(MockQuestion i: mockque){
-            key.setMocktestid(i.getMockTest().getMocktestid());
-            key.setQuestionid(i.getQuestion().getQuestionid());
+            key.setMocktestid(i.getMockTest().getId());
+            key.setQuestionid(i.getQuestion().getId());
             mockquestion.deleteById(key);
         }
 
@@ -284,17 +509,29 @@ public class ManagerController {
         return "redirect:/test/questionbank";
     }
 
-
+// MockTest Details
     @GetMapping("/mockdetails/{id}")
-    public String mockQuestion(Model model,@PathVariable Integer id) {
+    public String mockQuestion(Model model,@PathVariable Integer id,
+                               @RequestParam(defaultValue = "10") int size,
+                               @RequestParam(defaultValue = "0") int page) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
         List<Level> levels = level.findAll();
         model.addAttribute("level", levels);
-        List<Question> questions = question.mockTestDetails(id);
+        if (page < 0) {
+            throw new IllegalArgumentException("Page index must not be less than zero");
+        }
+        Page<Question> questions = question.mockTestDetails(id,PageRequest.of(page,size));
+        if(questions.isEmpty()||questions== null){
+            model.addAttribute("empty","No Question");
+        }
+        model.addAttribute("test",id);
         model.addAttribute("ques", questions);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", questions.getTotalPages());
+        model.addAttribute("size", size);
         Question q = new Question();
         model.addAttribute("nques",q);
         MockTest nMockTest= mock.mocktestbyID(id);
@@ -312,8 +549,8 @@ public class ManagerController {
         if(mockque==null)
             question.deleteById(questionid);
 for(MockQuestion i: mockque){
-    key.setMocktestid(i.getMockTest().getMocktestid());
-    key.setQuestionid(i.getQuestion().getQuestionid());
+    key.setMocktestid(i.getMockTest().getId());
+    key.setQuestionid(i.getQuestion().getId());
     mockquestion.deleteById(key);
 
 }
@@ -322,10 +559,31 @@ for(MockQuestion i: mockque){
         return "redirect:/test/mockdetails/"+id;
     }
     @PostMapping("/mockdetails/{id}")
-    public String addMockquestion(@ModelAttribute("nques") Question questions,@PathVariable Integer id){
-        question.save(questions);
+    public String addMockquestion(@ModelAttribute("nques") Question questions,
+                                  @PathVariable("id") Integer id,
+                                  @RequestParam(value="fileImage",required = false) MultipartFile multipartFile
+
+    ) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        questions.setImage(fileName);
+
+        Question saveQues= this.question.save(questions);
+
+        String uploadDir ="./questionbank/"+ saveQues.getId();
+        Path uploadPath = Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
+        }
+        try(InputStream inputStream = multipartFile.getInputStream();){
+            Path filePath= uploadPath.resolve(fileName);
+            System.out.println(filePath.toFile().getAbsoluteFile());
+            Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e){
+            throw new IOException("Could not save uploadfile: "+fileName);
+        }
+
         MockTest nMockTest= mock.mocktestbyID(id);
-        MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getMocktestid(), questions.getQuestionid());
+        MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getId(), questions.getId());
 
         MockQuestion mockques = new MockQuestion();
         mockques.setId(mockQuestionKey);
@@ -336,48 +594,39 @@ for(MockQuestion i: mockque){
     mockquestion.save(mockques);
         return "redirect:/test/mockdetails/" + id;    }
 
-    @GetMapping("/materials")
-    public String materrialList(Model model,@Param("keyword") String keyword) {
-        Subject subjects = subject.findSubjectByUserID(getUserID());
-        model.addAttribute("subject",subjects);
-        List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
-        model.addAttribute("chapter",chapters);
-        List<Material> mater = material.findMaterialsBySubjectId(getUserID());
-        if(keyword!=null){
-            mater = material.searchMaterial(getUserID(),keyword);
-        }
-        model.addAttribute("material",mater);
-        return "manager/Materiallist";
-
-    }
-    @PostMapping("/materials")
-    public String getMaterials(@ModelAttribute Material material){
-        this.material.save(material);
-        return "redirect:/test/materials";
-    }
+// Mocktest
    // @Autowired
    @Transactional
    @GetMapping("/mocktests/{id}")
-   public String deleteMockTest(@ModelAttribute MockTest mocktest,@PathVariable("id") Integer id) {
-       List<MockQuestion> mockque = mockquestion.mockDetails(id);
-
+   public String deleteMockTest(@PathVariable("id") Integer id) {
+       System.out.println(id);
+       List<MockQuestion> mockQuestions = mockquestion.mockDetails(id);
        MockQuestionKey key = new MockQuestionKey();
-       if (mockque != null && !mockque.isEmpty()) {
-           for (MockQuestion i : mockque) {
-               key.setMocktestid(i.getMockTest().getMocktestid());
-               key.setQuestionid(i.getQuestion().getQuestionid());
-
-               question.deleteById(i.getQuestion().getQuestionid());
-               // Xóa MockQuestion trước
-               mockquestion.deleteById(key);
-
+        List<Integer> listID = new ArrayList<>();
+           for (MockQuestion mockQuestion : mockQuestions) {
+                   Integer qID= mockQuestion.getQuestion().getId();
+                   listID.add(qID);
+               key.setMocktestid(mockQuestion.getMockTest().getId());
+               key.setQuestionid(mockQuestion.getQuestion().getId());
+               System.out.println("questionID:"+qID+"+++++");
+               System.out.println(key.toString());
+              mockquestion.deleteById(key);
            }
-       }
+           for(Integer i: listID){
+               System.out.println("ListD: "+i);
+               question.deleteById(i);
+           }
 
-       // Xóa MockTest cuối cùng
-       mock.deleteById(id);
+       List<TakenMockTest> listT= takenMockTestRepository.takenTestByMockTestID(id);
+           for (TakenMockTest i: listT){
+               System.out.println(i.toString());
+               takenMockTestRepository.delete(i);
+           }
+//       // Xóa MockTest cuối cùng
+      mock.deleteById(id);
        return "redirect:/test/mocktests";
    }
+
     @GetMapping("/mocktests")
     public String getMockTests(Model model,@ModelAttribute Manager manager ) {
         Subject subjects = subject.findSubjectByUserID(getUserID());
@@ -409,39 +658,70 @@ for(MockQuestion i: mockque){
 
         return file.getOriginalFilename();
     }
+
      @PostMapping("/mocktests")
-    public String postMockTests(@ModelAttribute MockTest mockTest,@Param("file") String file) throws IOException {
-        mock.save(mockTest);
+    public String postMockTests(@ModelAttribute MockTest mockTest, @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFile) throws IOException {
+         MockTest savedMockTest = mock.save(mockTest);
+         if (multipartFile != null && !multipartFile.isEmpty()) {
+             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+           //  List<Question> list = readExcel(fileName);
+             List<Question> list = readExcel(multipartFile);
 
-         try {
-             // Lưu file vào thư mục cấu hình và lấy tên file
-//             String fileName = storeFile(file);
-//
-//             String excelPath = "C:\\src\\main\\resources\\excels" + fileName;
-
-             //String excelPath = "C:\\Users\\Admin\\Desktop\\demo-project-1\\src\\main\\resources\\excels" + fileName;
-             //ExcelHelper excelHelper = new ExcelHelper(excelPath);
-
-             // readdata and save db
-             List<Question> list = readExcel(file);
              for (Question questionss : list) {
-                 questionss.setSubjectid(mockTest.getSubject().getSubjectId());
+                 System.out.println(questionss.toString());
+                 questionss.setSubjectID(mockTest.getSubjectId());
                  questionss.setStatus(0);
                  question.save(questionss);
-                 MockTest nMockTest = mock.mocktestbyID(mockTest.getMocktestid());
-                 MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getMocktestid(), questionss.getQuestionid());
+                 MockTest nMockTest = mock.mocktestbyID(mockTest.getId());
+                 MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getId(), questionss.getId());
                  MockQuestion mockques = new MockQuestion();
                  mockques.setId(mockQuestionKey);
                  mockques.setMockTest(nMockTest);
                  mockques.setQuestion(questionss);
                  mockquestion.save(mockques);
-                // deleteAllFilesInDirectory("D:\\helpless\\src\\main\\resources\\excels");
+                 String uploadDir = "./mocktest/" + savedMockTest.getId();
+                 Path uploadPath = Paths.get(uploadDir);
+                 if (!Files.exists(uploadPath)) {
+                     Files.createDirectories(uploadPath);
+                 }
+                 try (InputStream inputStream = multipartFile.getInputStream()) {
+                     Path filePath = uploadPath.resolve(fileName);
+                     Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                 } catch (IOException e) {
+                     throw new IOException("Could not save upload file: " + fileName, e);
+                 }
              }
-         } catch(Exception e){
-             e.printStackTrace();
-         }
+             // Xóa thư mục và toàn bộ nội dung bên trong
+             String directoryToDelete = "./mocktest/" + savedMockTest.getId();
+             try {
+                 FileUtils.deleteDirectory(new File(directoryToDelete));
+             } catch (IOException e) {
+                 throw new IOException("Could not delete directory: " + directoryToDelete, e);
+             }
+
+//                     // deleteAllFilesInDirectory("D:\\helpless\\src\\main\\resources\\excels");
+                 }
+
+
+                 return "redirect:/test/mocktests";
+             }
+
+    @GetMapping("mocktests/editmocktest/{id}")
+    public String getEditMockTest(Model model,@PathVariable int id) {
+        Subject subjects = subject.findSubjectByUserID(getUserID());
+        model.addAttribute("subject",subjects);
+        MockTest mockTest = mock.mocktestbyID(id);
+        model.addAttribute("mocktest",mockTest);
+        return "manager/edit-mocktest";
+    }
+
+    @PostMapping("/editmocktest")
+    public String postEditMocktest(@ModelAttribute("mocktest") MockTest mockTest) {
+        mock.save(mockTest);
         return "redirect:/test/mocktests";
     }
+
+    // Changepassword
 
     @GetMapping("/changepassword")
     public  String changepass(Model model){
@@ -485,7 +765,7 @@ for(MockQuestion i: mockque){
     @PostMapping("/questionrequest")
     public String postRequestQuestion(@RequestParam("id") Integer id,Model model,@RequestParam("check") String check){
 
-        Question question1 = question.findQuestionById(id);
+        Question question1 = question.findQuestionBYID(id);
         if(check.equals("approve")){
             question1.setStatus(0);
             question.save(question1);
@@ -530,7 +810,12 @@ for(MockQuestion i: mockque){
         if(list.isEmpty()){
             model.addAttribute("error","No result");
         }
+        else{
+            model.addAttribute("error",null);
+        }
+        list.sort(Comparator.comparingDouble(TakenMockTest::getScore));
         model.addAttribute("mock",list);
+        model.addAttribute("mockTestID",id);
         List<User> student = userRepository.findAll();
         model.addAttribute("student",student);
         int cnt1=0;
@@ -560,6 +845,41 @@ for(MockQuestion i: mockque){
         model.addAttribute("pieChartBase64", pieChartBase64);
         return "manager/analysis";
     }
+// export file excel
+
+//    @GetMapping("/export/{id}")
+//    public ResponseEntity<byte[]> exportToExcel(@PathVariable("id") Integer id) throws IOException {
+//        System.out.println(id);
+//        List<TakenMockTest> taken = takenMockTestRepository.takenTestByMockTestID(id);
+//
+//        Workbook workbook = new XSSFWorkbook();
+//        Sheet sheet = workbook.createSheet("StudentScore");
+//
+//        Row header = sheet.createRow(0);
+//        header.createCell(0).setCellValue("Student ID");
+//        header.createCell(1).setCellValue("Score");
+//
+//        int rowNum = 1;
+//        for (TakenMockTest test : taken) {
+//            Row row = sheet.createRow(rowNum++);
+//            row.createCell(0).setCellValue(test.getUserID());
+//            row.createCell(1).setCellValue(test.getScore());
+//        }
+//
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        workbook.write(bos);
+//        byte[] bytes = bos.toByteArray();
+//        workbook.close();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=studentscore.xlsx");
+//
+//        return ResponseEntity
+//                .ok()
+//                .headers(headers)
+//                .body(bytes);
+//    }
+
 
 @Autowired
 private ExcelService excelService;
@@ -573,4 +893,6 @@ private ExcelService excelService;
         response.setHeader(headerKey, headerValue);
         excelService.generateExcel(response,mocktestid);
     }
+
+
 }

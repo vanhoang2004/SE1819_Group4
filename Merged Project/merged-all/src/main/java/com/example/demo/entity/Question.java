@@ -2,154 +2,158 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Map;
+import java.util.Set;
 
 @Entity
-@Table(name = "questions")
+@Table( name="questions")
 public class Question {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "questionid")
-    private Integer questionid;
 
-    @Column(name = "questiontitle")
-    private String questiontitle;
+        @Id
+        @GeneratedValue(strategy=GenerationType.IDENTITY )
+        @Column(name="questionid")
+    private Integer id;
 
-    @Column(name = "image")
-    private String image;
 
-    @Column(name = "option1")
-    private String option1;
+    @ManyToMany(mappedBy = "likedQuestion")
+    private Set<MockTest> likes;
 
-    @Column(name = "option2")
-    private String option2;
 
-    @Column(name = "option3")
-    private String option3;
+    @Column(name="questiontitle")
+    private String title;
 
-    @Column(name = "option4")
-    private String option4;
+    @Column(name="image")
+    private String Image;
 
-    @Column(name = "answer")
-    private String answer;
+    @Column(name="option1")
+    private String op1;
 
-    @Column(name = "subjectid")
-    private Integer subjectid;
+    @Column(name="option2")
+    private String op2;
 
-    @Column(name = "chapterid")
-    private Integer chapterid;
+    @Column(name="option3")
+    private String op3;
 
-    @Column(name = "levelid")
-    private Integer levelid;
+    @Column(name="option4")
+    private String op4;
 
-    @Column(name = "status")
-    private Integer status;
+    @Column(name="answer")
+    private String ans;
+
+    @Column(name="subjectid")
+    private Integer subjectID;
+
+    @Column(name="chapterid")
+    private Integer chapterID;
+
+    @Column(name="levelid")
+    private Integer levelID;
+
+    @Column(name="status")
+   private Integer status;
 
     public Question() {
     }
 
-
-    public Question(Integer questionid, String questiontitle, String image, String option1, String option2, String option3, String option4, String answer, Integer subjectid, Integer chapterid, Integer levelid, Integer status) {
-        this.questionid = questionid;
-        this.questiontitle = questiontitle;
-        this.image = image;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.answer = answer;
-        this.subjectid = subjectid;
-        this.chapterid = chapterid;
-        this.levelid = levelid;
+    public Question(String title, String image, String op1, String op2, String op3, String op4, String ans, Integer subjectID, Integer chapterID, Integer levelID, Integer status) {
+        this.title = title;
+        Image = image;
+        this.op1 = op1;
+        this.op2 = op2;
+        this.op3 = op3;
+        this.op4 = op4;
+        this.ans = ans;
+        this.subjectID = subjectID;
+        this.chapterID = chapterID;
+        this.levelID = levelID;
         this.status = status;
     }
 
-    public Integer getQuestionid() {
-        return questionid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setQuestionid(Integer questionid) {
-        this.questionid = questionid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getQuestiontitle() {
-        return questiontitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setQuestiontitle(String questiontitle) {
-        this.questiontitle = questiontitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        Image = image;
     }
 
-    public String getOption1() {
-        return option1;
+    public String getOp1() {
+        return op1;
     }
 
-    public void setOption1(String option1) {
-        this.option1 = option1;
+    public void setOp1(String op1) {
+        this.op1 = op1;
     }
 
-    public String getOption2() {
-        return option2;
+    public String getOp2() {
+        return op2;
     }
 
-    public void setOption2(String option2) {
-        this.option2 = option2;
+    public void setOp2(String op2) {
+        this.op2 = op2;
     }
 
-    public String getOption3() {
-        return option3;
+    public String getOp3() {
+        return op3;
     }
 
-    public void setOption3(String option3) {
-        this.option3 = option3;
+    public void setOp3(String op3) {
+        this.op3 = op3;
     }
 
-    public String getOption4() {
-        return option4;
+    public String getOp4() {
+        return op4;
     }
 
-    public void setOption4(String option4) {
-        this.option4 = option4;
+    public void setOp4(String op4) {
+        this.op4 = op4;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getAns() {
+        return ans;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAns(String ans) {
+        this.ans = ans;
     }
 
-    public Integer getSubjectid() {
-        return subjectid;
+    public Integer getSubjectID() {
+        return subjectID;
     }
 
-    public void setSubjectid(Integer subjectid) {
-        this.subjectid = subjectid;
+    public void setSubjectID(Integer subjectID) {
+        this.subjectID = subjectID;
     }
 
-    public Integer getChapterid() {
-        return chapterid;
+    public Integer getChapterID() {
+        return chapterID;
     }
 
-    public void setChapterid(Integer chapterid) {
-        this.chapterid = chapterid;
+    public void setChapterID(Integer chapterID) {
+        this.chapterID = chapterID;
     }
 
-    public Integer getLevelid() {
-        return levelid;
+    public Integer getLevelID() {
+        return levelID;
     }
 
-    public void setLevelid(Integer levelid) {
-        this.levelid = levelid;
+    public void setLevelID(Integer levelID) {
+        this.levelID = levelID;
     }
 
     public Integer getStatus() {
@@ -160,55 +164,28 @@ public class Question {
         this.status = status;
     }
 
-
-    public static Question fromMap(Map<String, String> data) {
-        Question question = new Question();
-
-        // Kiểm tra và gán các giá trị từ Map
-        if (data.containsKey("questiontitle")) {
-            question.setQuestiontitle(data.get("questiontitle"));
-        }
-        if (data.containsKey("image")) {
-            question.setImage(data.get("image"));
-        }
-        if (data.containsKey("option1")) {
-            question.setOption1(data.get("option1"));
-        }
-        if (data.containsKey("option2")) {
-            question.setOption2(data.get("option2"));
-        }
-        if (data.containsKey("option3")) {
-            question.setOption3(data.get("option3"));
-        }
-        if (data.containsKey("option4")) {
-            question.setOption4(data.get("option4"));
-        }
-        if (data.containsKey("answer")) {
-            question.setAnswer(data.get("answer"));
-        }
-        if (data.containsKey("subjectid")) {
-            question.setSubjectid(parseIntSafely(data.get("subjectid")));
-        }
-        if (data.containsKey("chapterid")) {
-            question.setChapterid(parseIntSafely(data.get("chapterid")));
-        }
-        if (data.containsKey("levelid")) {
-            question.setLevelid(parseIntSafely(data.get("levelid")));
-        }
-        if (data.containsKey("status")) {
-            question.setStatus(parseIntSafely(data.get("status")));
-        }
-
-        return question;
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", likes=" + likes +
+                ", title='" + title + '\'' +
+                ", Image='" + Image + '\'' +
+                ", op1='" + op1 + '\'' +
+                ", op2='" + op2 + '\'' +
+                ", op3='" + op3 + '\'' +
+                ", op4='" + op4 + '\'' +
+                ", ans='" + ans + '\'' +
+                ", subjectID='" + subjectID + '\'' +
+                ", chapterID='" + chapterID + '\'' +
+                ", levelID='" + levelID + '\'' +
+                ", status=" + status +
+                '}';
     }
 
-    // Phương thức tiện ích để chuyển đổi chuỗi thành số nguyên một cách an toàn
-    private static Integer parseIntSafely(String value) {
-        try {
-            return (int) Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return null; // Hoặc xử lý lỗi theo cách khác nếu cần thiết
-        }
+    @Transient
+    public String  getQuesImagePath(){
+        if(Image==null || id==null) return null;
+        return "/questionbank/"+ id+"/"+ Image;
     }
 }
-

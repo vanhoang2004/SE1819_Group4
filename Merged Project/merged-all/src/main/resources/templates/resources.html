@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<!-- Head elements for CSS, JS and other related resources -->
+<!--Head elements for CSS, JS and other related resources-->
     <div th:fragment="head">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,7 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </div>
-<!-- Links in the main navigation bar -->
+<!--Links in the main navigation bar-->
     <div th:fragment="navbar-main-links">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a th:href="@{/admin/admins}" class="nav-link text-white">Admins</a></li>
@@ -29,7 +29,7 @@
             <li class="nav-item"><a th:href="@{/admin/teacher-class}" class="nav-link text-white">Teachers - Classes</a></li>
         </ul>
     </div>
-<!-- Navigation bar at the top of the page -->
+<!--Navigation bar at the top of the page-->
     <div th:fragment="navbar-top">
         <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
             <!-- Container wrapper -->
@@ -75,8 +75,8 @@
                         <!-- Bell icon with badge -->
                         <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" title="General Notifications" aria-expanded="false">
                             <i class="bi bi-bell-fill"></i>
-                            <span th:if="${session.all_recent.isEmpty()}" class="badge badge-secondary">0</span>
-                            <span th:unless="${session.all_recent.isEmpty()}" class="badge badge-danger" th:text="${session.all_recent.size()}"></span>
+                            <span th:if="${session.all_notifs.isEmpty()}" class="badge badge-secondary">0</span>
+                            <span th:unless="${session.all_notifs.isEmpty()}" class="badge badge-danger" th:text="${session.all_notifs.size()}"></span>
                         </button>
                         <!-- Dropdown menu -->
                         <div class="dropdown-menu p-3" style="width: 40vw; height: 60vh; overflow-y: auto;">
@@ -85,20 +85,20 @@
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All
-                                            <span th:if="${session.all_recent.isEmpty()}" class="text-secondary">(0)</span>
-                                            <span th:unless="${session.all_recent.isEmpty()}" class="text-danger" th:text="${'(' + session.all_recent.size() + ')'}"></span>
+                                            <span th:if="${session.all_notifs.isEmpty()}" class="text-secondary">(0)</span>
+                                            <span th:unless="${session.all_notifs.isEmpty()}" class="text-danger" th:text="${'(' + session.all_notifs.size() + ')'}"></span>
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="false">General
-                                            <span th:if="${session.gen_recent.isEmpty()}" class="text-secondary">(0)</span>
-                                            <span th:unless="${session.gen_recent.isEmpty()}" class="text-danger" th:text="${'(' + session.gen_recent.size() + ')'}"></span>
+                                            <span th:if="${session.gen_notifs.isEmpty()}" class="text-secondary">(0)</span>
+                                            <span th:unless="${session.gen_notifs.isEmpty()}" class="text-danger" th:text="${'(' + session.gen_notifs.size() + ')'}"></span>
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <a class="nav-link" id="class-tab" data-toggle="tab" href="#class" role="tab" aria-controls="class" aria-selected="false">Class
-                                            <span th:if="${session.class_recent.isEmpty()}" class="text-secondary">(0)</span>
-                                            <span th:unless="${session.class_recent.isEmpty()}" class="text-danger" th:text="${'(' + session.class_recent.size() + ')'}"></span>
+                                            <span th:if="${session.class_notifs.isEmpty()}" class="text-secondary">(0)</span>
+                                            <span th:unless="${session.class_notifs.isEmpty()}" class="text-danger" th:text="${'(' + session.class_notifs.size() + ')'}"></span>
                                         </a>
                                     </li>
                                 </ul>
@@ -106,182 +106,74 @@
                                 <div class="tab-content" id="myTabContent">
                             <!-- All Notifications -->
                                     <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                                        <div th:if="${session.all_recent.isEmpty() and session.all_old.isEmpty()}">
-                                            <h4 class="text-center dropdown-item text-secondary font-italic text-wrap mt-4" style="background-color: inherit">No Notifications</h4>
-                                        </div>
-                                        <div th:unless="${session.all_recent.isEmpty() and session.all_old.isEmpty()}">
-                                <!-- Recent All -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Recent <span th:if="${session.all_recent.size() > 0}" th:text="${'(' + session.all_recent.size() + ')'}"></span></h4>
-                                            <div th:if="${session.all_recent.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.all_recent.isEmpty()}">
-                                                <div th:each="notif : ${session.all_recent}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
+                                        <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">All Notifications</h4>
+                                        <hr>
+                                        <p th:if="${session.all_notifs.isEmpty()}" class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
+                                        <div th:unless="${session.all_notifs.isEmpty()}" th:each="notif, iterStat : ${session.all_notifs}">
+                                            <div class="dropdown-item" style="background-color: inherit; color: inherit">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="text-wrap" th:text="${notif.title}"></h5>
+                                                    <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
                                                 </div>
+                                                <p class="fs-6 font-weight-lighter text-wrap mw-100"
+                                                   style="
+                                                   display: -webkit-box;
+                                                   -webkit-line-clamp: 3;
+                                                   -webkit-box-orient: vertical;
+                                                   overflow: hidden;
+                                                   text-overflow: ellipsis;
+                                                   white-space: normal;"
+                                                   th:text="${notif.message}"></p>
                                             </div>
-                                <!-- Older All -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Older <span th:if="${session.all_old.size() > 0}" th:text="${'(' + session.all_old.size() + ')'}"></span></h4>
-                                            <div th:if="${session.all_old.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.all_old.isEmpty()}">
-                                                <div th:each="notif : ${session.all_old}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <hr th:unless="${iterStat.last}">
                                         </div>
                                     </div>
                             <!-- General Notifications -->
                                     <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
-                                        <div th:if="${session.gen_recent.isEmpty() and session.gen_old.isEmpty()}">
-                                            <h4 class="text-center dropdown-item text-secondary font-italic text-wrap mt-4" style="background-color: inherit">No Notifications</h4>
-                                        </div>
-                                        <div th:unless="${session.gen_recent.isEmpty() and session.gen_old.isEmpty()}">
-                            <!-- Recent General -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Recent <span th:if="${session.gen_recent.size() > 0}" th:text="${'(' + session.gen_recent.size() + ')'}"></span></h4>
-                                            <div th:if="${session.gen_recent.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.gen_recent.isEmpty()}">
-                                                <div th:each="notif : ${session.gen_recent}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
+                                        <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">General Notifications</h4>
+                                        <hr>
+                                        <p th:if="${session.gen_notifs.isEmpty()}" class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
+                                        <div th:unless="${session.gen_notifs.isEmpty()}" th:each="notif, iterStat : ${session.gen_notifs}">
+                                            <div class="dropdown-item" style="background-color: inherit; color: inherit">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="text-wrap" th:text="${notif.title}"></h5>
+                                                    <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
                                                 </div>
+                                                <p class="fs-6 font-weight-lighter text-wrap mw-100"
+                                                   style="
+                                                   display: -webkit-box;
+                                                   -webkit-line-clamp: 3;
+                                                   -webkit-box-orient: vertical;
+                                                   overflow: hidden;
+                                                   text-overflow: ellipsis;
+                                                   white-space: normal;"
+                                                   th:text="${notif.message}"></p>
                                             </div>
-                                <!-- Older General -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Older <span th:if="${session.gen_old.size() > 0}" th:text="${'(' + session.gen_old.size() + ')'}"></span></h4>
-                                            <div th:if="${session.gen_old.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.gen_old.isEmpty()}">
-                                                <div th:each="notif : ${session.gen_old}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <hr th:unless="${iterStat.last}">
                                         </div>
                                     </div>
                             <!-- Class Notifications -->
                                     <div class="tab-pane fade" id="class" role="tabpanel" aria-labelledby="class-tab">
-                                        <div th:if="${session.class_recent.isEmpty() and session.class_old.isEmpty()}">
-                                            <h4 class="text-center dropdown-item text-secondary font-italic text-wrap mt-4" style="background-color: inherit">No Notifications</h4>
-                                        </div>
-                                        <div th:unless="${session.class_recent.isEmpty() and session.class_old.isEmpty()}">
-                                            <!-- Recent General -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Recent <span th:if="${session.class_recent.size() > 0}" th:text="${'(' + session.class_recent.size() + ')'}"></span></h4>
-                                            <div th:if="${session.class_recent.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.class_recent.isEmpty()}">
-                                                <div th:each="notif : ${session.class_recent}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
+                                        <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Class Notifications</h4>
+                                        <hr>
+                                        <p th:if="${session.class_notifs.isEmpty()}" class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
+                                        <div th:unless="${session.class_notifs.isEmpty()}" th:each="notif, iterStat : ${session.class_notifs}">
+                                            <div class="dropdown-item" style="background-color: inherit; color: inherit">
+                                                <div class="d-flex justify-content-between">
+                                                    <h5 class="text-wrap" th:text="${notif.title}"></h5>
+                                                    <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
                                                 </div>
+                                                <p class="fs-6 font-weight-lighter text-wrap mw-100"
+                                                   style="
+                                                   display: -webkit-box;
+                                                   -webkit-line-clamp: 3;
+                                                   -webkit-box-orient: vertical;
+                                                   overflow: hidden;
+                                                   text-overflow: ellipsis;
+                                                   white-space: normal;"
+                                                   th:text="${notif.message}"></p>
                                             </div>
-                                            <!-- Older General -->
-                                            <h4 class="font-weight-bold dropdown-item text-center text-wrap mt-4" style="background-color: inherit; color: inherit">Older <span th:if="${session.class_old.size() > 0}" th:text="${'(' + session.class_old.size() + ')'}"></span></h4>
-                                            <div th:if="${session.class_old.isEmpty()}">
-                                                <hr>
-                                                <p class="text-center dropdown-item text-secondary fs-6 font-italic text-wrap" style="background-color: inherit">No Notifications</p>
-                                            </div>
-                                            <div th:unless="${session.class_old.isEmpty()}">
-                                                <div th:each="notif : ${session.class_old}">
-                                                    <hr>
-                                                    <div class="dropdown-item" style="background-color: inherit; color: inherit">
-                                                        <div class="d-flex justify-content-between">
-                                                            <h5 class="text-wrap" th:text="${notif.title}"></h5>
-                                                            <span class="text-secondary font-weight-lighter font-italic" th:text="${notif.getTimeDifference()}"></span>
-                                                        </div>
-                                                        <p class="fs-6 font-weight-lighter text-wrap mw-100"
-                                                           style="
-                                                               display: -webkit-box;
-                                                               -webkit-line-clamp: 3;
-                                                               -webkit-box-orient: vertical;
-                                                               overflow: hidden;
-                                                               text-overflow: ellipsis;
-                                                               white-space: normal;"
-                                                           th:text="${notif.message}"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <hr th:unless="${iterStat.last}">
                                         </div>
                                     </div>
                                 </div>
@@ -305,7 +197,7 @@
         </nav>
         <!-- Navbar -->
     </div>
-<!-- Extra front-end assets -->
+<!--Extra front-end assets-->
     <div th:fragment="extra">
         <style>
             body {
@@ -558,16 +450,6 @@
                 });
             });
         </script>
-    </div>
-<!-- Maintaining User object's field values -->
-    <div th:fragment="user-fields">
-        <input th:field="*{userId}" th:value="*{userId}" hidden>
-        <input th:field="*{username}" th:value="*{username}" hidden>
-        <input th:field="*{password}" th:value="*{password}" hidden>
-        <input th:field="*{fullname}" th:value="*{fullname}" hidden>
-        <input th:field="*{useremail}" th:value="*{useremail}" hidden>
-        <input th:field="*{role}" th:value="*{role}" hidden>
-        <input th:field="*{enabled}" th:value="*{enabled}" hidden>
     </div>
 </body>
 </html>

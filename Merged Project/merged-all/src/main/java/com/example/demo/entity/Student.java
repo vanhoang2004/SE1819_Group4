@@ -14,7 +14,7 @@ public class Student {
     @JoinColumn(name="UserID")
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name="Classcode")
     private Class sclass;
 

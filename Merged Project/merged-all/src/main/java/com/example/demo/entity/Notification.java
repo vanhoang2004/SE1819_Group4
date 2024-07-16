@@ -119,22 +119,4 @@ public class Notification {
             else return weeks + " week ago";
         }
     }
-
-    public boolean isRecent() {
-        LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(this.createdAt, now);
-
-        long seconds = duration.getSeconds();
-
-        return seconds <= 86400 * 3;
-    }
-
-    public boolean isOld(){
-        LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(this.createdAt, now);
-
-        long seconds = duration.getSeconds();
-
-        return seconds > 86400 * 3;
-    }
 }

@@ -16,10 +16,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.username like :search% or u.fullname like %:search% or u.useremail like :search%")
     List<User> search(@Param("search") String search);
-
-    User findByUserId(Integer id);
-
-    User findByUsername(String username);
-
-    User findByUseremail(String email);
 }

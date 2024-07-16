@@ -13,16 +13,15 @@ public class Chapter {
     @Column(name="chaptername")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "subjectid", referencedColumnName = "subjectid")
-    private Subject subject;
+    @Column(name="subjectid")
+    private  Integer subjectID;
 
     public Chapter() {
     }
 
-    public Chapter(String name, Subject subject) {
+    public Chapter(String name, Integer subjectID) {
         this.name = name;
-        this.subject = subject;
+        this.subjectID = subjectID;
     }
 
     public Integer getId() {
@@ -41,11 +40,11 @@ public class Chapter {
         this.name = name;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public Integer getSubjectID() {
+        return subjectID;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setSubjectID(Integer subjectID) {
+        this.subjectID = subjectID;
     }
 }
