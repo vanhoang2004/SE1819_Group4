@@ -1,0 +1,13 @@
+
+ƒ	java:S125"<This block of commented-out lines of code should be removed.( ãæÎøÿÿÿÿ8æí€½‡2J$ba216bee-7309-41c3-888f-62aaa4d3c4bb
+~	java:S125"<This block of commented-out lines of code should be removed.(‹³Éé8é¢€½‡2J$b81a1ff2-6af4-48e0-b499-7d8050e8d532
+m	java:S106"+Replace this use of System.out by a logger.(·àÍ¯8ê¢€½‡2J$73244883-d264-4806-84a8-1082ffd58981
+m	java:S106 "+Replace this use of System.out by a logger.(Î†¼­8öÒÍ½‡2J$a545ac89-265a-4c07-9c9d-c0f74bc64678
+ˆ
+java:S1128"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8ùŸÎ½‡2J$07bc64f3-17ad-4fab-892d-c95ad876d832
+–
+java:S1128"SRemove this unused import 'org.springframework.web.bind.annotation.ResponseStatus'.(¯×ñ8ùŸÎ½‡2J$787f29ef-0fb7-4875-83e9-10054eb0e49d
+œ
+java:S1128"YRemove this unused import 'org.springframework.web.bind.annotation.RestControllerAdvice'.(É•„8ùŸÎ½‡2J$b3a5f7a7-91c8-4e8a-a65c-2ca0946a091d
+’
+java:S1128	"ORemove this unused import 'org.springframework.web.context.request.WebRequest'.(€í´ï8ùŸÎ½‡2J$2efe7407-52c0-4d6c-928e-ece8adafcbc2

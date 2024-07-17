@@ -1,0 +1,13 @@
+
+ª
+java:S1130E"“Remove the declaration of thrown exception 'org.apache.poi.openxml4j.exceptions.InvalidFormatException', as it cannot be thrown from method's body.(®‡íç
+W
+java:S1117{"<Rename "workbook" which hides the field declared at line 19.(æãÙÀøÿÿÿÿ
+N
+java:S11444"8Remove this unused private "setupFieldsForClass" method.(€ŸŸ®
+K
+java:S1144<"5Remove this unused private "getSheetWithName" method.(¡­ßÕ
+L
+java:S1144E"6Remove this unused private "initializeForRead" method.(®‡íç
+K
+java:S1144n"0Remove this unused private "setWorkbook" method.(¶Ó©Õýÿÿÿÿ

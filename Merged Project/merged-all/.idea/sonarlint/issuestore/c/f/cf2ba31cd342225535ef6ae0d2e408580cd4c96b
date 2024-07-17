@@ -1,0 +1,21 @@
+
+¥
+java:S1450?"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿ8²ı‹2J$cd8fe62c-916b-481c-b835-32ca75034c9f
+‰	java:S107-"BConstructor has 11 parameters, which is greater than 7 authorized.(¢ÔğÚùÿÿÿÿ8‘²ı‹2J$ba522269-e49e-4300-b23d-5c5ac8b72b51
+‹
+java:S4488D"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(Æøîç8•²ı‹2J$b0c81422-95a3-4329-9e88-64a255d47b7a
+Œ
+java:S4488K"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·8•²ı‹2J$62c90cb0-39f4-4064-aa9a-c993c8ddda56
+m	java:S106P"+Replace this use of System.out by a logger.(°ˆ°Ë8—²ı‹2J$4b171e85-72ea-4199-81d1-d4882430344a
+r	java:S106T"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿ8˜²ı‹2J$323fc9af-915e-45a9-aaa4-94fe2af1b1aa
+‡
+java:S1117V"?Rename "excelHelper" which hides the field declared at line 64.(”ğê¿üÿÿÿÿ8˜²ı‹2J$438b7be7-c6a8-44c8-bf3b-6f80a9f64419
+r	java:S106["+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿ8š²ı‹2J$ad1a73a0-5779-438a-9522-1cbb5f4ca56f
+m	java:S106i"+Replace this use of System.out by a logger.(ÏÚ€Å8š²ı‹2J$4f67eda2-b389-446c-a0b8-a0803c9d0842
+	java:S125š"<This block of commented-out lines of code should be removed.(ÈöÁ8¡²ı‹2J$12461b3b-a0bc-4a32-870a-0a1e68c569ae
+r
+java:S1481¡")Remove this unused "path" local variable.(†”„Àıÿÿÿÿ8£²ı‹2J$7ebf9548-7dc4-4e92-8c4c-38191270ee47
+z
+java:S1068?"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿ8¥²ı‹2J$59e126a2-9ef0-4efe-9609-48abc6c816c0
+w
+java:S1068@"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿ8¥²ı‹2J$ac7361ca-414b-4a01-84d6-c0cd9f1ef9e7
