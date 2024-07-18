@@ -32,4 +32,9 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
 
     @Query(value="SELECT s.* FROM Students s JOIN Users u ON u.UserID = s.UserID WHERE u.Username = :username", nativeQuery = true)
     Student getStudentByUsername(@Param("username") String username);
+
+    @Query(value="select * from students where classcode = :classcode", nativeQuery = true)
+    List<Student> getStudentInClass(int classcode);
+    @Query(value="SELECT * FROM Students WHERE UserID = :id", nativeQuery = true)
+    Student getStudentByUserID(int id);
 }

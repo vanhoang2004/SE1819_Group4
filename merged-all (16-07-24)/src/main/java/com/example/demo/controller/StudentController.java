@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping("/student")
 @Controller
@@ -39,12 +39,15 @@ public class StudentController {
     private ClassService classService;
     private TakenMockTestService takenMockTestService;
 
+    private  CompleteQuizService completeQuizService;
+
+
     @Autowired
     public StudentController(SubjectService subjectService, MockTestService mockTestService,
                              ChapterService chapterService, MaterialService materialService, StudentService studentService,
                              TeacherMaterialService teacherMaterialService, TeacherPracticeService teacherPracticeService,
                              QuestionService questionService, TeacherService teacherService, ClassService classService, TakenMockTestService takenMockTestService,
-                             NotificationRepository nr, StudentRepository sr) {
+                             NotificationRepository nr, StudentRepository sr, CompleteQuizService completeQuizService) {
         this.subjectService = subjectService;
         this.mockTestService = mockTestService;
         this.chapterService = chapterService;
@@ -58,6 +61,8 @@ public class StudentController {
         this.takenMockTestService = takenMockTestService;
         this.sr = sr;
         this.nr = nr;
+
+        this.completeQuizService=completeQuizService;
     }
 
     NotificationRepository nr;
@@ -205,5 +210,34 @@ public class StudentController {
         model.addAttribute("xephanglop",takenLop);
         System.out.println(takenLop.get(0).getStudent().getUser().getFullname());
         return "student/xephang";
+    }
+    @GetMapping("/progress/{subjectId}")
+    public String getProgress(@PathVariable int subjectId, Principal principal, Model model) throws IOException {
+        String username = principal.getName();
+        Student student=studentService.getStudentByUsername(username);
+//    	String pieChartBase64 = chartService.generatePieChart(1, 2, 3);
+        List<Chapter> chapterlist = chapterService.findChapterBySubjectId(subjectId);
+        List<Pair<Chapter, Integer>> pieChartData= new ArrayList<Pair<Chapter,Integer>>();
+        List<CompleteQuiz> listCompleteQuiz = completeQuizService.getCompleteQuizBySubjectIdAndUserid(subjectId, student.getUserId());
+        for(Chapter chapter : chapterlist) {
+            int i = completeQuizService.getCountQuizByUserAndChapter(chapter.getId(),student.getUserId());
+            if(i>0) {
+                pieChartData.add(Pair.of(chapter, i));
+            }
+        }
+        List<Map<String, Object>> pieChartDataList = pieChartData.stream().map(pair -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("chapterId", pair.getFirst().getId());
+            map.put("chapterName", pair.getFirst().getName());
+            map.put("count", pair.getSecond());
+            return map;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("listCompleteQuiz",listCompleteQuiz);
+//        String pieChartBase64 = chartService.generateDynamicPieChart(chapterlist, studentService.getStudentByUsername(username).getUserId());
+//        model.addAttribute("pieChartBase64", pieChartBase64);
+        //List<Integer> pieChartData =Arrays.asList(1,2,3);
+        model.addAttribute("pieChartData",pieChartDataList);
+        return "chart";
     }
 }
