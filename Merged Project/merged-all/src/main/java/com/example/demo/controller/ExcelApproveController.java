@@ -9,6 +9,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,6 +76,9 @@ public class ExcelApproveController implements ServletContextAware {
     //process the submit file
     @RequestMapping(value = "process", method = RequestMethod.POST)
     public String process(@RequestParam("file") MultipartFile file) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        int subjectid = tr.findSubjectIdByUsername(name);
         try {
             String fileName = uploadExcelFile(file);
             if (fileName != null) {
@@ -95,9 +100,9 @@ public class ExcelApproveController implements ServletContextAware {
                     questions.add(question);
 
                     //fix cung
-                    question.setChapterid(2);
-                    question.setLevelid(2);
-                    question.setSubjectid(2);
+                    //question.setChapterid(2);
+                    //question.setLevelid(2);
+                    question.setSubjectid(subjectid);
                     question.setStatus(2);
 
                     //add vao db

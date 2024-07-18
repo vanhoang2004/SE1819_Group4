@@ -11,17 +11,16 @@ import java.nio.file.Paths;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Handling questionbank directory
         Path quesUploadDir = Paths.get("./questionbank");
-        String quesUploadPath= quesUploadDir.toFile().getAbsolutePath();
+        String quesUploadPath = quesUploadDir.toFile().getAbsolutePath();
         registry.addResourceHandler("/questionbank/**")
-                .addResourceLocations("file:/"+quesUploadPath+"/");
+                .addResourceLocations("file:/" + quesUploadPath + "/");
 
-        // Handle PDF and Word files in the documentbank directory
-        Path docUploadDir = Paths.get(".static/documentbank");
+        // Handling documentbank directory in src/main/resources/static
+        Path docUploadDir = Paths.get("./src/main/resources/static/documentbank");
         String docUploadPath = docUploadDir.toFile().getAbsolutePath();
-        registry.addResourceHandler(".static/documentbank/**")
+        registry.addResourceHandler("/documentbank/**")
                 .addResourceLocations("file:/" + docUploadPath + "/");
     }
-
-
 }

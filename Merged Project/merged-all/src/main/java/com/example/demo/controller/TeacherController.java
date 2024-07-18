@@ -307,7 +307,7 @@ public class TeacherController {
             teacherMaterials.setContent(fileName);
             tmr.save(teacherMaterials);
 
-            String uploadDir = "./questionbank/" + teacherMaterials.getTeachermaterialid();
+            String uploadDir = "./src/main/resources/static/documentbank/" + teacherMaterials.getTeachermaterialid();
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
@@ -361,11 +361,7 @@ public class TeacherController {
             teacherMaterials.setContent(fileName);
             tmr.save(teacherMaterials);
 
-            // Determine upload directory based on file type
-            String uploadDir = fileName.endsWith(".pdf") || fileName.endsWith(".doc") || fileName.endsWith(".docx")
-                    ? "static/documentbank/" + teacherMaterials.getTeachermaterialid()
-                    : "static/questionbank/" + teacherMaterials.getTeachermaterialid();
-
+            String uploadDir = "./src/main/resources/static/documentbank/" + teacherMaterials.getTeachermaterialid();
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
@@ -377,8 +373,6 @@ public class TeacherController {
             } catch (IOException e) {
                 throw new IOException("Could not save uploaded file: " + fileName);
             }
-        } else {
-            System.out.println("No file uploaded.");
         }
 
         return "redirect:/teacher/teachermateriallist/" + classcode;
