@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Users From Files</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<div class="container mt-5">
+    <!-- Guidelines -->
+    <div class="card border-info mb-4">
+        <div class="card-header bg-info text-white">
+            <h2>Guidelines</h2>
+        </div>
+        <div class="card-body">
+            <p>1. Download the template Excel file <a th:href="@{/classTemplate.xlsx}" download>here</a>.</p>
+            <p>2. Fill in the necessary information in the downloaded file (class name).</p>
+            <p>3. Upload the completed Excel file using the form below.</p>
+        </div>
+    </div>
+
+    <!-- Upload Excel File -->
+    <div class="card border-info">
+        <div class="card-header bg-info text-white">
+            <h2>Import</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/importclass}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Choose Excel File</label>
+                    <input type="file" name="file" id="file" class="form-control-file" accept=".xlsx" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Import</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
