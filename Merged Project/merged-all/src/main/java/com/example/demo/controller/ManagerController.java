@@ -405,79 +405,136 @@ public List<Question> readExcel(MultipartFile file) throws IOException {
         return "manager/questionbank";
     }
 
-    @PostMapping("/questionbank")
-    public String getQuestion(@ModelAttribute(name="ques") Question question,
-                              @RequestParam(value = "file", required = false) String file,
-                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+//    @PostMapping("/questionbank")
+//    public String getQuestion(@ModelAttribute(name="ques") Question question,
+//                              @RequestParam(value = "file", required = false) String file,
+//                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+//                              @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFileExcel,
+//                              Model model)throws IOException {
+//
+//       this.question.save(question);
+//
+//        if (multipartFileExcel != null && !multipartFileExcel.isEmpty()) {
+//            String fileNameExcel = StringUtils.cleanPath(multipartFileExcel.getOriginalFilename());
+//            if (!multipartFile.getOriginalFilename().endsWith(".xlsx")) {
+//                throw new IOException("Định dạng tệp không hợp lệ. Vui lòng tải lên tệp Excel (.xlsx).");
+//            }
+//
+//            List<Question> list = readExcel(multipartFileExcel);
+//            for(Question questions: list){
+//                questions.setSubjectID(question.getSubjectID());
+//                this.question.save(questions);
+//            }
+//            String uploadDir ="./questionbank/"+ fileNameExcel;
+//            Path uploadPath = Paths.get(uploadDir);
+//            if(!Files.exists(uploadPath)){
+//                Files.createDirectories(uploadPath);
+//            }
+//            try (InputStream inputStream = multipartFileExcel.getInputStream()) {
+//                Path filePath = uploadPath.resolve(fileNameExcel);
+//                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+//            } catch (IOException e) {
+//                throw new IOException("Could not save upload file: " + fileNameExcel, e);
+//            }
+//
+//        // Xóa thư mục và toàn bộ nội dung bên trong
+//        String directoryToDelete = "./questionbank/"+ fileNameExcel;
+//        try {
+//            FileUtils.deleteDirectory(new File(directoryToDelete));
+//        } catch (IOException e) {
+//            throw new IOException("Could not delete directory: " + directoryToDelete, e);
+//        }
+//
+//    }
+//
+//        if (multipartFile != null && !multipartFile.isEmpty()) {
+//        // Image
+//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//
+//            question.setImage(fileName);
+//            Question saveQues= this.question.save(question);
+//
+//        String uploadDir ="./questionbank/"+ saveQues.getId();
+//        Path uploadPath = Paths.get(uploadDir);
+//        if(!Files.exists(uploadPath)){
+//            Files.createDirectories(uploadPath);
+//        }
+//try(InputStream inputStream = multipartFile.getInputStream();){
+//    Path filePath= uploadPath.resolve(fileName);
+//    System.out.println(filePath.toFile().getAbsoluteFile());
+//    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+//} catch (IOException e){
+//    throw new IOException("Could not save uploadfile: "+fileName);
+//}}
+//
+//
+//
+//        return "redirect:/test/questionbank";
+//    }
+@PostMapping("/questionbank")
+public String getQuestion(@ModelAttribute(name="ques") Question question,
+                          @RequestParam(value = "file", required = false) String file,
+                          @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+                          @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFileExcel,
+                          Model model) throws IOException {
 
-                              Model model)throws IOException {
+    this.question.save(question);
+
+    if (multipartFile != null && !multipartFile.isEmpty()) {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        question.setImage(fileName);
+        Question saveQues = this.question.save(question);
 
-            question.setImage(fileName);
-            Question saveQues= this.question.save(question);
-
-        String uploadDir ="./questionbank/"+ saveQues.getId();
+        String uploadDir = "./questionbank/" + saveQues.getId();
         Path uploadPath = Paths.get(uploadDir);
-        if(!Files.exists(uploadPath)){
+        if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-try(InputStream inputStream = multipartFile.getInputStream();){
-    Path filePath= uploadPath.resolve(fileName);
-    System.out.println(filePath.toFile().getAbsoluteFile());
-    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
-} catch (IOException e){
-    throw new IOException("Could not save uploadfile: "+fileName);
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            System.out.println(filePath.toFile().getAbsoluteFile());
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save upload file: " + fileName, e);
+        }
+    }
+
+    if (multipartFileExcel != null && !multipartFileExcel.isEmpty()) {
+        String fileNameExcel = StringUtils.cleanPath(multipartFileExcel.getOriginalFilename());
+        if (!fileNameExcel.endsWith(".xlsx")) {
+            throw new IOException("Định dạng tệp không hợp lệ. Vui lòng tải lên tệp Excel (.xlsx).");
+        }
+
+        List<Question> list = readExcel(multipartFileExcel);
+        for (Question questions : list) {
+            questions.setStatus(question.getStatus());
+            questions.setSubjectID(question.getSubjectID());
+            this.question.save(questions);
+        }
+        String uploadDir = "./questionbank/" + fileNameExcel;
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        try (InputStream inputStream = multipartFileExcel.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileNameExcel);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Could not save upload file: " + fileNameExcel, e);
+        }
+
+        // Xóa thư mục và toàn bộ nội dung bên trong
+        String directoryToDelete = "./questionbank/" + fileNameExcel;
+        try {
+            FileUtils.deleteDirectory(new File(directoryToDelete));
+        } catch (IOException e) {
+            throw new IOException("Could not delete directory: " + directoryToDelete, e);
+        }
+    }
+
+    return "redirect:/test/questionbank";
 }
 
-//        }
-
-//        if (file!=null && !file.isEmpty()) {
-//            List<Question> list = readExcel(file);
-//            for (Question q : list) {
-//                q.setSubjectID(question.getSubjectID());
-//                q.setChapterID(question.getChapterID());
-//                q.setLevelID(question.getLevelID());
-//                q.setStatus(question.getStatus());
-//                this.question.save(q);
-//            }
-//            throw new IllegalArgumentException("Answer must be one of the options");
-//
-//        }
-        return "redirect:/test/questionbank";
-
-//
-//        try {
-//            if (!question.getTitle().isEmpty()) {
-//                this.question.save(question);
-//            }
-//            if (file != null && !file.isEmpty()) {
-//                List<Question> list = readExcel(file);
-//                for (Question q : list) {
-//                    q.setSubjectID(question.getSubjectID());
-//                    q.setChapterID(question.getChapterID());
-//                    q.setLevelID(question.getLevelID());
-//                    q.setStatus(question.getStatus());
-//
-//                    // Validate that answer is one of the options
-//                    if (!q.getAns().equals(q.getOp1()) &&
-//                            !q.getAns().equals(q.getOp2()) &&
-//                            !q.getAns().equals(q.getOp3()) &&
-//                            !q.getAns().equals(q.getOp4())) {
-//                        throw new IllegalArgumentException("Answer must be one of the options");
-//                    }
-//
-//                    this.question.save(q);
-//                }
-//            }
-//
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//            model.addAttribute("error",e.getMessage());// Log the validation error
-//            return "redirect:/test/questionbank";
-//
-//        }
-//        return "redirect:/test/questionbank";
-    }
 
     @GetMapping("questionbank/editquestion/{id}")
     public String list1(Model model,@PathVariable int id) {

@@ -307,6 +307,7 @@
                     </div>
                     <div class="col-sm-6 text-right">
                         <a href="#add" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Question</span></a>
+                        <a href="#addByFile" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Question By File</span></a>
                         <a href="homepage" class="btn btn-primary"><i class="material-icons">&#xE15C;</i> <span>Home</span></a>
                     </div>
                 </div>
@@ -497,18 +498,7 @@
                             <option th:each="level :${level}" th:value="${level.id}" th:text="${level.name}"></option>
                         </select>
                     </div>
-                    <div>
-                        <label>Question</label>
-                        <i class="bi bi-plus-circle" data-toggle="modal" data-target="#showInstruction"></i><br/>
-                        <a>Question Template file:</a>
-                        <!--                            <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>-->
-<!--                        <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>-->
-<!--                        <a href="/static/questionTemplate.xlsx" download="questionTemplate.xlsx">Download Excel File</a>-->
-                        <a th:href="@{/questionTemplate.xlsx}" download>Download Excel File</a>
 
-                        <label>Choose a file</label>
-                        <input name="fileExcel" type="file" accept=".xlsx"  class="form-control" required>
-                    </div>
                     <div class="form-group">
                         <input name="status" type="hidden" th:value="1"class="form-control" >
                     </div>
@@ -521,6 +511,50 @@
         </div>
     </div>
 </div>
+<div id="addByFile" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/test/questionbank}" th:object="${ques}" method="POST"
+                  enctype="multipart/form-data"
+                  style="max-width:400px;margin: 0 auto;">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Question</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input name="subjectID"  type="hidden" th:value="${subject.subjectId}" >
+                        <input  type="text" readonly th:value="${subject.subjectName}" class="form-control">
+                    </div>
+
+                    <div>
+                        <label>Question</label>
+                        <i class="bi bi-plus-circle" data-toggle="modal" data-target="#showInstruction"></i><br/>
+                        <a>Question Template file:</a>
+                        <!--                            <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>-->
+                        <!--                        <a th:href="@{/questionTemplate.xlsx}" download="questionTemplate.xlsx">Download Excel File</a>-->
+                        <!--                        <a href="/static/questionTemplate.xlsx" download="questionTemplate.xlsx">Download Excel File</a>-->
+                        <a th:href="@{/questionTemplate.xlsx}" download>Download Excel File</a>
+
+                        <label>Choose a file</label>
+                        <input name="fileExcel" type="file" accept=".xlsx"  class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <input name="status" type="hidden" th:value="1"class="form-control" >
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div>
 </div>
 <div id="showInstruction" class="modal fade">
