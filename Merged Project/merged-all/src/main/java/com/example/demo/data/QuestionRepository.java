@@ -91,8 +91,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     // list question in queue of approval by subject
     @Query(value = "select * from questions\n" +
-            "where subjectid =:subjectid and status = 2", nativeQuery = true)
-    List<Question> findQuestionBySubjectId(Integer subjectid);
+            "where subjectid =:subjectid and status = 2 and username =:username", nativeQuery = true)
+    List<Question> findQuestionBySubjectId(Integer subjectid, String username);
+
 
     //filter by chapterid
     @Query(value = "select * from questions q\n" +

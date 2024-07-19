@@ -8,4 +8,5 @@ public interface LevelRepository extends JpaRepository<Level, Integer> {
     @Query(value="select LevelID from levels where LevelName like :name ",nativeQuery = true)
     Integer getLevelID(String name);
 
+
 }

@@ -46,11 +46,23 @@ public class Question {
     @Column(name = "status")
     private Integer status;
 
+    @Column(name = "username")
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Question() {
     }
 
 
-    public Question(Integer questionid, String questiontitle, String image, String option1, String option2, String option3, String option4, String answer, Integer subjectid, Integer chapterid, Integer levelid, Integer status) {
+    public Question(Integer questionid, String questiontitle, String image, String option1, String option2, String option3,
+                    String option4, String answer, Integer subjectid, Integer chapterid, Integer levelid, Integer status) {
         this.questionid = questionid;
         this.questiontitle = questiontitle;
         this.image = image;

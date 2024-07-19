@@ -28,8 +28,6 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/excelapprove")
-
-//declare copy from old controller
 public class ExcelApproveController implements ServletContextAware {
     SubjectRepository su;
     ClassRepository clas;
@@ -45,9 +43,9 @@ public class ExcelApproveController implements ServletContextAware {
 
     @Autowired
     public ExcelApproveController(SubjectRepository su, ClassRepository clas, MockTestRepository mt,
-                               StudentRepository sr, MaterialRepository mr, TeacherRepository tr,
-                               TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
-                               QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
+                                  StudentRepository sr, MaterialRepository mr, TeacherRepository tr,
+                                  TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
+                                  QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
         this.su = su;
         this.clas = clas;
         this.mt = mt;
@@ -61,10 +59,9 @@ public class ExcelApproveController implements ServletContextAware {
         this.cr = cr;
     }
 
-    //declare for the excel reading
+    // declare for the excel reading
     private ServletContext servletContext;
     private ExcelHelper excelHelper;
-
 
     // file controller
     @RequestMapping(method = RequestMethod.GET)
@@ -72,50 +69,54 @@ public class ExcelApproveController implements ServletContextAware {
         return "ExcelTest2";
     }
 
-
-    //process the submit file
+    // process the submit file
     @RequestMapping(value = "process", method = RequestMethod.POST)
-    public String process(@RequestParam("file") MultipartFile file) throws Exception {
+    public String process(@RequestParam("file") MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         int subjectid = tr.findSubjectIdByUsername(name);
+
         try {
             String fileName = uploadExcelFile(file);
             if (fileName != null) {
                 System.out.println("Uploaded file name: " + fileName);
 
                 // Use the absolute path specified
-                String excelPath = "D:\\helpless\\src\\main\\resources\\excels\\" + fileName;
+                String excelPath = "D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels\\" + fileName;
                 System.out.println("Excel file path: " + excelPath);
 
                 ExcelHelper excelHelper = new ExcelHelper(excelPath);
-
+//                List<Question> question1 = excelHelper.readData();
+//                System.out.println("list");
+//                for(Question q: question1) {
+//                    System.out.println(q.getQuestiontitle());
+//                }
                 List<Question> questions = new ArrayList<>();
                 List<Map<String, String>> data = excelHelper.readData();
 
                 System.out.println("Data from Excel file:");
                 for (Map<String, String> row : data) {
                     Question question = Question.fromMap(row);
-                    //add in list to show on console
+                    // add in list to show on console
                     questions.add(question);
 
-                    //fix cung
-                    //question.setChapterid(2);
-                    //question.setLevelid(2);
+                    // fix cung
+                    // question.setChapterid(2);
+                    // question.setLevelid(2);
                     question.setSubjectid(subjectid);
                     question.setStatus(2);
+                    question.setUsername(name);
 
-                    //add vao db
+                    // add vao db
                     qr.save(question);
                     System.out.println(question.getQuestiontitle());
                 }
 
-                //delete all imported files after insert
-                deleteAllFilesInDirectory("D:\\helpless\\src\\main\\resources\\excels");
+                // delete all imported files after insert
+                deleteAllFilesInDirectory("D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels");
             }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return "redirect:/teacher/questionbank/" + 2;
     }
@@ -124,7 +125,7 @@ public class ExcelApproveController implements ServletContextAware {
         try {
             byte[] bytes = multipartFile.getBytes();
             // Use the absolute path specified
-            String uploadDir = "D:\\helpless\\src\\main\\resources\\excels";
+            String uploadDir = "D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels";
             Path path = Paths.get(uploadDir, multipartFile.getOriginalFilename());
             Files.write(path, bytes);
             return multipartFile.getOriginalFilename();
@@ -134,7 +135,7 @@ public class ExcelApproveController implements ServletContextAware {
         }
     }
 
-    //function delete file
+    // function delete file
     private void deleteAllFilesInDirectory(String directory) throws IOException {
         Path directoryPath = Paths.get(directory);
 
@@ -152,22 +153,5 @@ public class ExcelApproveController implements ServletContextAware {
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
-    }
-
-//    //created for playful :)))
-//    @GetMapping("/ExcelTest")
-//    public String etst(Model model) {
-//        return "ExcelTest2";
-//    }
-
-    @GetMapping("/downloadFile")
-    public ResponseEntity<Resource> downloadFile() throws IOException {
-        Resource resource = new ClassPathResource("/static/ques3.xlsx");
-        Path path = Paths.get(resource.getURI());
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .header("Content-Disposition", "attachment; filename=\"ques3.xlsx\"")
-                .body(resource);
     }
 }

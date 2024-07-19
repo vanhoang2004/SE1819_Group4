@@ -94,7 +94,8 @@ public class TeacherController {
     //get question bank
     @GetMapping("/questionbank/{subjectid}")
     public String getQuestionbank(Model model, @PathVariable int subjectid, @Param("keyword") String keyword, @RequestParam(value = "filter", required = false) String filter) {
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
         //List<Question> questions = qr.findQuestionBySubjectId(subjectid);
 
         List<Question> questions;
@@ -107,7 +108,7 @@ public class TeacherController {
             questions = qr.findQuestionByChapterId(subjectid, Integer.parseInt(filter));
         } else {
             // Find mocktest by subjectid
-            questions = qr.findQuestionBySubjectId(subjectid);
+            questions = qr.findQuestionBySubjectId(subjectid, name);
         }
 
         List<Level> levels = lr.findAll();
@@ -576,13 +577,15 @@ public class TeacherController {
     public String sendQuestion(Model model, @ModelAttribute Question nques, @PathVariable Integer subjectid, @RequestParam(value = "file", required = false) String file,
                                @RequestParam(value = "fileImage", required = false)MultipartFile multipartFile)throws IOException
             {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                String name = auth.getName();
         //handle exception
         Optional<Subject> findsubject = su.findById(subjectid);
         if(findsubject.isEmpty()) {
             throw new ApiRequestException("oops, no such class found ahihi");
         }
                 String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-
+                nques.setUsername(name);
                 nques.setImage(fileName);
        Question savedQuestion= qr.save(nques);
                 String uploadDir ="./questionbank/"+ savedQuestion.getQuestionid();
