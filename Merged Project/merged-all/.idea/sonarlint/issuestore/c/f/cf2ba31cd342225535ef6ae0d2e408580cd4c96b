@@ -1,0 +1,23 @@
+
+î
+java:S1192P"¥Define a constant instead of duplicating this literal "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels" 3 times.(ß¾Éâıÿÿÿÿ8õÿĞĞŒ2J$52435c63-e77b-47c8-9cdb-33570d9da809
+¥
+java:S14508"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿ8Ãá»äˆ2J$b5f3c06f-81a6-4b1c-8c14-081a4a1eb06e
+‰	java:S107&"BConstructor has 11 parameters, which is greater than 7 authorized.(¢ÔğÚùÿÿÿÿ8Äá»äˆ2J$eb9c04dd-6e02-4718-ac28-c74ef13a33f2
+‹
+java:S4488="HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(Æøîç8Çá»äˆ2J$410bb0fd-5e02-4c50-b3da-a6fd44e9fef0
+Œ
+java:S4488D"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·8Èá»äˆ2J$0fcf6882-e70b-4563-b963-3afe9b8c27f2
+m	java:S106M"+Replace this use of System.out by a logger.(°ˆ°Ë8Ìí•ÏŒ2J$1ab111b7-504f-4c91-a32e-5571def5c969
+r	java:S106Q"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿ8Ìí•ÏŒ2J$e058c5f5-435f-4818-8294-1f8fea14a704
+‡
+java:S1117S"?Rename "excelHelper" which hides the field declared at line 57.(”ğê¿üÿÿÿÿ8Ìí•ÏŒ2J$8a3cbdf7-a38b-44d7-901c-4a476e3a5c93
+~	java:S125T"<This block of commented-out lines of code should be removed.(Îõˆ©8Ìí•ÏŒ2J$cd5c23b2-a4a0-4418-81d8-7746b0d74c17
+r	java:S106\"+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿ8Ìí•ÏŒ2J$aacc5d5c-30be-42ea-a5d1-f7389e880aba
+~	java:S125c"<This block of commented-out lines of code should be removed.(èñ“ß8Ìí•ÏŒ2J$3d8de9fc-e8de-4875-bb28-29edf3a0a011
+l	java:S106k"+Replace this use of System.out by a logger.(ØµÄ18Ìí•ÏŒ2J$fd6419b8-f914-4649-ba36-89d049fb0512
+	java:S125›"<This block of commented-out lines of code should be removed.(ÈöÁ8Öá»äˆ2J$5c965726-5274-450f-a5dd-40c2cc6ac2cf
+z
+java:S10688"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿ8Úá»äˆ2J$fc1dc541-5387-4d98-8cf7-612019bfd5fe
+w
+java:S10689"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿ8Ûá»äˆ2J$eb92ec6c-3725-4887-8977-773277c37eef

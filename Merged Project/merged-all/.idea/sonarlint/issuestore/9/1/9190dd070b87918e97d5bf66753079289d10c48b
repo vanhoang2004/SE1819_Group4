@@ -1,0 +1,21 @@
+
+‡	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(«²¤8…×ú‹2J$9081d566-ab69-46e3-acd7-906a0fc6bcae
+
+java:S1192"JDefine a constant instead of duplicating this literal "ExcelTest" 3 times.(ºŞı¤8ô©Öú‹2J$1a9e9c7b-281c-48c5-972c-d83198df6672
+¥
+java:S1450"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿ8ªÖú‹2J$677006de-00ae-4765-a62d-9f5a53d34cb6
+‹
+java:S4488"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(Æøîç8ªÖú‹2J$e7a89b4b-1c20-498a-9faf-96429284c7f5
+Œ
+java:S4488""JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·8‘ªÖú‹2J$0b59bcd3-0374-42b9-9b00-c4353d3e5ee2
+m	java:S106("+Replace this use of System.out by a logger.(°ˆ°Ë8’ªÖú‹2J$c97efa7b-7360-41b1-b853-ad0dd49a4f26
+r	java:S106,"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿ8“ªÖú‹2J$fd5e783d-47c8-4d88-a4ab-f0d70c245281
+‡
+java:S1117."?Rename "excelHelper" which hides the field declared at line 27.(”ğê¿üÿÿÿÿ8“ªÖú‹2J$c821b152-54da-4c1f-9558-b4342eceda52
+ƒ	java:S125/"<This block of commented-out lines of code should be removed.(Æ¢²¿ùÿÿÿÿ8”ªÖú‹2J$c9da7b42-5e7c-4284-8012-60820db9911b
+r	java:S1067"+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿ8•ªÖú‹2J$05c31e35-e394-4ffd-9eee-147d9c90b107
+l	java:S106;"+Replace this use of System.out by a logger.(ØµÄ18–ªÖú‹2J$71e9f717-1290-4e6c-ac00-d3734f89ae80
+z
+java:S1068"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿ8™ªÖú‹2J$5a9b5604-521c-4ba1-8dbe-4094189adb55
+w
+java:S1068"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿ8™ªÖú‹2J$36e8805c-8f0e-4018-9448-81b4cb51cb0a

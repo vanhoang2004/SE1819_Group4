@@ -1,0 +1,15 @@
+
+
+java:S2095;"JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(¸™á…8¬´ÏŒ2J$50763e0f-bbe8-4f19-b2f0-eed5d6c4e5e7
+
+java:S2095 "JUse try-with-resources or close this "XSSFWorkbook" in a "finally" clause.(¸™á…8¬´ÏŒ2J$f097f520-cb2b-4288-b3e6-51b238875420
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$f35886cf-1d7d-4e39-a83d-8480ee8237f0
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¬´ÏŒ2J$e0e112d9-0a9b-4aef-ba8d-080c5db2784b
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8¬´ÏŒ2J$3cce6c8d-0498-4089-8bba-99722a84410e
+
+java:S1854q"<Remove this useless assignment to local variable "dataRow1".(ŞÜÊœ8¼´ÏŒ2J$5d1a35e7-59ef-4457-88c6-8ecefa75243f
+p
+java:S1481q"-Remove this unused "dataRow1" local variable.(ŞÜÊœ8¼´ÏŒ2J$513fb2cb-544f-4a14-a864-befe21cc1849

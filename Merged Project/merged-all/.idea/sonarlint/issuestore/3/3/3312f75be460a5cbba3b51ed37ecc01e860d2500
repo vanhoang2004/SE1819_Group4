@@ -1,0 +1,15 @@
+
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ıëÙ¹ş1J$f439142b-2be0-49fe-8d07-39a00dbbc2d7
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ıëÙ¹ş1J$746ddd4f-7ef5-4be9-920d-d567f63bb53f
+•
+java:S3305"RInject this field value directly into "filterChain", the only method that uses it.(®ÚåË8şëÙ¹ş1J$074d660f-49b1-4bd0-aab2-152b774471f2
+ 
+java:S3305"]Inject this field value directly into "authenticationProvider", the only method that uses it.(â–ŠĞ8şëÙ¹ş1J$867a34c4-d2d0-4252-bfa1-1e1d24d60161
+o
+java:S5344D",Use secure "PasswordEncoder" implementation.(å‰ö8ƒìÙ¹ş1J$7e7b6539-f0cb-44f3-8516-aedc4f6c8873
+~
+java:S1874D";Remove this use of "NoOpPasswordEncoder"; it is deprecated.(å‰ö8ƒìÙ¹ş1J$990d5ac7-a3df-48b5-8728-f094a4d1f378
+
+java:S1612]"HReplace this lambda with method reference 'LogoutConfigurer::permitAll'.(Ğí‘Ôşÿÿÿÿ8…ìÙ¹ş1J$08e66bfb-2e2b-4b03-b27e-eded8b980575

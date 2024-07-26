@@ -1,0 +1,27 @@
+
+
+java:S2293Ø"YReplace the type specification in this constructor call with the diamond operator ("<>").(‹©õ8ñã½ÏŒ2J$4940c9fe-4ee4-4c82-9b8f-8efdc249c9ae
+‰	java:S107*"BConstructor has 14 parameters, which is greater than 7 authorized.(¶úÀêÿÿÿÿÿ8““¤ğ…2J$f2a7b832-0d22-4533-8c37-f319c9cbe09e
+
+java:S2441j"MMake "List" and its parameters serializable or don't store it in the session.(ˆÕØÆ8™“¤ğ…2J$2b82c271-1b48-44cc-9bac-d24fb0af8ad6
+•
+java:S2441k"MMake "List" and its parameters serializable or don't store it in the session.(¢×•ğûÿÿÿÿ8˜“¤ğ…2J$95c02c1a-44db-4ccc-aa1b-4b2d51f95b25
+•
+java:S2441l"MMake "List" and its parameters serializable or don't store it in the session.(œÏ“øÿÿÿÿ8˜“¤ğ…2J$83f39a3c-8b70-48a1-b05c-1874387963bc
+
+java:S2441m"MMake "List" and its parameters serializable or don't store it in the session.(¾¯¥ 8˜“¤ğ…2J$a09573e1-6b64-451f-81ee-58b9b9c6c601
+
+java:S2441n"MMake "List" and its parameters serializable or don't store it in the session.(¾ı®®8˜“¤ğ…2J$4e6bcb6d-3859-414c-bd69-aed84528d638
+•
+java:S2441o"MMake "List" and its parameters serializable or don't store it in the session.(™ˆ‰¾úÿÿÿÿ8†ä½ÏŒ2J$339f0bb7-dd79-4553-9f22-c08d1eb28e56
+n	java:S106‹"+Replace this use of System.out by a logger.(ºûŞ8š“¤ğ…2J$141cf146-1ce9-4291-bb75-aa0da975e576
+m	java:S106"+Replace this use of System.out by a logger.(¤¨ıH8š“¤ğ…2J$96bf456e-bced-4516-be44-35f8f89e0b8f
+s	java:S106Ï"+Replace this use of System.out by a logger.(‡Ã¬ÿøÿÿÿÿ8Ÿ“¤ğ…2J$35e1fff3-2662-4a6e-bfcf-18631c36818a
+°
+java:S1130Ó"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(ÙÅÏú8‰³ÎÏŒ2J$04152ccf-671c-4af9-9da1-16fa640d4773
+	java:S125Ö"<This block of commented-out lines of code should be removed.(¶Åí8Œä½ÏŒ2J$0c6c00ea-f408-4f81-b499-e097ded82dc0
+¾
+java:S6204æ"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(œçÖß8ä½ÏŒ2J$c56cdb16-9283-41f6-bb35-0f6df5ff1463
+„	java:S125é"<This block of commented-out lines of code should be removed.(Ğîô‹øÿÿÿÿ8ä½ÏŒ2J$37b87bf5-ac76-48f6-83b2-841017a79c2a
+{
+java:S1068!"3Remove this unused "questionService" private field.(ç»¥ÿÿÿÿÿ8 “¤ğ…2J$50d3e813-b9d8-42b0-b407-8b23497ee8c1

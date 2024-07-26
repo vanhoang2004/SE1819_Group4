@@ -1,0 +1,12 @@
+
+ˆ	java:S112A"FDefine and throw a dedicated exception instead of using a generic one.(äßÖ8²ƒ…ğ…2J$2563866a-9c79-4ca7-b5ab-fad77e7b1355
+¨
+java:S1488%"eImmediately return this expression instead of assigning it to the temporary variable "takenMockTest".(Â¾Œ¬8³ƒ…ğ…2J$a3643b2e-d7bd-4722-a929-c8390339596c
+~
+java:S1854$"6Remove this useless assignment to local variable "mt".(õû´Èùÿÿÿÿ8µƒ…ğ…2J$86dd9edd-bd64-4014-81c5-cb969b20b659
+o
+java:S1481$"'Remove this unused "mt" local variable.(õû´Èùÿÿÿÿ8¶ƒ…ğ…2J$b63afef8-a3ae-44ba-bc40-2e9b6b5d366d
+~
+java:S18549"6Remove this useless assignment to local variable "mt".(õû´Èùÿÿÿÿ8·ƒ…ğ…2J$19ba5151-f117-4aa5-8c80-6677c66761d1
+o
+java:S14819"'Remove this unused "mt" local variable.(õû´Èùÿÿÿÿ8·ƒ…ğ…2J$1c85cd24-2812-4d3e-b265-6c5ca27ec557

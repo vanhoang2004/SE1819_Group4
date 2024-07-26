@@ -1,0 +1,46 @@
+
+ª
+java:S1192†"aDefine a constant instead of duplicating this literal "oops, no such class found ahihi" 17 times.(Ì¿Ñ£şÿÿÿÿ8©„¸ÎŒ2J$c3ef3efc-b803-4e73-8725-3a2b6ce73485
+›
+java:S1192Ö"RDefine a constant instead of duplicating this literal "teacherpracticeid" 4 times.(Ò²Øèøÿÿÿÿ8ùİ»äˆ2J$caec9849-2471-4dac-9f51-c2d49e440304
+—
+java:S1192¬"SDefine a constant instead of duplicating this literal "Invalid class code" 8 times.(‰ßúŞ8úİ»äˆ2J$cfa025ee-9e5b-4dba-91c4-70cc77764a19
+
+java:S1192™"KDefine a constant instead of duplicating this literal "classcode" 12 times.(×ªãË8úİ»äˆ2J$f0331891-0dcf-4549-9178-ca2714fd72bf
+¨
+java:S1192‰"dDefine a constant instead of duplicating this literal "redirect:/teacher/practicequestion/" 3 times.(Øˆ±8úİ»äˆ2J$d8e536b3-3a3b-443b-b13e-c376a9098bef
+«
+java:S1192Ä"gDefine a constant instead of duplicating this literal "redirect:/teacher/teachermateriallist/" 3 times.(£É™Á8úİ»äˆ2J$6a605129-711e-4ee7-ac09-b7d03f51ba5e
+°
+java:S1192Ÿ"gDefine a constant instead of duplicating this literal "redirect:/teacher/teacherpracticelist/" 3 times.(Úã²íüÿÿÿÿ8úİ»äˆ2J$784ef9b7-9251-46b8-be86-62b00a8f88e0
+’
+java:S1192Y"JDefine a constant instead of duplicating this literal "subjectid" 5 times.(şı’üÿÿÿÿÿ8úİ»äˆ2J$a470beee-cf36-4174-ab94-12d77795f410
+”
+java:S1192ı"PDefine a constant instead of duplicating this literal "./questionbank/" 3 times.(±äÍâ8ª„¸ÎŒ2J$253685c3-7256-4dcd-91dd-d67a2a129d7a
+ 
+java:S1192‡"\Define a constant instead of duplicating this literal "Could not save uploadfile: " 3 times.(ù´îó8ª„¸ÎŒ2J$247cf781-0945-44eb-ad44-c3031bb9e1ac
+Ù
+java:S4449²"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8ò„¸ÎŒ2J$946dcc84-db35-4870-abc3-61ed70f1bc7c
+Ù
+java:S4449è"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8ò„¸ÎŒ2J$aaf785a8-62a8-45ff-a058-764f45923ba8
+Ù
+java:S4449Ê"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8›ÏÎŒ2J$cec220f4-0773-44d9-b7e9-2a783ba88aa5
+Ù
+java:S4449©"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8›ÏÎŒ2J$5fd4785b-682a-4ea0-b33d-19fece694906
+Ù
+java:S4449ù"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8ò„¸ÎŒ2J$7633f644-2864-484e-a582-7e74d86f50e2
+„	java:S107/"BConstructor has 13 parameters, which is greater than 7 authorized.(‹Ëç©8Ãà»äˆ2J$6f8da06f-791e-4d64-a52c-742995d466fb
+~	java:S125E"<This block of commented-out lines of code should be removed.(™’¹‡8Á¡ÑŒ2J$5d546142-c794-44fe-9df8-e4c8cee2c147
+~	java:S125c"<This block of commented-out lines of code should be removed.(ïÅÆ¬8Îà»äˆ2J$eadeee4c-bba8-460c-8bf7-0aafb10dc19b
+„	java:S125‡"<This block of commented-out lines of code should be removed.(£æı‡ûÿÿÿÿ8Ôà»äˆ2J$166e41d1-7fe9-4e72-b293-b88cf5591a1a
+Š
+java:S1659©"ADeclare "cnt2" and all following declarations on a separate line.(šê²şÿÿÿÿ8Ùà»äˆ2J$0deedc12-d349-4b4d-9f22-f605df6bce9d
+„	java:S125Æ"<This block of commented-out lines of code should be removed.(£æı‡ûÿÿÿÿ8ı„¸ÎŒ2J$eacfc783-c7c7-4352-8687-90ff83b94cf6
+„	java:S125Ù"<This block of commented-out lines of code should be removed.(£æı‡ûÿÿÿÿ8ş„¸ÎŒ2J$908f968a-8bb0-4911-96d1-a3b9cf52230d
+„	java:S125ì"<This block of commented-out lines of code should be removed.(£æı‡ûÿÿÿÿ8ÿ„¸ÎŒ2J$50640fd9-810a-4431-bfe1-bb0dc72f409e
+„	java:S125ƒ"<This block of commented-out lines of code should be removed.(£æı‡ûÿÿÿÿ8ÿ„¸ÎŒ2J$ee10fc19-2c30-4d3f-94c2-3a77ebf4b755
+n	java:S106Û"+Replace this use of System.out by a logger.(÷ù‚ÿ8ƒ…¸ÎŒ2J$9629edfc-fa62-4e52-9330-0aa4cc35455c
+m	java:S106„"+Replace this use of System.out by a logger.(Ä¸û88‰…¸ÎŒ2J$c08fba61-2899-472f-906f-ec8644cf3952
+„	java:S125˜"<This block of commented-out lines of code should be removed.(áÆœ—ùÿÿÿÿ8Ü¿ÎŒ2J$1d5d1617-47be-4b72-b7ca-a2c240c621b1
+m	java:S106¶"+Replace this use of System.out by a logger.(Ä¸û88‹…¸ÎŒ2J$e9e4e3b7-d073-4d8a-ab05-cf52b410a6fa
+m	java:S106Õ"+Replace this use of System.out by a logger.(Ä¸û88Œ…¸ÎŒ2J$d5c55b2b-8db4-4a58-9c90-0c5a8690260e

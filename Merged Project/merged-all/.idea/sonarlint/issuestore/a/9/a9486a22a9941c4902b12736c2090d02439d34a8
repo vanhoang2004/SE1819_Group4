@@ -1,0 +1,9 @@
+
+|
+java:S1854"@Remove this useless assignment to local variable "apiException".(™–ø®J$25ff5447-a4c0-40c8-96de-060bfd71a140
+|	java:S125"<This block of commented-out lines of code should be removed.(‘ÑåŽýÿÿÿÿJ$41c6ab17-d17e-4ce5-9313-bd40422145e8
+m
+java:S1481"1Remove this unused "apiException" local variable.(™–ø®J$0b5d0f2a-99c5-497a-9b79-b2891ab0960b
+|	java:S125"<This block of commented-out lines of code should be removed.(§ŠåÅøÿÿÿÿJ$e432191f-8da5-413b-8c12-04c15b275432
+…
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿJ$c7f6b8d1-ccb8-4476-a638-b2aade37456f
