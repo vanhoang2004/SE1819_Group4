@@ -329,15 +329,7 @@
 
 <!--                </div>-->
 <!--                    -->
-<!--                <div class="row mt-2" style="display:flex; justify-content: flex-end">-->
-<!--                <div class="col-sm-3" style="display:flex; justify-content: flex-end">-->
-<!--                <select class="custom-select" name="chapterID" id="gradeFilter" onchange="filter(this)" >-->
-<!--                    <option selected disabled>Filter by Chapter</option>-->
-<!--                    <option th:each="chapter : ${chapter}" th:value="${chapter.id}" th:text="${chapter.name}"></option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--                </div>-->
-<!--                </div>-->
+
                 <div class="container">
 
                     <div class="row mt-2 d-flex align-items-center">
@@ -365,9 +357,9 @@
                 </div>
 
             </div>
-            <div class="text-danger">
-                <h5>[[${error}]]</h5>
-            </div>
+<!--            <div class="text-danger">-->
+<!--                <h5>[[${error}]]</h5>-->
+<!--            </div>-->
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -384,24 +376,24 @@
                 </thead>
                 <tbody>
                 <tr th:each="ques : ${ques}" href="#viewAnswer">
-                    <td th:text="${ques.id}"></td>
-                    <td th:text="${ques.title}"></td>
+                    <td th:text="${ques.questionid}"></td>
+                    <td th:text="${ques.questiontitle}"></td>
                     <td>
-                        1.<a th:text="${ques.op1}"></a><br/>
-                        2.<a th:text="${ques.op2}"></a><br/>
-                        3.<a th:text="${ques.op3}"></a><br/>
-                        4.<a th:text="${ques.op4}"></a><br/>
+                        1.<a th:text="${ques.option1}"></a><br/>
+                        2.<a th:text="${ques.option2}"></a><br/>
+                        3.<a th:text="${ques.option3}"></a><br/>
+                        4.<a th:text="${ques.option4}"></a><br/>
                     </td>
-                    <td th:text="${ques.ans}"></td>
+                    <td th:text="${ques.answer}"></td>
                     <td>
                         <img th:src="@{${ques.QuesImagePath}}" style="width: 200px;">
                     </td>
-                    <td th:each="subject:${subject}" th:if="${subject.subjectId}==${ques.subjectID}" th:text="${subject.subjectName}"></td>
-                    <td th:each="chapter:${chapter}" th:if="${chapter.id}==${ques.chapterID}" th:text="${chapter.name}"></td>
-                    <td th:each="level:${level}" th:if="${level.id}==${ques.levelID}" th:text="${level.name}"></td>
+                    <td th:each="subject:${subject}" th:if="${subject.subjectId}==${ques.subjectid}" th:text="${subject.subjectName}"></td>
+                    <td th:each="chapter:${chapter}" th:if="${chapter.id}==${ques.chapterid}" th:text="${chapter.name}"></td>
+                    <td th:each="level:${level}" th:if="${level.id}==${ques.levelid}" th:text="${level.name}"></td>
                     <td>
-                        <a th:href="@{/test/questionbank/editquestion/{id}(id=${ques.id})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a th:href="@{/test/questionbank/{id}(id=${ques.id})}" onclick="return confirmDelete();" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        <a th:href="@{/test/questionbank/editquestion/{id}(id=${ques.questionid})}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a th:href="@{/test/questionbank/{id}(id=${ques.questionid})}" onclick="return confirmDelete();" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                 </tr>
                 </tbody>
@@ -450,7 +442,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Title</label>
-                        <input name="title" type="text" class="form-control" required >
+                        <input name="questiontitle" type="text" class="form-control" required >
                     </div>
 <!--                    <div class="form-group">-->
 <!--                        <label>Image</label>-->
@@ -463,38 +455,38 @@
                     </div>
                     <div class="form-group">
                         <label>Option 1</label>
-                        <input name="op1" type="text" class="form-control"  required>
+                        <input name="option1" type="text" class="form-control"  required>
                     </div>
                     <div class="form-group">
                         <label>Option 2</label>
-                        <input name="op2" type="text" class="form-control"  required>
+                        <input name="option2" type="text" class="form-control"  required>
                     </div>
                     <div class="form-group">
                         <label>Option 3</label>
-                        <input name="op3" type="text" class="form-control" required>
+                        <input name="option3" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Option 4</label>
-                        <input name="op4" type="text" class="form-control" required>
+                        <input name="option4" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Answer</label>
-                        <input name="ans" type="text" class="form-control" required>
+                        <input name="answer" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Subject</label>
-                        <input name="subjectID"  type="hidden" th:value="${subject.subjectId}" >
+                        <input name="subjectid"  type="hidden" th:value="${subject.subjectId}" >
                         <input  type="text" readonly th:value="${subject.subjectName}" class="form-control">
                     </div>
                     <div class="form-group">
                         <label>Chapter</label>
-                        <select name="chapterID">
+                        <select name="chapterid">
                             <option th:each="chapter :${chapter}"  th:value="${chapter.id}" th:text="${chapter.name}" ></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Level</label>
-                        <select name="levelID">
+                        <select name="levelid">
                             <option th:each="level :${level}" th:value="${level.id}" th:text="${level.name}"></option>
                         </select>
                     </div>
@@ -525,7 +517,7 @@
 
                     <div class="form-group">
                         <label>Subject</label>
-                        <input name="subjectID"  type="hidden" th:value="${subject.subjectId}" >
+                        <input  name="subjectid" type="hidden" th:value="${subject.subjectId}" >
                         <input  type="text" readonly th:value="${subject.subjectName}" class="form-control">
                     </div>
 
@@ -542,7 +534,7 @@
                         <input name="fileExcel" type="file" accept=".xlsx"  class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <input name="status" type="hidden" th:value="1"class="form-control" >
+                        <input name="status" type="hidden" value="1" class="form-control" >
                     </div>
                 </div>
 

@@ -3,20 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.data.*;
 import com.example.demo.entity.*;
 import com.example.demo.util.*;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,16 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
 
 
 @Controller
@@ -66,6 +54,7 @@ public class ManagerController {
 		String name = auth.getName();
 		User user= userRepository.findUserByUsername(name);
 		Integer userid = user.getUserId();
+
         return userid;
     }
 
@@ -101,14 +90,6 @@ public class ManagerController {
                 return "";
         }
     }
-    //
-
-
-
-
-    //Process
-
-
     //Read Excel
 
 //    public List<Question> readExcel(String file) throws IOException {
@@ -148,14 +129,14 @@ public List<Question> readExcel(MultipartFile file) throws IOException {
                 continue;
             }
             Question ques = new Question();
-            ques.setTitle(getCellValueAsString(row.getCell(0)));
-            ques.setOp1(getCellValueAsString(row.getCell(2)));
-            ques.setOp2(getCellValueAsString(row.getCell(3)));
-            ques.setOp3(getCellValueAsString(row.getCell(4)));
-            ques.setOp4(getCellValueAsString(row.getCell(5)));
-            ques.setAns(getCellValueAsString(row.getCell(6)));
-            ques.setLevelID(checkLevel(getCellValueAsString(row.getCell(8))));
-            ques.setChapterID(checkChapter(getCellValueAsString(row.getCell(7))));
+            ques.setQuestiontitle(getCellValueAsString(row.getCell(0)));
+            ques.setOption1(getCellValueAsString(row.getCell(2)));
+            ques.setOption2(getCellValueAsString(row.getCell(3)));
+            ques.setOption3(getCellValueAsString(row.getCell(4)));
+            ques.setOption4(getCellValueAsString(row.getCell(5)));
+            ques.setAnswer(getCellValueAsString(row.getCell(6)));
+            ques.setLevelid(checkLevel(getCellValueAsString(row.getCell(8))));
+            ques.setChapterid(checkChapter(getCellValueAsString(row.getCell(7))));
             questionsList.add(ques);
         }
     }
@@ -170,98 +151,6 @@ public List<Question> readExcel(MultipartFile file) throws IOException {
             "Score"
     };
 
-// createExcel and ghi ChapterID
-//public void createExcel() throws IOException {
-//    Path path = Paths.get("src/main/resources/static/questionTemplate.xlsx");
-//
-//    // Mở file Excel có sẵn
-//    FileInputStream fileIn = new FileInputStream(path.toFile());
-//    XSSFWorkbook workbook = new XSSFWorkbook(fileIn);
-//    // lấy sheet đầu tiên
-//    XSSFSheet sheet = workbook.getSheetAt(0);
-//    Subject sub= subject.findSubjectByUserID(getUserID());
-//    List<Chapter> listChapter = chapter.findChapterBySubject(sub.getSubjectId());
-//
-//    String[] listChapterArr = new String[listChapter.size()];
-//    XSSFSheet hiddenSheet = workbook.createSheet("HiddenSheet");
-//
-//    for(int i=0;i< listChapter.size();i++){
-//        XSSFRow row = hiddenSheet.createRow(i);
-//        XSSFCell cell = row.createCell(0);
-//        cell.setCellValue(listChapter.get(i).getName());
-//
-//       listChapterArr[i]=listChapter.get(i).getName();
-//   }
-//    Name namedRange = workbook.createName();
-//    namedRange.setNameName("ChapterList");
-//    namedRange.setRefersToFormula("HiddenSheet!$A$1:$A$" + listChapter.size());
-//
-//   // tao data
-//    //firstCol: ghi cột nào để cột đấy
-//    // lastCol: giống firstCol
-//    CellRangeAddressList addressList = new CellRangeAddressList(1, 10000, 8, 8);
-//
-//    // taọ ràng buộc cho cột dropdown
-//
-////    DataValidationConstraint constraint = validationHelper.createExplicitListConstraint(listChapterArr);
-//    DataValidationHelper validationHelper = sheet.getDataValidationHelper();
-//    // tạo dropdown
-//    // firstRow: hàng bắt đầu dropdown
-//
-//    DataValidationConstraint constraint = validationHelper.createFormulaListConstraint("ChapterList");
-//
-//    DataValidation dataValidation = validationHelper.createValidation(constraint, addressList);
-//    dataValidation.setSuppressDropDownArrow(true);
-//    sheet.addValidationData(dataValidation);
-//    workbook.setSheetHidden(workbook.getSheetIndex(hiddenSheet), true);
-//
-//    workbook.setSheetHidden(workbook.getSheetIndex(hiddenSheet), true);
-//
-//
-//    fileIn.close();
-//
-//    // Ghi workbook vào file có sẵn trong thư mục static
-//    try (FileOutputStream fileOut = new FileOutputStream(path.toFile())) {
-//        workbook.write(fileOut);
-//    }
-//    workbook.close();
-//
-//}
-//    public void createExcel() throws IOException {
-//        Path path = Paths.get("src/main/resources/static/questionTemplate.xlsx");
-////        Path path =Paths.get("target/classes/static/questionTemplate.xlsx");
-//        FileInputStream fileIn = new FileInputStream(path.toFile());
-//        XSSFWorkbook workbook = new XSSFWorkbook(fileIn);
-//
-//
-//
-//
-//            Subject sub= subject.findSubjectByUserID(getUserID());
-//    List<Chapter> listChapter = chapter.findChapterBySubject(sub.getSubjectId());
-//        // Kiểm tra và xóa sheet nếu đã tồn tại
-//        int sheetIndex = workbook.getSheetIndex("HiddenSheet");
-//        if (sheetIndex != -1) {
-//            workbook.removeSheetAt(sheetIndex);
-//        }
-//            String[] listChapterArr = new String[listChapter.size()];
-//    XSSFSheet hiddenSheet = workbook.createSheet("HiddenSheet");
-//
-//    for(int i=0;i< listChapter.size();i++){
-//        XSSFRow row = hiddenSheet.createRow(i);
-//        XSSFCell cell = row.createCell(0);
-//        cell.setCellValue(listChapter.get(i).getName());
-//       listChapterArr[i]=listChapter.get(i).getName();
-//   }
-//            workbook.setSheetHidden(workbook.getSheetIndex(hiddenSheet), true);
-//            fileIn.close();
-//
-//    // Ghi workbook vào file có sẵn trong thư mục static
-//    try (FileOutputStream fileOut = new FileOutputStream(path.toFile())) {
-//        workbook.write(fileOut);
-//    }
-//    workbook.close();
-//
-//    }
 
     public void createExcel() throws IOException {
         // Đường dẫn đến file Excel cần tạo
@@ -361,18 +250,18 @@ public List<Question> readExcel(MultipartFile file) throws IOException {
     public String listMockTest(Model model, @Param("keyword") String keyword) throws IOException {
         Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
-     List<MockTest> mockTests = mock.findMockTestByUserId(getUserID());
-    if(keyword!=null){
-        mockTests=mock.searchMockTest(getUserID(),keyword);
-    }
-        model.addAttribute("mock", mockTests);
-        return "manager/home";
-
+        List<MockTest> mockTests = mock.findMockTestByUserId(getUserID());
+        if(keyword!=null){
+            mockTests=mock.searchMockTest(getUserID(),keyword);
+        }
+            model.addAttribute("mock", mockTests);
+            return "manager/home";
     }
 
     private Page<Question> getQuestion(int page,int size){
         Pageable pageable = PageRequest.of(page,size);
-        return question.findQuestionBySubjectID(getUserID(),pageable);
+        System.out.println("Exception here!");
+        return question.findQuestionByManagerId(getUserID(),pageable);
     }
 
     @GetMapping("/questionbank")
@@ -405,140 +294,75 @@ public List<Question> readExcel(MultipartFile file) throws IOException {
         return "manager/questionbank";
     }
 
-//    @PostMapping("/questionbank")
-//    public String getQuestion(@ModelAttribute(name="ques") Question question,
-//                              @RequestParam(value = "file", required = false) String file,
-//                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
-//                              @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFileExcel,
-//                              Model model)throws IOException {
-//
-//       this.question.save(question);
-//
-//        if (multipartFileExcel != null && !multipartFileExcel.isEmpty()) {
-//            String fileNameExcel = StringUtils.cleanPath(multipartFileExcel.getOriginalFilename());
-//            if (!multipartFile.getOriginalFilename().endsWith(".xlsx")) {
-//                throw new IOException("Định dạng tệp không hợp lệ. Vui lòng tải lên tệp Excel (.xlsx).");
-//            }
-//
-//            List<Question> list = readExcel(multipartFileExcel);
-//            for(Question questions: list){
-//                questions.setSubjectID(question.getSubjectID());
-//                this.question.save(questions);
-//            }
-//            String uploadDir ="./questionbank/"+ fileNameExcel;
-//            Path uploadPath = Paths.get(uploadDir);
-//            if(!Files.exists(uploadPath)){
-//                Files.createDirectories(uploadPath);
-//            }
-//            try (InputStream inputStream = multipartFileExcel.getInputStream()) {
-//                Path filePath = uploadPath.resolve(fileNameExcel);
-//                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+    @PostMapping("/questionbank")
+    public String getQuestion(@ModelAttribute(name="ques") Question question,
+                              @RequestParam(value = "file", required = false) String file,
+                              @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
+                              @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFileExcel,
+                              Model model) throws IOException {
+
+        if(question.getQuestiontitle() != null && !question.getQuestiontitle().isEmpty()){
+            this.question.save(question);
+        }
+
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            question.setImage(fileName);
+            Question saveQues = this.question.save(question);
+
+            String uploadDir = "./questionbank/" + saveQues.getQuestionid();
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path filePath = uploadPath.resolve(fileName);
+                System.out.println(filePath.toFile().getAbsoluteFile());
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new IOException("Could not save upload file: " + fileName, e);
+            }
+        }
+
+        if (multipartFileExcel != null && !multipartFileExcel.isEmpty()) {
+            String fileNameExcel = StringUtils.cleanPath(multipartFileExcel.getOriginalFilename());
+            if (!fileNameExcel.endsWith(".xlsx")) {
+                throw new IOException("Định dạng tệp không hợp lệ. Vui lòng tải lên tệp Excel (.xlsx).");
+            }
+
+            List<Question> list = readExcel(multipartFileExcel);
+            for (Question questions : list) {
+                questions.setStatus(1);
+                questions.setSubjectid(question.getSubjectid());
+                this.question.save(questions);
+            }
+            String uploadDir = "./questionbank/" + fileNameExcel;
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try (InputStream inputStream = multipartFileExcel.getInputStream()) {
+                Path filePath = uploadPath.resolve(fileNameExcel);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new IOException("Could not save upload file: " + fileNameExcel, e);
+            }
+
+            // Xóa thư mục và toàn bộ nội dung bên trong
+//            String directoryToDelete = "./questionbank/" + fileNameExcel;
+//            try {
+//                FileUtils.deleteDirectory(new File(directoryToDelete));
 //            } catch (IOException e) {
-//                throw new IOException("Could not save upload file: " + fileNameExcel, e);
+//                throw new IOException("Could not delete directory: " + directoryToDelete, e);
 //            }
-//
-//        // Xóa thư mục và toàn bộ nội dung bên trong
-//        String directoryToDelete = "./questionbank/"+ fileNameExcel;
-//        try {
-//            FileUtils.deleteDirectory(new File(directoryToDelete));
-//        } catch (IOException e) {
-//            throw new IOException("Could not delete directory: " + directoryToDelete, e);
-//        }
-//
-//    }
-//
-//        if (multipartFile != null && !multipartFile.isEmpty()) {
-//        // Image
-//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//
-//            question.setImage(fileName);
-//            Question saveQues= this.question.save(question);
-//
-//        String uploadDir ="./questionbank/"+ saveQues.getId();
-//        Path uploadPath = Paths.get(uploadDir);
-//        if(!Files.exists(uploadPath)){
-//            Files.createDirectories(uploadPath);
-//        }
-//try(InputStream inputStream = multipartFile.getInputStream();){
-//    Path filePath= uploadPath.resolve(fileName);
-//    System.out.println(filePath.toFile().getAbsoluteFile());
-//    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
-//} catch (IOException e){
-//    throw new IOException("Could not save uploadfile: "+fileName);
-//}}
-//
-//
-//
-//        return "redirect:/test/questionbank";
-//    }
-@PostMapping("/questionbank")
-public String getQuestion(@ModelAttribute(name="ques") Question question,
-                          @RequestParam(value = "file", required = false) String file,
-                          @RequestParam(value = "fileImage", required = false) MultipartFile multipartFile,
-                          @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFileExcel,
-                          Model model) throws IOException {
-
-    this.question.save(question);
-
-    if (multipartFile != null && !multipartFile.isEmpty()) {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        question.setImage(fileName);
-        Question saveQues = this.question.save(question);
-
-        String uploadDir = "./questionbank/" + saveQues.getId();
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
         }
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileName);
-            System.out.println(filePath.toFile().getAbsoluteFile());
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Could not save upload file: " + fileName, e);
-        }
+
+        return "redirect:/test/questionbank";
     }
-
-    if (multipartFileExcel != null && !multipartFileExcel.isEmpty()) {
-        String fileNameExcel = StringUtils.cleanPath(multipartFileExcel.getOriginalFilename());
-        if (!fileNameExcel.endsWith(".xlsx")) {
-            throw new IOException("Định dạng tệp không hợp lệ. Vui lòng tải lên tệp Excel (.xlsx).");
-        }
-
-        List<Question> list = readExcel(multipartFileExcel);
-        for (Question questions : list) {
-            questions.setStatus(question.getStatus());
-            questions.setSubjectID(question.getSubjectID());
-            this.question.save(questions);
-        }
-        String uploadDir = "./questionbank/" + fileNameExcel;
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-        try (InputStream inputStream = multipartFileExcel.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileNameExcel);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Could not save upload file: " + fileNameExcel, e);
-        }
-
-        // Xóa thư mục và toàn bộ nội dung bên trong
-        String directoryToDelete = "./questionbank/" + fileNameExcel;
-        try {
-            FileUtils.deleteDirectory(new File(directoryToDelete));
-        } catch (IOException e) {
-            throw new IOException("Could not delete directory: " + directoryToDelete, e);
-        }
-    }
-
-    return "redirect:/test/questionbank";
-}
-
 
     @GetMapping("questionbank/editquestion/{id}")
     public String list1(Model model,@PathVariable int id) {
-      Question questions = question.findQuestionBYID(id);
+      Question questions = question.findQuestionById(id);
         model.addAttribute("ques", questions);
         Subject subjects = subject.findSubjectByUserID(getUserID());
         model.addAttribute("subject",subjects);
@@ -585,7 +409,7 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
         questions.setImage(fileName);
         Question savedQuestion = this.question.save(questions);
 
-        String uploadDir = "./questionbank/" + savedQuestion.getId();
+        String uploadDir = "./questionbank/" + savedQuestion.getQuestionid();
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -598,7 +422,7 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
             throw new IOException("Could not save upload file: " + fileName, e);
         }
     } else {
-        Question existingQuestion = this.question.findById(questions.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid question Id:" + questions.getId()));
+        Question existingQuestion = this.question.findById(questions.getQuestionid()).orElseThrow(() -> new IllegalArgumentException("Invalid question Id:" + questions.getQuestionid()));
         questions.setImage(existingQuestion.getImage());
         this.question.save(questions);
     }
@@ -615,7 +439,7 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
-        List<Materials> mater = material.findMaterialsbySubject(getUserID());
+        List<Material> mater = material.findMaterialsByManager(getUserID());
         if(keyword!=null){
             mater = material.searchMaterial(getUserID(),keyword);
         }
@@ -625,12 +449,12 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
     }
 
     @PostMapping("/materials")
-    public String getMaterials(@ModelAttribute(name = "material") Materials materials,
+    public String getMaterials(@ModelAttribute(name = "material") Material materials,
                                @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         materials.setContent(fileName);
-        Materials saveMaterial = material.save(materials);
-        String uploadDir = "./materials/" + saveMaterial.getId();
+        Material saveMaterial = material.save(materials);
+        String uploadDir = "./materials/" + saveMaterial.getMaterialid();
         Path uploadPath = Paths.get(uploadDir);
 
         if (!Files.exists(uploadPath)) {
@@ -655,19 +479,22 @@ public String postQuestion(@ModelAttribute("ques") Question questions,
         model.addAttribute("subject",subjects);
         List<Chapter> chapters = chapter.findChapterBySubject(subjects.getSubjectId());
         model.addAttribute("chapter",chapters);
-        Materials mater = material.findMaterialbyID(id);
+        Material mater = material.findMaterialbyID(id);
         model.addAttribute("material",mater);
         return "manager/edit-material";
     }
 
     @PostMapping("/editmaterial")
-    public String postMaterial(@ModelAttribute("material") Materials materials,
+    public String postMaterial(@ModelAttribute("material") Material materials,
                                @RequestParam(value = "contentFile", required = false) MultipartFile multipartFile) throws IOException {
+        System.out.println("Material to edit: " + materials);
+        materials.setSubject(subject.findSubjectById(materials.getSubject().getSubjectId()));
+        materials.setChapter(chapter.getChapterByChapterId(materials.getChapter().getId()));
 if(multipartFile!=null&& !multipartFile.isEmpty()){
     String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
     materials.setContent(fileName);
-    Materials saveMaterial = material.save(materials);
-    String uploadDir = "./materials/" + saveMaterial.getId();
+    Material saveMaterial = material.save(materials);
+    String uploadDir = "./materials/" + saveMaterial.getMaterialid();
     Path uploadPath = Paths.get(uploadDir);
 
     if (!Files.exists(uploadPath)) {
@@ -683,8 +510,9 @@ if(multipartFile!=null&& !multipartFile.isEmpty()){
     }
    }
 else {
-    Materials existingMaterials = material.findById(materials.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid materials Id:" + materials.getId()));
+    Material existingMaterials = material.findById(materials.getMaterialid()).orElseThrow(() -> new IllegalArgumentException("Invalid materials Id:" + materials.getMaterialid()));
     materials.setContent(existingMaterials.getContent());
+    materials.setSubject(subject.findSubjectById(materials.getSubject().getSubjectId()));
     material.save(materials);
 }
         return "redirect:/test/materials";
@@ -692,7 +520,7 @@ else {
 
 
     @GetMapping("/materials/{id}")
-    public String deleteMaterial(@ModelAttribute Materials materials,@PathVariable Integer id) {
+    public String deleteMaterial(@ModelAttribute Material materials,@PathVariable Integer id) {
     material.deleteById(id);
     return "redirect:/test/materials";
     }
@@ -708,8 +536,8 @@ else {
         if(mockque==null)
             question.deleteById(id);
         for(MockQuestion i: mockque){
-            key.setMocktestid(i.getMockTest().getId());
-            key.setQuestionid(i.getQuestion().getId());
+            key.setMocktestid(i.getMockTest().getMocktestid());
+            key.setQuestionid(i.getQuestion().getQuestionid());
             mockquestion.deleteById(key);
         }
 
@@ -759,8 +587,8 @@ else {
         if(mockque==null)
             question.deleteById(questionid);
 for(MockQuestion i: mockque){
-    key.setMocktestid(i.getMockTest().getId());
-    key.setQuestionid(i.getQuestion().getId());
+    key.setMocktestid(i.getMockTest().getMocktestid());
+    key.setQuestionid(i.getQuestion().getQuestionid());
     mockquestion.deleteById(key);
 
 }
@@ -779,7 +607,7 @@ for(MockQuestion i: mockque){
 
         Question saveQues= this.question.save(questions);
 
-        String uploadDir ="./questionbank/"+ saveQues.getId();
+        String uploadDir ="./questionbank/"+ saveQues.getQuestionid();
         Path uploadPath = Paths.get(uploadDir);
         if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
@@ -794,7 +622,7 @@ for(MockQuestion i: mockque){
         }
 
         MockTest nMockTest= mock.mocktestbyID(id);
-        MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getId(), questions.getId());
+        MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getMocktestid(), questions.getQuestionid());
 
         MockQuestion mockques = new MockQuestion();
         mockques.setId(mockQuestionKey);
@@ -815,10 +643,10 @@ for(MockQuestion i: mockque){
        MockQuestionKey key = new MockQuestionKey();
         List<Integer> listID = new ArrayList<>();
            for (MockQuestion mockQuestion : mockQuestions) {
-                   Integer qID= mockQuestion.getQuestion().getId();
+                   Integer qID= mockQuestion.getQuestion().getQuestionid();
                    listID.add(qID);
-               key.setMocktestid(mockQuestion.getMockTest().getId());
-               key.setQuestionid(mockQuestion.getQuestion().getId());
+               key.setMocktestid(mockQuestion.getMockTest().getMocktestid());
+               key.setQuestionid(mockQuestion.getQuestion().getQuestionid());
                System.out.println("questionID:"+qID+"+++++");
                System.out.println(key.toString());
               mockquestion.deleteById(key);
@@ -858,6 +686,9 @@ for(MockQuestion i: mockque){
     public String postMockTests(@ModelAttribute MockTest mockTest,
                                 @RequestParam(value = "fileExcel", required = false) MultipartFile multipartFile,
                                 Model model) throws IOException {
+         Subject managedSubject = subject.findById(mockTest.getSubject().getSubjectId())
+                 .orElseThrow(() -> new IllegalArgumentException("Invalid subject ID"));
+         mockTest.setSubject(managedSubject);
          MockTest savedMockTest = mock.save(mockTest);
          if (multipartFile != null && !multipartFile.isEmpty()) {
              String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -869,17 +700,18 @@ for(MockQuestion i: mockque){
 
              for (Question questionss : list) {
                  System.out.println(questionss.toString());
-                 questionss.setSubjectID(mockTest.getSubjectId());
+                 questionss.setSubjectid(mockTest.getSubject().getSubjectId());
                  questionss.setStatus(0);
                  question.save(questionss);
-                 MockTest nMockTest = mock.mocktestbyID(mockTest.getId());
-                 MockQuestionKey mockQuestionKey = new MockQuestionKey(nMockTest.getId(), questionss.getId());
+                 MockTest nMockTest = mock.mocktestbyID(mockTest.getMocktestid());
+                 MockQuestionKey mockQuestionKey = new MockQuestionKey(
+                         nMockTest.getMocktestid(), questionss.getQuestionid());
                  MockQuestion mockques = new MockQuestion();
                  mockques.setId(mockQuestionKey);
                  mockques.setMockTest(nMockTest);
                  mockques.setQuestion(questionss);
                  mockquestion.save(mockques);
-                 String uploadDir = "./mocktest/" + savedMockTest.getId();
+                 String uploadDir = "./mocktest/" + savedMockTest.getMocktestid();
                  Path uploadPath = Paths.get(uploadDir);
                  if (!Files.exists(uploadPath)) {
                      Files.createDirectories(uploadPath);
@@ -892,7 +724,7 @@ for(MockQuestion i: mockque){
                  }
              }
              // Xóa thư mục và toàn bộ nội dung bên trong
-             String directoryToDelete = "./mocktest/" + savedMockTest.getId();
+             String directoryToDelete = "./mocktest/" + savedMockTest.getMocktestid();
              try {
                  FileUtils.deleteDirectory(new File(directoryToDelete));
              } catch (IOException e) {
@@ -913,6 +745,7 @@ for(MockQuestion i: mockque){
 
     @PostMapping("/editmocktest")
     public String postEditMocktest(@ModelAttribute("mocktest") MockTest mockTest) {
+        mockTest.setSubject(subject.findSubjectById(mockTest.getSubject().getSubjectId()));
         mock.save(mockTest);
         return "redirect:/test/mocktests";
     }
@@ -959,9 +792,9 @@ for(MockQuestion i: mockque){
         return "manager/question-request";
     }
     @PostMapping("/questionrequest")
-    public String postRequestQuestion(@RequestParam("id") Integer id,Model model,@RequestParam("check") String check){
+    public String postRequestQuestion(@RequestParam("questionid") Integer id,Model model,@RequestParam("check") String check){
 
-        Question question1 = question.findQuestionBYID(id);
+        Question question1 = question.findQuestionById(id);
         if(check.equals("approve")){
             question1.setStatus(0);
             question.save(question1);
@@ -971,10 +804,7 @@ for(MockQuestion i: mockque){
 
         }
         System.out.println(check);
-
                 question.save(question1);
-
-
         return "redirect:/test/questionrequest";
     }
 
