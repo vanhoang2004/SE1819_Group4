@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teachers and Classes</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="~{resources :: navbar-top}"></div>
+<!-- brand search -->
+
+<!-- carousel -->
+<div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel"></div>
+</br>
+</br>
+</br>
+<div class="carousel-inner" >
+    <div class="carousel-item active" style="height: 600px;">
+        <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
+        <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
+        <div class="carousel-caption d-none d-sm-block mb-5">
+            <h1 class="mb-4">
+                <strong>Teachers and Classes</strong>
+            </h1>
+        </div>
+    </div>
+</div>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="home">All Users</a>
+            <!-- Toggle button -->
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent2"
+                    aria-controls="navbarSupportedContent2"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent2">
+                <div th:insert="~{resources :: navbar-main-links}"></div>
+                <!-- Search -->
+                <form action="search" method="post" class="w-auto py-1">
+                    <div class="input-group justify-content-end">
+                        <input type="text" name="txt" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary btn-number"/>
+                            &nbsp;<i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div><!-- comment -->
+                </form>
+            </div>
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+</div>
+
+<!--Main layout-->
+<main>
+    <div class="container">
+        <section>
+            <h2 class="mb-4">Class Assignment for Teachers</h2>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>Teacher</th>
+                    <th>Classes</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher : ${teachers}">
+                    <td th:text="${teacher.user.fullname}"></td>
+                    <td>
+                        <span th:each="class, iterStat : ${teacher.classes}" th:text="${class.className + (iterStat.last ? '' : ', ')}"></span>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/users/update(userId=${teacher.user.userId})}" class="text-warning"><i class="material-icons" data-toggle="tooltip" title="Reassign">&#xE254;</i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <!-- Pagination -->
+        <!-- Pagination -->
+    </div>
+</main>
+<!--Main layout-->
+</body>
+<script th:inline="javascript">
+    $(document).ready(function(){
+        // Check if modal parameter is present in URL
+        var urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has('addFromMain')){
+            // Open the modal
+            $('#addTeacherModal').modal('show');
+        }
+    });
+</script>
+<div th:insert="~{resources :: user-profile}"></div>
+</html>

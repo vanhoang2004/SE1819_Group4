@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="~{resources :: navbar-top}"></div>
+
+<!-- carousel -->
+<div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+    </br>
+    </br>
+    </br>
+    <div class="carousel-inner" >
+        <div class="carousel-item active" style="height: 600px;">
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
+            <div class="carousel-caption d-none d-sm-block mb-5">
+                <h1 class="mb-4">
+                    <strong>Welcome to Manager Dashboard</strong>
+                </h1>
+                <p>
+                    <strong></strong>
+                </p>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Camera"/>
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
+        </div>
+
+    </div>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent2"
+                        aria-controls="navbarSupportedContent2"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent2">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link text-white" href="mocktests">MockTest</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="materials">Material</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="questionbank">Question Bank</a></li>
+                        <li class="nav-item"><a class="nav-link text-white" href="questionrequest">Question Request</a></li>
+                    </ul>
+                    <!-- Search -->
+                    <form class="w-auto py-1" style="max-width: 12rem">
+                        <div class="input-group">
+
+                            <input type="text" name="keyword" class="form-control rounded-0" placeholder="Title" aria-label="Search">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-secondary btn-number">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div><!-- comment -->
+                    </form>
+
+                </div>
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+    </div>
+    <main>
+        <div class="container">
+            <!-- Products -->
+
+
+
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+
+                    <th>ID</th>
+                    <th>Mock Test Title</th>
+                    <th>Subject</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody >
+                <tr th:each="test : ${mock}">
+                    <td th:text="${test.mocktestid}"></td>
+                    <td th:text="${test.mocktesttitle}"></td>
+                    <td th:each="subject:${subject}" th:if="${subject.subjectId}==${test.subject.subjectId}" th:text="${subject.subjectName}"></td>
+                    <td>
+                        <a th:href="@{/test/analysis/{id}(id=${test.mocktestid})}"><i class="bi bi-eye"></i></a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+
+            <!-- Pagination -->
+        </div>
+
+    </main>
+    <!--Main layout-->
+</div>
+
+</body>
+</html>
