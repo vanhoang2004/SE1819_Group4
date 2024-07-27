@@ -1,0 +1,28 @@
+
+ç
+java:S1192P"¥Define a constant instead of duplicating this literal "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels" 3 times.(ß¾ÉâıÿÿÿÿJ$a4641757-4c9a-47be-b818-d1c69730ede0
+
+java:S14508"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿJ$03320287-9e7d-42b1-a8c7-d41b1bde5c53
+‚	java:S107&"BConstructor has 11 parameters, which is greater than 7 authorized.(¢ÔğÚùÿÿÿÿJ$d27bb24a-f25a-4116-a9de-9f9f81b1fb2a
+„
+java:S4488="HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(ÆøîçJ$2e86cdb6-0ded-4b2a-a91c-9ffab599caf1
+…
+java:S4488D"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·J$b281a4a2-5810-4529-9068-1823ee35d942
+v
+java:S1481H".Remove this unused "subjectid" local variable.(áŒûüÿÿÿÿ8î™ò…2J$8309048f-dddc-45a4-812c-c3067694e723
+f	java:S106M"+Replace this use of System.out by a logger.(°ˆ°ËJ$dafc518e-157c-46be-a0bc-7740de0c1188
+k	java:S106Q"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿJ$5c014f59-052d-4863-ae9c-caa0d9352be3
+€
+java:S1117S"?Rename "excelHelper" which hides the field declared at line 57.(”ğê¿üÿÿÿÿJ$51b7f46e-1ac9-44ea-af59-c7b761bbe08f
+w	java:S125T"<This block of commented-out lines of code should be removed.(Îõˆ©J$32eac6e9-fbf3-4cbb-9114-cd8acae4e15e
+q
+java:S1481Y".Remove this unused "questions" local variable.(¶úœŞ8õ™ò…2J$5efe6fb1-13f3-4b4c-8d31-d4b63dfbe391
+q
+java:S1481Z")Remove this unused "data" local variable.(‡Ï‚Šúÿÿÿÿ8õ™ò…2J$4d688094-043b-4ca1-84e7-1533698a852a
+k	java:S106\"+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿJ$e82a9c7c-b3ed-4cbf-bd1c-79cf5b58b170
+ƒ	java:S125`"<This block of commented-out lines of code should be removed.(Å£•çşÿÿÿÿ8ö™ò…2J$c0ced369-0ee7-4394-92f1-68725a486590
+x	java:S125"<This block of commented-out lines of code should be removed.(ÈöÁJ$34cdf330-e307-4846-a793-0e6a3d589f81
+s
+java:S10688"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿJ$608d563d-b405-4ed0-8bbc-10f6a2021b02
+p
+java:S10689"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿJ$236f1c7a-46ff-43d9-ae0e-20fa6f7b62ca

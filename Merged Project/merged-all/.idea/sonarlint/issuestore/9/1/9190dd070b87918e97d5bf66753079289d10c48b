@@ -1,0 +1,27 @@
+
+‡	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(«²¤8¦Ğñ…2J$81fed64b-c70b-4c6d-bddf-613d4ba14102
+†
+java:S1192"JDefine a constant instead of duplicating this literal "ExcelTest" 3 times.(ºŞı¤J$435ce7f0-4df1-4aad-9065-1b93c629ff4b
+
+java:S1450"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿJ$043d52b2-b3ca-4068-89f9-26d3d31cc364
+„
+java:S4488"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(ÆøîçJ$4238133d-6ec7-4bd9-a02c-50382fe2a15c
+…
+java:S4488""JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·J$c7f3d66f-c97d-458c-b263-b7d5cb450364
+f	java:S106'"+Replace this use of System.out by a logger.(°ˆ°ËJ$c4dbdd64-a184-47f9-b232-15289a5626aa
+k	java:S106+"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿJ$7f0c311f-f480-473b-b2b7-d5a16f4576b0
+€
+java:S1117-"?Rename "excelHelper" which hides the field declared at line 27.(”ğê¿üÿÿÿÿJ$c7a66015-e545-4073-af3c-35d593230fe5
+|	java:S125."<This block of commented-out lines of code should be removed.(Æ¢²¿ùÿÿÿÿJ$04b28cc7-3dbb-419e-9fee-0348a2acf095
+q
+java:S14813".Remove this unused "questions" local variable.(¶úœŞ8ÚĞñ…2J$f172e873-8548-46bd-b04c-55957fddc5d8
+q
+java:S14814")Remove this unused "data" local variable.(‡Ï‚Šúÿÿÿÿ8ÛĞñ…2J$4c5b80f2-9961-4ef3-a2ce-d73722cce82c
+k	java:S1066"+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿJ$e90d695a-4443-4c54-99f6-bd220cdaa06c
+ƒ	java:S1258"<This block of commented-out lines of code should be removed.(Å£•çşÿÿÿÿ8ÜĞñ…2J$2f795dd0-fa2e-4fd9-ac0b-99f546fd9c34
+“
+java:S1128"KRemove this unused import 'com.example.demo.exception.ApiRequestException'.(ã±‘€øÿÿÿÿ8áĞñ…2J$0a86a331-9416-4596-884a-d106c2ea4e4f
+s
+java:S1068"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿJ$f47e043d-b1e7-42d0-a724-338680dc26ac
+p
+java:S1068"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿJ$9ff6a77f-d9d1-454f-9f48-090e57bd3a3c

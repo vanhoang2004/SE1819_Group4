@@ -1,0 +1,11 @@
+
+n
+java:S1192"LDefine a constant instead of duplicating this literal "logged_user" 3 times.(ëõ²×ùÿÿÿÿ8óÜÅ›2
+J
+java:S5411$"(Use a primitive boolean expression here.(îÅïƒûÿÿÿÿ8ƒİÅ›2
+X
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ
+G	java:S106"+Replace this use of System.out by a logger.(¿®Ïú8¿ŞÅ›2
+P	java:S125 "<This block of commented-out lines of code should be removed.(ù¦6
+F	java:S106#"+Replace this use of System.out by a logger.(ùŒËr8âŞÅ›2
+G	java:S106("+Replace this use of System.out by a logger.(˜—ø8ëŞÅ›2
