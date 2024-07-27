@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
-import java.awt.*;
 import java.util.Map;
 
 @Entity
@@ -46,7 +45,7 @@ public class Question {
     @Column(name = "status")
     private Integer status;
 
-    @Column(name = "username")
+    @Column(name = "Username")
     private String username;
 
     public String getUsername() {
@@ -59,7 +58,6 @@ public class Question {
 
     public Question() {
     }
-
 
     public Question(Integer questionid, String questiontitle, String image, String option1, String option2, String option3,
                     String option4, String answer, Integer subjectid, Integer chapterid, Integer levelid, Integer status) {
@@ -223,6 +221,7 @@ public class Question {
             return null; // Hoặc xử lý lỗi theo cách khác nếu cần thiết
         }
     }
+
     @Transient
     public String getQuesImagePath(){
         if(image==null||questionid==null ) return null;

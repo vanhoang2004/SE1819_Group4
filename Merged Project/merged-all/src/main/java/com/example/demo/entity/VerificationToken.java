@@ -19,7 +19,7 @@ public class VerificationToken {
     private String newEmail;
 
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id", referencedColumnName = "userid")
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
     private User user;
 
     public VerificationToken() {
@@ -62,5 +62,15 @@ public class VerificationToken {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "VerificationToken{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", newEmail='" + newEmail + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

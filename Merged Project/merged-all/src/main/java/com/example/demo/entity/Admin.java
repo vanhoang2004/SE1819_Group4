@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Map;
+
 @Entity
 @Table(name="Admins")
 public class Admin {
@@ -42,6 +44,8 @@ public class Admin {
     }
 
     public Admin() {
+        this.user = new User();
+        this.user.setEnabled(true);
     }
 
     @Override
@@ -52,4 +56,30 @@ public class Admin {
                 ", user=" + user +
                 '}';
     }
+    
+    public static Admin fromMap(Map<String, String> data) {
+        Admin a = new Admin();
+        a.setUser(new User());
+
+        // Kiểm tra và gán các giá trị từ Map
+        if (data.containsKey("Username")) {
+            a.getUser().setUsername(data.get("Username"));
+        }
+        if (data.containsKey("Password")) {
+            a.getUser().setPassword(data.get("Password"));
+        }
+        if (data.containsKey("Fullname")) {
+            a.getUser().setFullname(data.get("Fullname"));
+        }
+        if (data.containsKey("Useremail")) {
+            a.getUser().setUseremail(data.get("Useremail"));
+        }
+        if (data.containsKey("Title")) {
+            a.setTitle(data.get("Title"));
+        }
+        a.getUser().setEnabled(true);
+        a.getUser().setRole("Admin");
+        return a;
+    }
+    
 }

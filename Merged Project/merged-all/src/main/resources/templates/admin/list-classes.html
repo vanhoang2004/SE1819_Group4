@@ -60,7 +60,7 @@
         <!-- Container wrapper -->
         <div class="container-fluid">
             <!-- Navbar brand -->
-            <a class="navbar-brand" href="home">All Users</a>
+            <a class="navbar-brand" th:href="@{home}">All Users</a>
             <!-- Toggle button -->
             <button
                     class="navbar-toggler"
@@ -105,6 +105,16 @@
                         New class info saved.
                     </div>
                 </div>
+                <div th:if="${#conversions.convert(param.success, 'java.lang.Integer') > 0}">
+                    <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                        Successfully imported [[${param.success}]] class(es).
+                    </div>
+                </div>
+                <div th:if="${#conversions.convert(param.fail, 'java.lang.Integer') > 0}">
+                    <div class="alert alert-warning col-xs-offset-1 col-xs-10">
+                        Failed to import [[${param.fail}]] class(es).
+                    </div>
+                </div>
                 <div th:if="${param.deleted}">
                     <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                         Class deleted.
@@ -113,6 +123,11 @@
                 <div th:if="${param.constraint}">
                     <div class="alert alert-warning col-xs-offset-1 col-xs-10">
                         This class still has students assigned to it. Deletion failed.
+                    </div>
+                </div>
+                <div th:if="${param.uniqueconstraint}">
+                    <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        Class name already exists.
                     </div>
                 </div>
                 <div class="d-flex justify-content-between mb-4">
@@ -133,11 +148,13 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group mb-3">
-                                        <div class="alert alert-danger" th:if="${param.invalid}">Not a valid class.</div>
+                                        <div class="alert alert-danger" th:if="${param.invalid}">Invalid class.</div>
                                         <label>Class Name <span style="color:red">*</span> <span style="font-style: italic">Class name must start with "12" and not followed by any more digits (e.g. 12A1, 12B, 12HD etc.)</span></label>
                                         <br>
                                         <input th:field="*{className}" type="text" class="form-control" required>
                                     </div>
+                                    <h2 class="text-center"> Or </h2>
+                                    <a th:href="@{/admin/importclass}" class="btn btn-info col-12">Import from File</a>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -177,7 +194,7 @@
 <script th:inline="javascript">
     $(document).ready(function(){
         var urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('invalid')){
+        if(['invalid','uniqueconstraint'].some(param => urlParams.has(param))){
             $('#addClassModal').modal('show');
         }
     });

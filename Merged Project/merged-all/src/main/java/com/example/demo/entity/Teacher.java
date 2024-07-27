@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
+import com.example.demo.data.SubjectRepository;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name="Teachers")
@@ -71,5 +73,31 @@ public class Teacher {
                 ", subject=" + subject +
                 ", classes=" + classes +
                 '}';
+    }
+    
+    public static Teacher fromMap(Map<String, String> data, SubjectRepository sjr) {
+        Teacher t = new Teacher();
+        t.setUser(new User());
+
+        // Kiểm tra và gán các giá trị từ Map
+        if (data.containsKey("Username")) {
+            t.getUser().setUsername(data.get("Username"));
+        }
+        if (data.containsKey("Password")) {
+            t.getUser().setPassword(data.get("Password"));
+        }
+        if (data.containsKey("Fullname")) {
+            t.getUser().setFullname(data.get("Fullname"));
+        }
+        if (data.containsKey("Useremail")) {
+            t.getUser().setUseremail(data.get("Useremail"));
+        }
+        if (data.containsKey("SubjectID")) {
+//            System.out.println("Value of Integer.valueOf((int) Double.parseDouble(data.get(\"SubjectID\"))) " + Integer.valueOf((int) Double.parseDouble(data.get("SubjectID"))));
+            t.setSubject(sjr.findSubjectById(Integer.valueOf((int) Double.parseDouble(data.get("SubjectID")))));
+        }
+        t.getUser().setEnabled(true);
+        t.getUser().setRole("Teacher");
+        return t;
     }
 }

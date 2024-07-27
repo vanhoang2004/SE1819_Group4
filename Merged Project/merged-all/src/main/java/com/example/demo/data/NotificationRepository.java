@@ -1,10 +1,11 @@
 package com.example.demo.data;
 
 import com.example.demo.entity.Notification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Integer> {
@@ -16,4 +17,9 @@ public interface NotificationRepository extends JpaRepository<Notification,Integ
 
     @Query("SELECT n FROM Notification n JOIN n.nclass c WHERE c.classCode = :classCode AND n.createdAt <= CURRENT_TIMESTAMP ORDER BY n.createdAt DESC")
     List<Notification> findByClassCode(@Param("classCode") Integer classCode);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Notification n WHERE n.createdAt < :cutoffTime")
+    int deleteNotificationsOlderThan(LocalDateTime cutoffTime);
 }

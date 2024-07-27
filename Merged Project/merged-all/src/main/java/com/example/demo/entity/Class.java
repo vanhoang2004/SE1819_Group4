@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
+import com.example.demo.data.ClassRepository;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name="Classes")
@@ -72,6 +74,10 @@ public class Class {
     public Class() {
     }
 
+    public boolean isValidClass(){
+        return this.className.matches("^(12)[A-Za-z]+\\d*$");
+    }
+
     @Override
     public String toString() {
         return "Class{" +
@@ -80,5 +86,15 @@ public class Class {
 //                ", students=" + students +
 //                ", teachers=" + teachers +
                 '}';
+    }
+
+    public static Class fromMap(Map<String, String> data) {
+        Class c = new Class();
+
+        // Kiểm tra và gán các giá trị từ Map
+        if (data.containsKey("Classname")) {
+            c.setClassName(data.get("Classname"));
+        }
+        return c;
     }
 }

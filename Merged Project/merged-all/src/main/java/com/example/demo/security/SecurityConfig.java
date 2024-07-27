@@ -76,7 +76,13 @@ public class SecurityConfig {
 					.requestMatchers("/teacher/**").hasRole("TEACHER")
 					.requestMatchers("/admin/**").hasRole("ADMIN")
 					.requestMatchers("/manager/**").hasRole("MANAGER")
-					.requestMatchers("/login").permitAll() // Permit access to /login
+					.requestMatchers("/test/**").hasRole("MANAGER")
+					.requestMatchers("/login").permitAll()
+					.requestMatchers("/forgotpassword").permitAll()
+					.requestMatchers("/otp").permitAll()
+					.requestMatchers("/confirmotp").permitAll()
+					.requestMatchers("/resetpassword").permitAll()
+					.requestMatchers("/resetcomplete").permitAll()
 					.anyRequest().authenticated())
 			.formLogin(form -> form
 							.loginPage("/login")

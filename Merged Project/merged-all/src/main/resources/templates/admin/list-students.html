@@ -101,6 +101,16 @@
                     New student account info saved.
                 </div>
             </div>
+            <div th:if="${#conversions.convert(param.success, 'java.lang.Integer') > 0}">
+                <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                    Successfully imported [[${param.success}]] student account(s).
+                </div>
+            </div>
+            <div th:if="${#conversions.convert(param.fail, 'java.lang.Integer') > 0}">
+                <div class="alert alert-warning col-xs-offset-1 col-xs-10">
+                    Failed to import [[${param.fail}]] student account(s).
+                </div>
+            </div>
             <div th:if="${param.disabled}">
                 <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                     Student account disabled.
@@ -111,18 +121,12 @@
                     Student account enabled.
                 </div>
             </div>
-            <div class="d-flex justify-content-between mb-4 text-align-center align-items-center">
-                <a href="#addStudentModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
-                    <span>Add Student</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                    </svg>
-                </a>
-                <h2 th:if="${param.search}" th:text="'Showing search results for \'' + ${param.search} + '\''"></h2>
-                <div th:if="${param.filter}">
-                    <h2 th:each="class : ${classes}" th:if="${#strings.toString(class.classCode) == #strings.toString(param.filter)}" th:text="'Students in class ' + ${class.className}"></h2>
+            <div th:if="${param.uniqueconstraint}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    Some fields conflict with existing data (username and email must be unique).
                 </div>
-                <h2 th:if="${param.search == null and param.filter == null}">All Students</h2>
+            </div>
+            <div class="d-flex justify-content-between mb-4 text-align-center align-items-center">
                 <div class="d-flex justitfy-content-end">
                     <a th:if="${param.filter}" class="btn btn-sm btn-danger" th:href="@{/admin/students}">
                         <span>Cancel Filter &times;</span>
@@ -132,6 +136,17 @@
                         <option selected disabled>Filter by Class</option>
                         <option th:each="class:${classes}" th:value="${class.classCode}" th:text="${class.className}"></option>
                     </select>
+                </div>
+                <h2 th:if="${param.search == null and param.filter == null}">All Students</h2>
+                <a href="#addStudentModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
+                    <span>Add Students</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                    </svg>
+                </a>
+                <h2 th:if="${param.search}" th:text="'Showing search results for \'' + ${param.search} + '\''"></h2>
+                <div th:if="${param.filter}">
+                    <h2 th:each="class : ${classes}" th:if="${#strings.toString(class.classCode) == #strings.toString(param.filter)}" th:text="'Students in class ' + ${class.className}"></h2>
                 </div>
             </div>
             <div id="addStudentModal" class="modal fade">
@@ -170,6 +185,8 @@
                                         <option th:each="class:${classes}" th:text="${class.className}" th:value="${class.classCode}"></option>
                                     </select>
                                 </div>
+                                <h2 class="text-center"> Or </h2>
+                                <a th:href="@{/admin/import?student}" class="btn btn-info col-12">Import from File</a>
                             </div>
                             <div class="modal-footer">
                                 <a th:if="${param.addFromMain}" th:href="@{/admin/home}" class="btn btn-secondary">Cancel</a>
@@ -232,7 +249,7 @@
     $(document).ready(function(){
         // Check if modal parameter is present in URL
         var urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('addFromMain')){
+        if(['addFromMain','uniqueconstraint'].some(param => urlParams.has(param))){
             // Open the modal
             $('#addStudentModal').modal('show');
         }

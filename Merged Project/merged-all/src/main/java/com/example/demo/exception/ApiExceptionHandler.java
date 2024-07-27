@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -26,24 +25,7 @@ public class ApiExceptionHandler {
         );
         //2. return respose entity
         model.addAttribute("errorMessage", e.getMessage());
-        model.addAttribute("timestamp", apiException.getTimesptamp());
-        model.addAttribute("status", apiException.getHttpStatus().value());
         return "ExceptionHandle";
         //return new ResponseEntity<>(apiException, badRequest);
-    }
-
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public String handleNotFoundException(NoHandlerFoundException e, Model model) {
-        String errorMessage = "Oops, no such page found!";
-        ApiException apiException = new ApiException(
-                errorMessage,
-                HttpStatus.NOT_FOUND,
-                ZonedDateTime.now(ZoneId.of("Z"))
-        );
-
-        model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("timestamp", apiException.getTimesptamp());
-        model.addAttribute("status", apiException.getHttpStatus().value());
-        return "ExceptionHandle";
     }
 }

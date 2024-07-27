@@ -2,30 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.data.*;
 import com.example.demo.entity.Question;
-import com.example.demo.helpers.ExcelHelper;
+import com.example.demo.util.ExcelHelper;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.*;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/realexcel")
@@ -86,7 +79,7 @@ public class RealExcelController implements ServletContextAware {
                 System.out.println("Uploaded file name: " + fileName);
 
                 // Use the absolute path specified
-                String excelPath = "D:\\helpless\\src\\main\\resources\\excels\\" + fileName;
+                String excelPath = "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels" + fileName;
                 System.out.println("Excel file path: " + excelPath);
 
                 ExcelHelper excelHelper = new ExcelHelper(excelPath);
@@ -108,8 +101,8 @@ public class RealExcelController implements ServletContextAware {
                     questions.add(question);
 
                     //fix cung
-                    //question.setChapterid(2);
-                    //question.setLevelid(2);
+//                    question.setChapterid(2);
+//                    question.setLevelid(2);
                     question.setSubjectid(subjectid);
                     question.setStatus(1);
 
@@ -120,7 +113,7 @@ public class RealExcelController implements ServletContextAware {
                 }
 
                 //delete all imported files after insert
-                deleteAllFilesInDirectory("D:\\helpless\\src\\main\\resources\\excels");
+                deleteAllFilesInDirectory("D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,7 +126,7 @@ public class RealExcelController implements ServletContextAware {
         try {
             byte[] bytes = multipartFile.getBytes();
             // Use the absolute path specified
-            String uploadDir = "D:\\helpless\\src\\main\\resources\\excels";
+            String uploadDir = "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels";
             Path path = Paths.get(uploadDir, multipartFile.getOriginalFilename());
             Files.write(path, bytes);
             return multipartFile.getOriginalFilename();

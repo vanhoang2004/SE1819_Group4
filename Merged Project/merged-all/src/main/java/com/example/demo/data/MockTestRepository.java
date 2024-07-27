@@ -37,4 +37,9 @@ public interface MockTestRepository extends JpaRepository<MockTest, Integer> {
             "select * from mocktests\n" +
                     "where mocktesttitle like  %:filter% and subjectid =:subjectid" , nativeQuery = true)
     List<MockTest> filterMockTest(Integer subjectid, @Param("filter") String filter);
+
+    @Query(value = "SELECT m.MockTestID,m.MockTestTitle,m.SubjectID,m.Start,m.End FROM mocktests m " +
+            "INNER JOIN managers mgr ON m.SubjectID = mgr.SubjectID " +
+            "WHERE mgr.UserID = :userId ORDER BY m.MockTestID DESC", nativeQuery = true)
+    List<MockTest> findMockTestByUserIdOrder(int userId);
 }

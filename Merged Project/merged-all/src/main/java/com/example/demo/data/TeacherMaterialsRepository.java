@@ -17,6 +17,7 @@ public interface TeacherMaterialsRepository extends JpaRepository<TeacherMateria
             "where teachermaterialid= :teachermaterialid", nativeQuery = true)
     TeacherMaterials findTeacherMaterialsById(Integer teachermaterialid);
 
+
     @Query(value =
             "select*from teachermaterials\n" +
                     "where subjectid =:subjectid and classcode =:classcode and title like %:keyword%", nativeQuery = true)

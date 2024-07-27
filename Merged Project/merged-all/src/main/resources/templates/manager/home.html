@@ -3,40 +3,23 @@
 <head>
     <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <!-- Navbar -->
 <div th:insert="~{nav.html}"></div>
 
-<!-- brand search -->
-
 <!-- carousel -->
 <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel">
-    <!--                <div class="carousel-indicators">
-                        <button
-                            type="button"
-                            data-mdb-target="#carouselExampleCaptions"
-                            data-mdb-slide-to="0"
-                            class="active"
-                            aria-current="true"
-                            aria-label="Slide 1"
-                            ></button>
-                        <button
-                            type="button"
-                            data-mdb-target="#carouselExampleCaptions"
-                            data-mdb-slide-to="1"
-                            aria-label="Slide 2"
-                            ></button>
-                        <button
-                            type="button"
-                            data-mdb-target="#carouselExampleCaptions"
-                            data-mdb-slide-to="2"
-                            aria-label="Slide 3"
-                            ></button>
-                    </div>-->
+
     </br>
     </br>
 
@@ -55,14 +38,7 @@
                     <strong></strong>
                 </p>
 
-                <!--                            <p class="mb-4 d-none d-md-block">
-                                                <strong>The most comprehensive tutorial for the Bootstrap 5. Loved by over 3 000 000 users. Video and written versions
-                                                    available. Create your own, stunning website.</strong>
-                                            </p>
 
-                                            <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn btn-outline-white btn-lg">Start free tutorial
-                                                <i class="fas fa-graduation-cap ms-2"></i>
-                                            </a>-->
             </div>
         </div>
 
@@ -90,7 +66,7 @@
                     <i class=""></i>Question Request
                 </a>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                <div style="display: flex; justify-content: end; " class="collapse navbar-collapse" id="navbarSupportedContent2">
 
                     <!-- Search -->
                     <form class="w-auto py-1" style="max-width: 12rem">
@@ -129,11 +105,11 @@
                 </thead>
                 <tbody >
                 <tr th:each="test : ${mock}">
-                    <td th:text="${test.id}"></td>
-                    <td th:text="${test.title}"></td>
-                    <td th:each="subject:${subject}" th:if="${subject.subjectId}==${test.subjectId}" th:text="${subject.subjectName}"></td>
+                    <td th:text="${test.mocktestid}"></td>
+                    <td th:text="${test.mocktesttitle}"></td>
+                    <td th:each="subject:${subject}" th:if="${subject.subjectId}==${test.subject.subjectId}" th:text="${subject.subjectName}"></td>
                     <td>
-                        <a th:href="@{/test/analysis/{id}(id=${test.id})}">View Result</a>
+                        <a th:href="@{/test/analysis/{id}(id=${test.mocktestid})}"><i class="bi bi-eye"></i></a>
                     </td>
                 </tr>
 
@@ -141,74 +117,10 @@
             </table>
 
             <!-- Pagination -->
-            <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
-                <ul class="pagination">
-                    <th:forEach var="o" begin="1" end="${a}">
-                        <li class="page-item active">
-                            <!--                            <a class="page-link" href="#" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                        </a>-->
 
-                        <li class="page-item" ${indexPage==o?"active":""}><a class="page-link" href="home?index=${o}">${o}</a></li>
-
-
-
-                        <li class="page-item">
-                            <!--                            <a class="page-link" href="#" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                        </a>-->
-                        </li>
-                    </th:forEach>
-                </ul>
-            </nav>
             <!-- Pagination -->
         </div>
-        <div id="viewMockTest" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="add">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Add Product</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input name="name" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Image</label>
-                                <input name ="image" type="url" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input name ="price" type="number" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input name="title" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <input name="des" type="text" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Brand</label>
-                                <select name="brand">
-                                    <c:forEach var="o" items="${listB}">
-                                        <option value="${o.bid}">${o.bname}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                            <input type="submit" class="btn btn-success" value="Add">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+
     </main>
     <!--Main layout-->
 </div>

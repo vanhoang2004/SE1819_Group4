@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.User;
 import com.example.demo.entity.VerificationToken;
 import com.example.demo.exception.ApiRequestException;
-import com.example.demo.service.EmailService;
+import com.example.demo.util.EmailService;
 import com.example.demo.service.EmailVerificationService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.VerificationTokenService;
@@ -30,7 +30,8 @@ public class EmailController {
     public EmailController(VerificationTokenService verificationTokenService,
                            EmailService emailService,
                            UserService userService,
-                           EmailVerificationService emailVerificationService) {
+                           EmailVerificationService emailVerificationService
+    ) {
         this.verificationTokenService = verificationTokenService;
         this.emailService = emailService;
         this.userService = userService;
@@ -49,7 +50,7 @@ public class EmailController {
             userService.save(user); // Assuming saveUser method persists the user
             model.addAttribute("message", "Your account is successfully activated");
         }
-        return "redirect:/showMyLoginPage"; // The name of the view to return
+        return "redirect:/login"; // The name of the view to return
     }
 
     @PostMapping("/submitEmail")
@@ -59,24 +60,24 @@ public class EmailController {
 
         User user = userService.findUserByName(username);
         if (user != null) {
-            if(emailVerificationService.verifyEmail(email)) {
+            if (emailVerificationService.verifyEmail(email)) {
                 try {
                     VerificationToken token = verificationTokenService.createVerificationToken(user, email);
                     emailService.sendHtmlMail(user, token);
                     model.addAttribute("message", "Verification email sent successfully.");
-                    //user.setUseremail(email);
+                    return "redirect:/login"; // Redirect to homepage
                 } catch (MessagingException e) {
                     model.addAttribute("message", "Error sending email.");
                     e.printStackTrace();
+                    return "error"; // Return an error view
                 }
-            }
-            else {
-                throw new ApiRequestException("oops, the email address is invalid or does not exist.");
+            } else {
+                throw new ApiRequestException("oops, no such email ahihi");
+                //return "error"; // Return an error view
             }
         } else {
             model.addAttribute("message", "User not found.");
+            return "error"; // Return an error view
         }
-
-        return "redirect:/teacher/homepage"; // The name of the view to return (e.g., a confirmation page)
     }
 }

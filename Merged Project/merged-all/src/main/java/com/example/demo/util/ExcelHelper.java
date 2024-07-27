@@ -6,12 +6,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.io.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 public class ExcelHelper {
@@ -135,25 +133,44 @@ public class ExcelHelper {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
+                boolean isEmptyRow = true;
                 Map<String, String> dataMap = new HashMap<>();
 
                 for (int i = 0; i < headers.size(); i++) {
-                    Cell cell = row.getCell(i);
-                    if (cell != null) {
-                        dataMap.put(headers.get(i), cell.toString());
-                    } else {
-                        dataMap.put(headers.get(i), "");
+                    if (fieldNames.contains(headers.get(i))) {
+                        Cell cell = row.getCell(i);
+                        if (cell != null && cell.getCellType() != CellType.BLANK) {
+                            isEmptyRow = false;
+                            dataMap.put(headers.get(i), cell.toString());
+                        } else {
+                            dataMap.put(headers.get(i), "");
+                        }
                     }
                 }
-                dataList.add(dataMap);
+
+                if (!isEmptyRow) {
+                    dataList.add(dataMap);
+                }
             }
         }
         return dataList;
     }
 
+    public static boolean isExcelFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            return false;
+        }
 
+        // Check file extension
+        String fileName = file.getOriginalFilename();
+        if (fileName != null && (fileName.endsWith(".xls") || fileName.endsWith(".xlsx"))) {
+            // Check MIME type
+            String mimeType = file.getContentType();
+            return mimeType != null &&
+                    (mimeType.equals("application/vnd.ms-excel") ||
+                            mimeType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        }
 
-
-
-
+        return false;
+    }
 }

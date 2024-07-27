@@ -102,6 +102,15 @@
                 <!--                </c:if>-->
 
             </div>
+            <div class="d-flex align-items-center">
+                <!--                    <a th:href="@{/changepassword}">-->
+                <!--                        <button type="submit" class="btn btn-info">Change Password</button>-->
+                <!--                    </a>-->
+                <!--                    &nbsp;&nbsp;&nbsp;&nbsp;-->
+                <form th:action="@{/logout}" method="POST">
+                    <input type="submit" class="btn btn-secondary" value="Logout"/>
+                </form>
+            </div>
             <!-- Right elements -->
 
         </div>

@@ -46,7 +46,9 @@ public class VerificationTokenService {
     @Transactional
     public VerificationToken createVerificationToken(User user, String newEmail) {
         // Invalidate existing tokens
+//        System.out.println("VT before saving: " + verificationToken);
         deleteTokensByUser(user);
+        System.out.println("Verification token error after this!");
 
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken(token, user, newEmail);

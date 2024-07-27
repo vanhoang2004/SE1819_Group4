@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Error</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
     <style>
         body {
             display: flex;
@@ -30,8 +32,9 @@
 </head>
 <body>
 <div class="error-container">
-    <img class="error-image" src="https://media.tenor.com/eagtMXhEAaEAAAAC/bugcat-capoo.gif" alt="Error Image">
+    <img class="error-image" src="https://support.quizizz.com/hc/article_attachments/6068587203225/Screenshot_2022-04-25_at_8.44.53_PM.png" alt="Error Image">
     <div class="error-message" th:text="${errorMessage}"></div>
+    <a class="btn btn-primary" th:href="@{/}">Return Home</a>
 </div>
 </body>
 </html>

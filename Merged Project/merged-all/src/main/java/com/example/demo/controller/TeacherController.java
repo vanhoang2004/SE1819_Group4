@@ -576,39 +576,39 @@ public class TeacherController {
     @PostMapping("questionapprove/{subjectid}")
     public String sendQuestion(Model model, @ModelAttribute Question nques, @PathVariable Integer subjectid, @RequestParam(value = "file", required = false) String file,
                                @RequestParam(value = "fileImage", required = false)MultipartFile multipartFile)throws IOException
-            {
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                String name = auth.getName();
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
         //handle exception
         Optional<Subject> findsubject = su.findById(subjectid);
         if(findsubject.isEmpty()) {
             throw new ApiRequestException("oops, no such class found ahihi");
         }
-                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-                nques.setUsername(name);
-                nques.setImage(fileName);
-       Question savedQuestion= qr.save(nques);
-                String uploadDir ="./questionbank/"+ savedQuestion.getQuestionid();
-                Path uploadPath = Paths.get(uploadDir);
-                if(!Files.exists(uploadPath)){
-                    Files.createDirectories(uploadPath);
-                }
-                try(InputStream inputStream = multipartFile.getInputStream();){
-                    Path filePath= uploadPath.resolve(fileName);
-                    System.out.println(filePath.toFile().getAbsoluteFile());
-                    Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e){
-                    throw new IOException("Could not save uploadfile: "+fileName);
-                }
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        nques.setUsername(name);
+        nques.setImage(fileName);
+        Question savedQuestion= qr.save(nques);
+        String uploadDir ="./questionbank/"+ savedQuestion.getQuestionid();
+        Path uploadPath = Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
+        }
+        try(InputStream inputStream = multipartFile.getInputStream();){
+            Path filePath= uploadPath.resolve(fileName);
+            System.out.println(filePath.toFile().getAbsoluteFile());
+            Files.copy(inputStream,filePath,StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e){
+            throw new IOException("Could not save uploadfile: "+fileName);
+        }
         return "redirect:/teacher/questionbank/" + subjectid;
     }
 
 
 
-        //don't know what
-        @GetMapping("/list")
-        public String getList () {
-            return "teacher/list";
-        }
+    //don't know what
+    @GetMapping("/list")
+    public String getList () {
+        return "teacher/list";
     }
+}
 

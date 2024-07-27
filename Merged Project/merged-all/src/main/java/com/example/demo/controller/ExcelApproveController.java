@@ -2,32 +2,25 @@ package com.example.demo.controller;
 
 import com.example.demo.data.*;
 import com.example.demo.entity.Question;
-import com.example.demo.helpers.ExcelHelper;
+import com.example.demo.util.ExcelHelper;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/excelapprove")
+
+//declare copy from old controller
 public class ExcelApproveController implements ServletContextAware {
     SubjectRepository su;
     ClassRepository clas;
@@ -43,9 +36,9 @@ public class ExcelApproveController implements ServletContextAware {
 
     @Autowired
     public ExcelApproveController(SubjectRepository su, ClassRepository clas, MockTestRepository mt,
-                                  StudentRepository sr, MaterialRepository mr, TeacherRepository tr,
-                                  TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
-                                  QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
+                               StudentRepository sr, MaterialRepository mr, TeacherRepository tr,
+                               TeacherMaterialsRepository tmr, TeacherPracticeRepository tpr,
+                               QuestionRepository qr, LevelRepository lr, ChapterRepository cr) {
         this.su = su;
         this.clas = clas;
         this.mt = mt;
@@ -59,9 +52,10 @@ public class ExcelApproveController implements ServletContextAware {
         this.cr = cr;
     }
 
-    // declare for the excel reading
+    //declare for the excel reading
     private ServletContext servletContext;
     private ExcelHelper excelHelper;
+
 
     // file controller
     @RequestMapping(method = RequestMethod.GET)
@@ -69,7 +63,8 @@ public class ExcelApproveController implements ServletContextAware {
         return "ExcelTest2";
     }
 
-    // process the submit file
+
+    //process the submit file
     @RequestMapping(value = "process", method = RequestMethod.POST)
     public String process(@RequestParam("file") MultipartFile file) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,7 +77,7 @@ public class ExcelApproveController implements ServletContextAware {
                 System.out.println("Uploaded file name: " + fileName);
 
                 // Use the absolute path specified
-                String excelPath = "D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels\\" + fileName;
+                String excelPath = "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels" + fileName;
                 System.out.println("Excel file path: " + excelPath);
 
                 ExcelHelper excelHelper = new ExcelHelper(excelPath);
@@ -113,7 +108,7 @@ public class ExcelApproveController implements ServletContextAware {
                 }
 
                 // delete all imported files after insert
-                deleteAllFilesInDirectory("D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels");
+                deleteAllFilesInDirectory("D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +120,7 @@ public class ExcelApproveController implements ServletContextAware {
         try {
             byte[] bytes = multipartFile.getBytes();
             // Use the absolute path specified
-            String uploadDir = "D:\\Summer 2024\\SWP391\\Miraculous-hat\\Merged Project\\merged-all\\src\\main\\resources\\excels";
+            String uploadDir = "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels";
             Path path = Paths.get(uploadDir, multipartFile.getOriginalFilename());
             Files.write(path, bytes);
             return multipartFile.getOriginalFilename();
@@ -154,4 +149,10 @@ public class ExcelApproveController implements ServletContextAware {
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
+
+//    //created for playful :)))
+//    @GetMapping("/ExcelTest")
+//    public String etst(Model model) {
+//        return "ExcelTest2";
+//    }
 }

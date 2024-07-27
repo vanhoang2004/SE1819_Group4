@@ -101,6 +101,16 @@
                     New manager account info saved.
                 </div>
             </div>
+            <div th:if="${#conversions.convert(param.success, 'java.lang.Integer') > 0}">
+                <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                    Successfully imported [[${param.success}]] manager account(s).
+                </div>
+            </div>
+            <div th:if="${#conversions.convert(param.fail, 'java.lang.Integer') > 0}">
+                <div class="alert alert-warning col-xs-offset-1 col-xs-10">
+                    Failed to import [[${param.fail}]] manager account(s).
+                </div>
+            </div>
             <div th:if="${param.disabled}">
                 <div class="alert alert-danger col-xs-offset-1 col-xs-10">
                     Manager account disabled.
@@ -111,12 +121,17 @@
                     Manager account enabled.
                 </div>
             </div>
+            <div th:if="${param.uniqueconstraint}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    Some fields conflict with existing data (username and email must be unique).
+                </div>
+            </div>
             <div class="d-flex justify-content-between mb-4 text-center align-items-center">
                 <h2 th:if="${param.search == null}">All Managers</h2>
                 <h2 th:if="${param.search}" th:text="'Showing search results for \'' + ${param.search} + '\''"></h2>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="#addManagerModal" class="btn btn-primary btn-sm mb-3" data-toggle="modal">
-                    <span>Add Admin <i class="bi bi-plus-lg"></i></span>
+                    <span>Add Managers <i class="bi bi-plus-lg"></i></span>
                 </a>
             </div>
             <div id="addManagerModal" class="modal fade">
@@ -155,6 +170,8 @@
                                         <option th:each="subject:${subjects}" th:text="${subject.subjectName}" th:value="${subject.subjectId}"></option>
                                     </select>
                                 </div>
+                                <h2 class="text-center"> Or </h2>
+                                <a th:href="@{/admin/import?manager}" class="btn btn-info col-12">Import from File</a>
                             </div>
                             <div class="modal-footer">
                                 <a th:if="${param.addFromMain}" th:href="@{/admin/home}" class="btn btn-secondary">Cancel</a>
@@ -217,7 +234,7 @@
     $(document).ready(function(){
         // Check if modal parameter is present in URL
         var urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has('addFromMain')){
+        if(['addFromMain','uniqueconstraint'].some(param => urlParams.has(param))){
             // Open the modal
             $('#addManagerModal').modal('show');
         }

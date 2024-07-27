@@ -1,6 +1,10 @@
 package com.example.demo.entity;
 
+import com.example.demo.data.ManagerRepository;
+import com.example.demo.data.SubjectRepository;
 import jakarta.persistence.*;
+
+import java.util.Map;
 
 @Entity
 @Table(name="Managers")
@@ -52,5 +56,31 @@ public class Manager {
                 ", user=" + user +
                 ", subject=" + subject +
                 '}';
+    }
+    
+        public static Manager fromMap(Map<String, String> data, SubjectRepository sjr) {
+        Manager ma = new Manager();
+        ma.setUser(new User());
+
+        // Kiểm tra và gán các giá trị từ Map
+        if (data.containsKey("Username")) {
+            ma.getUser().setUsername(data.get("Username"));
+        }
+        if (data.containsKey("Password")) {
+            ma.getUser().setPassword(data.get("Password"));
+        }
+        if (data.containsKey("Fullname")) {
+            ma.getUser().setFullname(data.get("Fullname"));
+        }
+        if (data.containsKey("Useremail")) {
+            ma.getUser().setUseremail(data.get("Useremail"));
+        }
+        if (data.containsKey("SubjectID")) {
+//            System.out.println("Value of Integer.valueOf((int) Double.parseDouble(data.get(\"SubjectID\"))) " + Integer.valueOf((int) Double.parseDouble(data.get("SubjectID"))));
+            ma.setSubject(sjr.findSubjectById(Integer.valueOf((int) Double.parseDouble(data.get("SubjectID")))));
+        }
+        ma.getUser().setEnabled(true);
+        ma.getUser().setRole("Manager");
+        return ma;
     }
 }
