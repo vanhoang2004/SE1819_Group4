@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Home</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="~{resources :: navbar-top}"></div>
+<div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+    </br>
+    </br>
+    </br>
+    <div class="carousel-inner" >
+        <div class="carousel-item active" style="height: 600px;">
+            <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
+            <div class="carousel-caption d-none d-sm-block mb-5">
+                <h1 class="mb-4">
+                    <strong>Student Homepage</strong>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
+            <!-- Container wrapper -->
+            <div class="container-fluid">
+
+                <!-- Navbar brand -->
+                <a class="navbar-brand" href="#"></a>
+
+                <!-- Toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent2"
+                        aria-controls="navbarSupportedContent2"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    </ul>
+
+                    <!-- Search -->
+                    <form th:action="@{/student/home}" method="get" class="w-auto py-1" style="max-width: 12rem">
+                        <div class="input-group">
+                            <input  type="text" name="search" class="form-control rounded-0" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-secondary btn-number"/>
+                                <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div><!-- comment -->
+                    </form>
+                    <a class="nav-link text-white me-3" th:href="@{/student/classmembers}">
+                        Class Members
+                    </a>
+                </div>
+            </div>
+            <!-- Container wrapper -->
+        </nav>
+    </div>
+
+    <!--Main layout-->
+    <main>
+        <div class="container">
+            <!-- Navbar -->
+
+            <!-- Navbar -->
+
+            <!-- Products -->
+            <section>
+                <div class="text-center">
+                    <form name="f" action="" method="post">
+                        <br/>
+                        <div class="row">
+                            <th:block th:each="tempSubject : ${subjects}">
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card" style="height: 500px;">
+                                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                                             data-mdb-ripple-color="light">
+                                            <img src="https://media3.giphy.com/media/LYBMuRwH3JkhdmLbGE/giphy.gif?cid=790b76118lk4jeyv5csbwycdfw5k5hte71kvz9yidct0gthc&ep=v1_stickers_search&rid=giphy.gif&ct=s"
+                                                 class="w-100" style="height: 320px;"/>
+                                            <a href="#!">
+                                                <div class="mask">
+                                                    <div class="hover-overlay">
+                                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <a th:href="@{/student/mocktests/{subjectId}(subjectId=${tempSubject.subjectId})}" class="text-reset">
+                                                <h5 class="card-title mb-2" th:text="${tempSubject.subjectName}"></h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!--Main layout-->
+
+</body>
+</html>

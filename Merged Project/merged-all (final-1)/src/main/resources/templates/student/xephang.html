@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Ranking</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <a th:href="@{/student/home}" class="btn btn-primary" ><i class="material-icons">&#xE15C;</i> <span>Home</span></a>
+                </div>
+            </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+             <li class="nav-item">
+        <a class="nav-link active" id="classranking-tab" data-toggle="tab" href="#classranking" role="tab" aria-controls="classranking" aria-selected="false">Class Ranking</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="schoolranking-tab" data-toggle="tab" href="#schoolranking" role="tab" aria-controls="schoolranking" aria-selected="false">School Ranking</a>
+    </li>
+            </ul>
+           <div class="tab-content" id="myTabContent">
+    <!-- Class Ranking Tab -->
+    <div class="tab-pane fade show active" id="classranking" role="tabpanel" aria-labelledby="classranking-tab">
+         <h2 th:text="'Leaderboard for '+${mocktest.mocktesttitle}" class="text-center mt-4"></h2>
+         <h4 th:text="'Class '+${class.className}" class="text-center"></h4>
+        <div class="text-right mb-4">
+            <select class="sortOrder">
+                <option selected disabled>Sort By</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col style="width: 20%;">
+                <col style="width: 40%;">
+                <col style="width: 40%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th class="scoreHeader">Score</th>
+                </tr>
+            </thead>
+            <tbody id="studentsBody">
+                <tr th:each="xep, stt : ${xephanglop}">
+                    <td th:text="${stt.index+1}"></td>
+                    <td th:attr="data-username=${xep.student.user.username}" th:text="${xep.student.user.fullname}"></td>
+                    <td th:text="${xep.score}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- School Ranking Tab -->
+    
+    <div class="tab-pane fade" id="schoolranking" role="tabpanel" aria-labelledby="schoolranking-tab">
+        <h2 th:text="'Leaderboard for '+${mocktest.mocktesttitle}" class="text-center mt-4"></h2>
+        <h4 class="text-center">Grade 12</h4>
+        <div style="text-align: right; margin-bottom: 20px;">
+            <select class="sortOrder">
+                <option selected disabled>Sort By</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+        </div>
+        <table id="schoolRankingTable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th class="scoreHeader">Score</th>
+                </tr>
+            </thead>
+            <tbody id="schoolStudentsBody">
+                <tr th:each="xep, stt : ${xephangTruong}">
+                    <td th:text="${stt.index+1}"></td>
+                    <td th:attr="data-username=${xep.first.student.user.username}" th:text="${xep.first.student.user.fullname}"></td>
+                    <td th:text="${xep.second}"></td>
+                    <td th:text="${xep.first.score}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+    var thisusername = /*[[${username}]]*/ 'default';
+
+    $(document).ready(function() {
+        // Highlight the current user row in both tables
+        $('#studentsBody tr, #schoolStudentsBody tr').each(function() {
+            var username = $(this).children('td').eq(1).attr('data-username');
+            if (username === thisusername) {
+                $(this).addClass('highlighted-row');
+            }
+        });
+
+        // Add event listeners to sortOrder dropdowns and scoreHeader click
+        $('.sortOrder').change(function() {
+            sortTable();
+        });
+
+        $('.scoreHeader').click(function() {
+            sortTable();
+        });
+
+        function sortTable() {
+            var activeTab = $('.tab-pane.active').attr('id');
+            var sortOrder = $('.tab-pane.active .sortOrder').val();
+            var tbodyId = (activeTab === 'schoolranking') ? '#schoolStudentsBody': '#studentsBody' ;
+            var rows = $(tbodyId + ' tr').get();
+
+            rows.sort(function(a, b) {
+                var A = parseFloat($(a).children('td').eq(2).text());
+                var B = parseFloat($(b).children('td').eq(2).text());
+
+                if (sortOrder === 'asc') {
+                    return A - B;
+                } else {
+                    return B - A;
+                }
+            });
+
+            $.each(rows, function(index, row) {
+                $(tbodyId).append(row);
+            });
+
+            updateSTT(tbodyId);
+        }
+
+        function updateSTT(tbodyId) {
+            $(tbodyId + ' tr').each(function(index, row) {
+                $(row).children('td').eq(0).text(index + 1);
+            });
+        }
+    });
+/*]]>*/
+</script>
+</body>
+</html>

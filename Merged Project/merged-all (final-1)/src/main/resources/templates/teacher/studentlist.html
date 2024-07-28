@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<!-- Navbar -->
+<div th:insert="~{resources :: navbar-top}"></div>
+    <!-- carousel -->
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+        </br>
+        </br>
+        </br>
+        <div class="carousel-inner" >
+            <div class="carousel-item active" style="height: 600px;">
+                <img src="https://daihoc.fpt.edu.vn/templates/fpt-university/images/header.jpg" class="d-block w-100" alt="Wild Landscape"/>
+                <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div>
+                <div class="carousel-caption d-none d-sm-block mb-5">
+                    <h1 class="mb-4">
+                        <strong>Student list</strong>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--    brand - search section-->
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2" style="background-color: #607D8B">
+                <!-- Container wrapper -->
+                <div class="container-fluid">
+
+                    <!-- Navbar brand -->
+                    <a th:href="@{/teacher/classpage/{classcode}(classcode=${classcode})}" class="navbar-brand">Mocktests</a>
+
+                    <!-- Toggle button -->
+                    <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-mdb-toggle="collapse"
+                            data-mdb-target="#navbarSupportedContent2"
+                            aria-controls="navbarSupportedContent2"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Collapsible wrapper -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item"><a th:href="@{/teacher/materiallist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Materials</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/studentlist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Students</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/teachermateriallist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Class Materials</a></li>
+                            <li class="nav-item"><a th:href="@{/teacher/teacherpracticelist/{classcode}(classcode=${classcode})}" class="nav-link text-white">Class Practice</a></li>
+                        </ul>
+
+                        <!-- Search -->
+                        <form class="w-auto py-1" style="max-width: 12rem">
+                            <div class="input-group">
+
+                                <input type="text" name="keyword" class="form-control rounded-0" placeholder="Title" aria-label="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-secondary btn-number">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div><!-- comment -->
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Container wrapper -->
+            </nav>
+        </div>
+
+        <!--Main layout-->
+        <main>
+            <div class="container">
+                <!-- Products -->
+                <section>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Student Name</th>
+                            <th>Student Email</th>
+                            <th>Class Code</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="student : ${students}">
+                            <td th:text="${student.user.userId}"></td>
+                            <td th:text="${student.user.fullname}"></td>
+                            <td th:text="${student.user.useremail}"></td>
+                            <td th:text="${student.sclass.className}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+        <!--Main layout-->
+<div th:insert="~{resources :: user-profile}"></div>
+</body>
+</html>
