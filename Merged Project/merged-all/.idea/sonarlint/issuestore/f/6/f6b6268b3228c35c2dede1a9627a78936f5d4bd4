@@ -1,0 +1,11 @@
+
+ˆ
+java:S1192 "MDefine a constant instead of duplicating this literal "errorMessage" 3 times.(Õˆ˜,J$e1484950-a193-4ada-8bb8-c7a176ab7ee3
+‘
+java:S1192!"PDefine a constant instead of duplicating this literal "ExceptionHandle" 3 times.(ò­Ï×úÿÿÿÿJ$b2c6ac5a-8175-4063-a65f-8916895a9f9a
+|	java:S125"<This block of commented-out lines of code should be removed.( ãæÎøÿÿÿÿJ$896e210a-a388-4098-9386-d00115fa90c1
+w	java:S125"<This block of commented-out lines of code should be removed.(‹³ÉéJ$121586c6-63b3-423b-aacd-3b98c690012e
+f	java:S106"+Replace this use of System.out by a logger.(·àÍ¯J$8671defe-8f4b-4533-974b-09e48a50504d
+|	java:S125"<This block of commented-out lines of code should be removed.(˜Ï•«ÿÿÿÿÿJ$0994c443-6509-4f2b-b1d0-a01813d5eeaa
+|	java:S125&"<This block of commented-out lines of code should be removed.(šƒÈÿÿÿÿÿJ$685adbd2-9fe4-485d-b285-24c3fd6dd960
+w	java:S1254"<This block of commented-out lines of code should be removed.(øë˜îJ$7c63a001-ae11-4c77-80c2-8f1c35f8591f

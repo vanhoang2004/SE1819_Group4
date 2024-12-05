@@ -1,0 +1,30 @@
+
+a	java:S112H"FDefine and throw a dedicated exception instead of using a generic one.(«²¤8¤ûé…2
+ç
+java:S1192R"¥Define a constant instead of duplicating this literal "D:\\uni materials\\su24\\swp391\\intellij idea ce projects\\merged-all\\src\\main\\resources\\excels" 3 times.(ß¾ÉâıÿÿÿÿJ$a53c987f-c8f9-448a-86eb-b9544421a1e2
+
+java:S1450;"]Remove the "servletContext" field and declare it as a local variable in the relevant methods.(³÷ ´ùÿÿÿÿJ$a2c9d32e-1669-4c0a-915a-bf1506b3449f
+‚	java:S107)"BConstructor has 11 parameters, which is greater than 7 authorized.(ÖÃ­¶úÿÿÿÿJ$95d6e62b-f42d-427b-93b0-4e59a75caf55
+„
+java:S4488@"HReplace "@RequestMapping(method = RequestMethod.GET)" with "@GetMapping"(ÆøîçJ$5ee78842-9e8a-4747-b65c-37eae7aae1e7
+…
+java:S4488G"JReplace "@RequestMapping(method = RequestMethod.POST)" with "@PostMapping"(ŠŸ·J$4a6827e8-c628-4ac9-be82-7250e3bee0b0
+P
+java:S1481K".Remove this unused "subjectid" local variable.(áŒûüÿÿÿÿ8Ûûé…2
+f	java:S106O"+Replace this use of System.out by a logger.(°ˆ°ËJ$5d640c1d-8e06-489d-bda1-36796373a0eb
+k	java:S106S"+Replace this use of System.out by a logger.(«²‘úÿÿÿÿJ$87ec4f5f-4e4b-4b80-812c-378ac09c9734
+€
+java:S1117U"?Rename "excelHelper" which hides the field declared at line 60.(”ğê¿üÿÿÿÿJ$cff5771c-e894-4b66-a394-5bf959e2e30a
+|	java:S125X"<This block of commented-out lines of code should be removed.(Æ¢²¿ùÿÿÿÿJ$ab128c73-7813-4655-b2f2-d873c960c32b
+K
+java:S1481^".Remove this unused "questions" local variable.(¶úœŞ8æûé…2
+K
+java:S1481_")Remove this unused "data" local variable.(‡Ï‚Šúÿÿÿÿ8æûé…2
+k	java:S106a"+Replace this use of System.out by a logger.(±ãÙºşÿÿÿÿJ$a1cfc099-ace5-4431-9929-26186862f6b3
+]	java:S125b"<This block of commented-out lines of code should be removed.(Å£•çşÿÿÿÿ8çûé…2
+k
+java:S1481¨")Remove this unused "path" local variable.(†”„ÀıÿÿÿÿJ$22219599-ac08-4063-a9f8-e0ce5d6ed2e1
+s
+java:S1068;"2Remove this unused "servletContext" private field.(³÷ ´ùÿÿÿÿJ$c0ad1350-b58d-43e4-8c22-c2ee094300ab
+p
+java:S1068<"/Remove this unused "excelHelper" private field.(ñ—ëúÿÿÿÿJ$036b81c4-577c-497c-9745-2602f21fe41c

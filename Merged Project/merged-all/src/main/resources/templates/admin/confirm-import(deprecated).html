@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Import Users From Files</title>
+    <div th:insert="~{resources :: head}"></div>
+    <div th:insert="~{resources :: extra}"></div>
+</head>
+<body>
+<div class="container mt-5">
+
+    <!-- Guidelines -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Confirm Import</h2>
+        </div>
+        <div class="card-body">
+            <p>Here is a list of valid Admin account(s) read from your file:</p>
+            <table class="table table-striped table-bordered table-responsive">
+                <thead>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Title</th>
+                </thead>
+                <tbody>
+                    <tr th:each="admin : ${found_admins}">
+                        <td th:text="${admin.user.username}"></td>
+                        <td th:text="${admin.user.password}"></td>
+                        <td th:text="${admin.user.fullname}"></td>
+                        <td th:text="${admin.user.useremail}"></td>
+                        <td th:text="${admin.title}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form th:action="@{/admin/confirmimport}" method="post" th:object="${import_admins}">
+                <div th:each="admin, iterStat : *{admins}">
+                    <input type="text" th:field="*{admins[__${iterStat.index}__].user.username}"
+                           th:value="${found_admins[__${iterStat.index}__].user.username}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].user.password}"
+                           th:value="${found_admins[__${iterStat.index}__].user.password}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].user.fullname}"
+                           th:value="${found_admins[__${iterStat.index}__].user.fullname}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].user.useremail}"
+                           th:value="${found_admins[__${iterStat.index}__].user.useremail}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].user.role}"
+                           th:value="${found_admins[__${iterStat.index}__].user.role}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].user.enabled}"
+                           th:value="${found_admins[__${iterStat.index}__].user.enabled}"/>
+
+                    <input type="hidden" th:field="*{admins[__${iterStat.index}__].title}"
+                           th:value="${found_admins[__${iterStat.index}__].title}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

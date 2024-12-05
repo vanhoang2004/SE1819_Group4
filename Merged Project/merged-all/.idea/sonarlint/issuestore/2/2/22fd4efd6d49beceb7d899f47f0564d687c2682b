@@ -1,0 +1,99 @@
+
+Œ
+java:S1192ü"HDefine a constant instead of duplicating this literal "subject" 9 times.(šĞ°8Èâ¼›2J$dce0f15a-bd72-44b4-aeb9-6eb0e6eff367
+
+java:S1192–"FDefine a constant instead of duplicating this literal "level" 4 times.(Ã±ãúùÿÿÿÿ8Éâ¼›2J$05d29ec0-9a60-4827-8fe2-61233fa36dbf
+
+java:S1192Ø"YDefine a constant instead of duplicating this literal "redirect:/test/materials" 3 times.(æÆ¦«8Éâ¼›2J$ea4ff9f0-17f8-4180-ae64-320f2b986bbf
+¢
+java:S1192š"YDefine a constant instead of duplicating this literal "redirect:/test/mocktests" 3 times.(ãåêşÿÿÿÿ8Éâ¼›2J$83a745db-c938-4af0-a79a-407da5b339d1
+Œ
+java:S1192”"HDefine a constant instead of duplicating this literal "chapter" 6 times.(‡’…Š8Éâ¼›2J$efb9059a-9172-4c27-ad85-d599835336ed
+
+java:S1192"FDefine a constant instead of duplicating this literal "error" 4 times.(Âì³ùøÿÿÿÿ8Éâ¼›2J$abd409b7-8328-4fb6-afa2-4c63d4c005b0
+¦
+java:S1192Ã"]Define a constant instead of duplicating this literal "Could not save upload file: " 4 times.(÷äüøÿÿÿÿ8Éâ¼›2J$2a11870f-58b6-4bc8-81fa-316ce0250409
+›
+java:S1192ö"WDefine a constant instead of duplicating this literal "manager/changepassword" 3 times.(µé¾Ã8Éâ¼›2J$2ddb284f-5850-4922-8329-0c343411baf9
+™
+java:S1192¹"PDefine a constant instead of duplicating this literal "./questionbank/" 4 times.(¹Øğùÿÿÿÿ8Êâ¼›2J$2b581570-27bd-48cd-810c-47237c2e1dbf
+¥
+java:S1192è"\Define a constant instead of duplicating this literal "redirect:/test/questionbank" 3 times.(óÂâÔùÿÿÿÿ8Êâ¼›2J$7f13bf01-9bec-4139-b3f7-c5bd9c991003
+¦
+java:S14888"^Immediately return this expression instead of assigning it to the temporary variable "userid".(°’îĞùÿÿÿÿ8Îâ¼›2J$35b50b46-7d4a-4e0c-bb91-0047e5b9e3fe
+—
+java:S1104•"SMake Headers a static final constant or non-public and provide accessors if needed.(¥•Âƒ8Ïâ¼›2J$73549e00-4b09-42dd-88e9-d2bcb389fed8
+q
+java:S1444•"-Make this "public static Headers" field final(¥•Âƒ8Ïâ¼›2J$733f289e-d3c1-435d-885a-9e1950eca19a
+›
+java:S2259¸"RA "NullPointerException" could be thrown; "getOriginalFilename()" can return null.(¦£„”ÿÿÿÿÿ8Àä¼›2J$f8f4c799-29dd-4a71-a9a9-fca5ae3ffe1e
+Ù
+java:S4449î"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$9dafc1f7-9e10-400f-956b-d3d4cd9bbd7c
+Ô
+java:S4449È"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ÎÅÌö8Áä¼›2J$483d4201-265c-4a2a-a0e0-429be99ddbff
+Ù
+java:S4449µ"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$ac57094a-1562-40db-a357-44e8c154126e
+Ù
+java:S4449¶"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$34e1b034-a2af-4e66-a109-56a8a078f274
+Ù
+java:S4449˜"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$49a72ea2-6e68-40ca-90d8-5b2a8e8e500a
+Ù
+java:S4449İ"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$3a7906f8-1dcc-4f33-8004-39f5727fba91
+Ù
+java:S4449Æ"Annotate the parameter with @javax.annotation.Nullable in method 'cleanPath' declaration, or make sure that null can not be passed as argument.(ëßøÿÿÿÿ8Áä¼›2J$7c4924e6-152c-4bf9-a96a-aea96998d4a7
+
+java:S2589µ"8Remove this expression which always evaluates to "false"(¹½áŸüÿÿÿÿ8Áä¼›2J$49361ea5-f615-4d21-ab24-08e55389c91c
+–
+java:S3008•"RRename this field "Headers" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥•Âƒ8Ãä¼›2J$01146088-bea5-43ac-a64d-af2f8502e53e
+…
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$1b4680b1-352a-40eb-8350-f2598079b4b8
+…
+java:S6813!"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$9818770f-f1ab-4026-8f4d-dcb5c18c0747
+…
+java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$9d4af1f2-47b4-4ef2-bb0c-40b9ca8e73d7
+…
+java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$85261be5-0439-4e72-9203-7ea8b9cf613e
+…
+java:S6813'"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$e068ae43-62ea-49cd-a423-f412ea4d218a
+…
+java:S6813)"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$47f65b26-4fd1-49b6-a142-e6ab1414e268
+…
+java:S6813+"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$3f43ef06-460e-4ffb-99d8-6a5bae9b76fe
+…
+java:S6813-"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$b740fc37-e2a4-4644-bbf6-3817c1df3437
+…
+java:S6813/"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$00f63c21-17d2-48f1-b7c2-a80a06cd4a80
+…
+java:S68131"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$723ecbf9-e7ee-4879-8b43-c6a2b4c17e18
+†
+java:S6813¬"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$988cebaa-23d7-4e4b-8f34-2e5c2c10cb57
+†
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ää¼›2J$13b4f404-2435-4778-b277-163e4fb55a9d
+a
+java:S2386•"Make this member "protected".(¥•Âƒ8Éä¼›2J$9b1de10d-1d75-4590-81eb-52ee53bef81d
+~	java:S125_"<This block of commented-out lines of code should be removed.(®õ²È8İä¼›2J$5072e23c-c219-4c3d-9d49-be80b28a4161
+t
+java:S1481~",Remove this unused "formula" local variable.(ÇÁ†ûÿÿÿÿ8àä¼›2J$983566bb-6b01-47d1-a0a5-33598fb9f7a5
+s	java:S106õ"+Replace this use of System.out by a logger.(úéğŞüÿÿÿÿ8îä¼›2J$322cfd74-f3b8-43f0-8e42-2206536203fe
+°
+java:S1130ú"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(İ¬àã8ïä¼›2J$f58dc7a6-e3a6-4904-9ef3-14dcd617abb2
+s	java:S106‡"+Replace this use of System.out by a logger.(¬†ù¿ÿÿÿÿÿ8ğä¼›2J$1f731e31-e991-4c79-82a8-730c75c41026
+•
+java:S3776ª"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(ê÷º8÷ä¼›2J$55ba1fb9-641a-48e5-b94c-b1990bce76d5
+m	java:S106À"+Replace this use of System.out by a logger.(Ä¸û88úä¼›2J$8259facb-b1e3-4a73-9dfb-a9d8f0527201
+„	java:S125à"<This block of commented-out lines of code should be removed.(ÈÕßÑøÿÿÿÿ8€å¼›2J$4375fc10-c6a5-49d4-a791-083b130c06fd
+„	java:S125û"<This block of commented-out lines of code should be removed.(¹Ë‹Íùÿÿÿÿ8…å¼›2J$e039d49e-aa36-480b-83c7-51ce5d194c71
+m	java:S106Ò"+Replace this use of System.out by a logger.(Ä¸û88å¼›2J$07ce00b5-9433-4097-9bc4-bcaa68ff84fe
+s	java:S106ê"+Replace this use of System.out by a logger.(™í®Œùÿÿÿÿ8“å¼›2J$070680c8-59e0-4e14-b67a-350d76dd6541
+m	java:S106ú"+Replace this use of System.out by a logger.(Ä¸û88–å¼›2J$e62a528a-5fb3-4dbd-a76e-b8e4f41c63ea
+m	java:S106ê"+Replace this use of System.out by a logger.(Ä¸û88¥å¼›2J$f1f6a32e-7c12-4502-8b1c-6e88e09495c4
+n	java:S106ø"+Replace this use of System.out by a logger.(²³È8§å¼›2J$bb1db7e7-65e4-4e9e-b2f5-93dd9a9aa934
+n	java:S106"+Replace this use of System.out by a logger.(ö¡¹ê8§å¼›2J$9e29ce90-bf57-4c5e-9c6c-15250d764663
+s	java:S106Š"+Replace this use of System.out by a logger.(Ä­œµüÿÿÿÿ8¨å¼›2J$99413be2-a1ac-4307-88f3-55a8e98174ff
+s	java:S106‹"+Replace this use of System.out by a logger.(ä¾¬ñşÿÿÿÿ8¨å¼›2J$e5421271-775b-4d79-9826-4b7f3b9e88b7
+n	java:S106"+Replace this use of System.out by a logger.(½“ô»8©å¼›2J$0c0d7ae3-0042-4aa8-a20a-eb5f5da1023d
+n	java:S106•"+Replace this use of System.out by a logger.(ì÷úÀ8©å¼›2J$40ab0e71-27fb-419b-8940-723cfd015c61
+„	java:S125£"<This block of commented-out lines of code should be removed.(ÛôìÆıÿÿÿÿ8ªå¼›2J$da661697-2bc0-4b4b-a4c4-322697ccab33
+n	java:S106¾"+Replace this use of System.out by a logger.(Îöá¸8®å¼›2J$d0e53ca6-3cc6-4de8-b8b6-bd5c1e0473e1
+s	java:S106¦"+Replace this use of System.out by a logger.(‰œ¼ãşÿÿÿÿ8·å¼›2J$a49470bd-26ca-4cbe-afaf-5a6b66051410
+	java:S125í"<This block of commented-out lines of code should be removed.(Œ¹òÉ8¼å¼›2J$e1e04891-6fad-499b-a9f7-b585d4d39d2d
